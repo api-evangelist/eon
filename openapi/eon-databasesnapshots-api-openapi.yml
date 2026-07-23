@@ -1,0 +1,499 @@
+openapi: 3.0.0
+info:
+  description: The Eon.io REST API
+  title: Eon accounts databaseSnapshots API
+  version: 1.0.0
+servers:
+- url: /
+security:
+- ApiKeyAuth: []
+tags:
+- description: Manage database snapshots and their recovery points.
+  name: databaseSnapshots
+  x-displayName: Database Snapshots
+paths:
+  /v1/projects/{projectId}/snapshots/{snapshotId}/databases/query:
+    post:
+      description: 'Description: Runs a SQL query against a database snapshot.
+
+
+        This method is asynchronous.
+
+        It returns a query ID that you can use to check the status of the query.
+
+        You can then use the query ID to call [Get Query Status] and [Get Query Result].
+
+
+        When the query is complete, the results are saved as a CSV to the location you specify in your restore account.
+
+
+        If the request fails, see [Troubleshooting Queries] for possible errors and how to resolve them.
+
+
+        [Troubleshooting Queries]: /user-guide/searching-exploring-and-querying/query/troubleshooting-queries
+
+        [Get Query Status]: ./get-query-status
+
+        [Get Query Result]: ./get-query-result
+
+        '
+      operationId: runQuery
+      parameters:
+      - description: "ID of the project that contains the database snapshot you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+        example: 330e9e09-6cb8-52af-b532-a476f598cf94
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: 'ID of the database [snapshot](/api/api-reference/backups/snapshots/list-resource-snapshots) you want to query.
+
+          Snapshot must belong to an RDS resource.
+
+          '
+        example: 9888b6d9-8d8c-4c25-bcd9-7c71298eba0f
+        explode: false
+        in: path
+        name: snapshotId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryDBRequest'
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryDBResponse'
+          description: Querying database.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Run Query
+      tags:
+      - databaseSnapshots
+      x-internal: false
+      x-data-access:
+        excluded: false
+        entityRefs:
+        - in: query
+          entityType: snapshot
+          key: snapshotId
+        - in: reqBody
+          entityType: restore_account
+          key: restoreAccountId
+      x-permissions:
+      - create:db
+      x-audit-log:
+        action: trigger
+        entityRefs:
+        - entityType: project
+          in: path
+          key: projectId
+        - entityType: snapshot
+          in: path
+          key: snapshotId
+  /v1/projects/{projectId}/queries/{queryId}/status:
+    get:
+      description: "Description: Retrieves a query's status.\n\nThis method requires a query ID, which you can get only from the [Run Query](./run-query) response.\n\nWhen a query is completed, you can retrieve the query results in one of these ways:\n\n- Following the `outputLocation` URI in this method's response object.\n  The URI points to where the results are stored as a CSV file.\n- Calling [Get Query Result](./get-query-result).\n  Get Query Result returns a paginated array of results as JSON for additional processing or handling.\n\nIf the query failed, see [Troubleshooting Queries] for possible errors and how to resolve them.\n\n[Troubleshooting Queries]: /user-guide/searching-exploring-and-querying/query/troubleshooting-queries\n"
+      operationId: getQueryStatus
+      parameters:
+      - description: "ID of the project that contains the query status you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+        example: 330e9e09-6cb8-52af-b532-a476f598cf94
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Query ID returned by [Run Query](./run-query).
+        example: 330e9e09-6cb8-52af-b532-a476f598cf94:3fdf3419-366b-5e58-847d-c4671f79ce8f
+        explode: false
+        in: path
+        name: queryId
+        required: true
+        schema:
+          format: tobedefined
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryDBStatusResponse'
+          description: Query status retrieved.
+        '404':
+          description: Query wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Query Status
+      tags:
+      - databaseSnapshots
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - create:db
+      x-audit-log:
+        action: trigger
+        entityRefs:
+        - entityType: project
+          in: path
+          key: projectId
+  /v1/projects/{projectId}/queries/{queryId}/results:
+    get:
+      description: 'Description: Retrieves the results of a query.
+
+
+        This method requires a query ID, which you can get only from the [Run Query](./run-query) response.
+
+
+        This method can be used only when a query has completed.
+
+        You can check a query''s status by calling [Get Query Status](./get-query-status).
+
+        '
+      operationId: getQueryResult
+      parameters:
+      - description: "ID of the project that contains the query you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+        example: 330e9e09-6cb8-52af-b532-a476f598cf94
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Query ID returned by [Run Query](./run-query).
+        example: 330e9e09-6cb8-52af-b532-a476f598cf94:3fdf3419-366b-5e58-847d-c4671f79ce8f
+        explode: false
+        in: path
+        name: queryId
+        required: true
+        schema:
+          format: tobedefined
+          type: string
+        style: simple
+      - description: Maximum number of items to return in the response.
+        example: 10
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 500
+          minimum: 1
+          type: integer
+        style: form
+      - allowEmptyValue: true
+        description: 'Cursor that points to the first record of the next page of results.
+
+          Get this value from the previous response.
+
+          '
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          format: tobedefined
+          type: string
+        style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryDBResultResponse'
+          description: Query results retrieved.
+        '404':
+          description: Query wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Query Result
+      tags:
+      - databaseSnapshots
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - create:db
+      x-audit-log:
+        action: trigger
+        entityRefs:
+        - entityType: project
+          in: path
+          key: projectId
+components:
+  schemas:
+    QueryDBResponse:
+      example:
+        queryId: 330e9e09-6cb8-52af-b532-a476f598cf94
+      properties:
+        queryId:
+          description: 'Query ID.
+
+            Can be used to call [Get Query Status](./get-query-status) and [Get Query Result](./get-query-result).
+
+            '
+          example: 330e9e09-6cb8-52af-b532-a476f598cf94
+          type: string
+      required:
+      - queryId
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    QueryDBRequest:
+      example:
+        restoreAccountId: 1e0b9aa3-a942-5e86-afe6-57606e952622
+        databaseName: postgres
+        query: SELECT * FROM customers LIMIT 50;
+        destination:
+          s3Bucket:
+            bucketName: my-restore-bucket
+            prefix: restored_records/
+      properties:
+        databaseName:
+          description: Name of the database to query.
+          example: postgres
+          type: string
+        query:
+          description: 'SQL query to run against the database.
+
+            Support is limited to Athena [`SELECT` queries](https://docs.aws.amazon.com/athena/latest/ug/select.html).
+
+            Either `query` or `lucene` must be provided.
+
+            '
+          example: SELECT * FROM customers LIMIT 50;
+          type: string
+          x-docs-public-description: 'SQL query to run against the database.
+
+            Support is limited to Athena [`SELECT` queries](https://docs.aws.amazon.com/athena/latest/ug/select.html).
+
+            '
+        restoreAccountId:
+          description: Eon-assigned ID of the [restore account](./list-restore-accounts).
+          example: 1e0b9aa3-a942-5e86-afe6-57606e952622
+          type: string
+        destination:
+          $ref: '#/components/schemas/QueryDBRestoreDestination'
+      required:
+      - databaseName
+      - destination
+      - query
+      - restoreAccountId
+      type: object
+    QueryDBResultResponse:
+      example:
+        records:
+        - - '1'
+          - John
+          - '25'
+        - - '2'
+          - Jane
+          - '30'
+        columns:
+        - id
+        - name
+        - age
+        nextToken: nextToken
+      properties:
+        columns:
+          description: List of the column names in the returned records.
+          example:
+          - id
+          - name
+          - age
+          items:
+            type: string
+          type: array
+        records:
+          description: 'List of records, returned as an array of arrays.
+
+            The inner array contains the values of the columns in the same order as returned in `columns`.
+
+            '
+          example:
+          - - '1'
+            - John
+            - '25'
+          - - '2'
+            - Jane
+            - '30'
+          items:
+            items:
+              type: string
+            type: array
+          type: array
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          nullable: true
+          type: string
+      required:
+      - columns
+      - nextToken
+      - records
+      type: object
+    QueryDBStatusResponse:
+      example:
+        runningTimeMs: 5000
+        outputLocations:
+        - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
+        errorMessage: errorMessage
+        status: IN_PROGRESS
+      properties:
+        runningTimeMs:
+          description: Time the query took to run, in milliseconds.
+          example: 5000
+          type: integer
+        status:
+          $ref: '#/components/schemas/QueryDBStatus'
+        errorMessage:
+          description: 'Error message.
+
+            Present only if the status is `FAILED`.
+
+            '
+          nullable: true
+          type: string
+        outputLocations:
+          description: 'Locations where the query results are saved to.
+
+            This is set by `destination` in the [Run Query](./run-query) request body.
+
+            '
+          example:
+          - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
+          items:
+            type: string
+          type: array
+      required:
+      - status
+      type: object
+    S3RestoreDestination:
+      description: S3 bucket.
+      example:
+        bucketName: my-restore-bucket
+        prefix: restored_records/
+      nullable: true
+      properties:
+        bucketName:
+          description: 'Name of an existing bucket to restore query results to.
+
+            Must be in the same region as the snapshot''s vault.
+
+            '
+          example: my-restore-bucket
+          type: string
+        prefix:
+          description: 'Prefix to prepend to the restore path.
+
+            If omitted, query results are restored to the bucket root.
+
+            '
+          example: restored_records/
+          type: string
+      required:
+      - bucketName
+      title: S3BucketDestination
+      type: object
+    QueryDBRestoreDestination:
+      example:
+        s3Bucket:
+          bucketName: my-restore-bucket
+          prefix: restored_records/
+      properties:
+        s3Bucket:
+          $ref: '#/components/schemas/S3RestoreDestination'
+      type: object
+    QueryDBStatus:
+      description: 'Query status.
+
+        If completed, the query results can be retrieved.
+
+        `UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - UNSPECIFIED
+      - IN_PROGRESS
+      - COMPLETED
+      - CANCELED
+      - FAILED
+      example: IN_PROGRESS
+      type: string
+      x-enum-varnames:
+      - QUERY_STATUS_UNSPECIFIED
+      - QUERY_IN_PROGRESS
+      - QUERY_COMPLETED
+      - QUERY_CANCELED
+      - QUERY_FAILED
+  securitySchemes:
+    ApiKeyAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

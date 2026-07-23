@@ -1,0 +1,5178 @@
+openapi: 3.0.0
+info:
+  description: The Eon.io REST API
+  title: Eon accounts API
+  version: 1.0.0
+servers:
+- url: /
+security:
+- ApiKeyAuth: []
+tags:
+- description: Manage connected cloud accounts onboarded to Eon.
+  name: accounts
+  x-displayName: Connected Accounts
+paths:
+  /v1/projects/{projectId}/source-accounts:
+    post:
+      description: 'Description: Connects a source cloud account to the given project.'
+      operationId: connectSourceAccount
+      parameters:
+      - description: 'ID of the project you want to connect the source account to.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectSourceAccountRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectSourceAccountResponse'
+          description: Source account connected.
+        '409':
+          description: Source account already exists in Eon.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Connect Source Account
+      tags:
+      - accounts
+      x-mcp: true
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - create:source_accounts
+      x-audit-log:
+        action: create
+        entityRefs:
+        - entityType: source_cloud_account
+          in: resBody
+          key: sourceAccount.id
+  /v1/projects/{projectId}/source-accounts/list:
+    post:
+      description: 'Description: Retrieves a list of source accounts for the given project.'
+      operationId: listSourceAccounts
+      parameters:
+      - description: 'ID of the project whose source accounts you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 043090df-9fe5-4f89-9859-45db589c2936
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - allowEmptyValue: true
+        description: 'Cursor that points to the first record of the next page of results.
+
+          Get this value from the previous response.
+
+          To preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.
+
+          '
+        example: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          format: tobedefined
+          type: string
+        style: form
+      - description: Maximum number of items to return in the response.
+        example: 10
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 50
+          minimum: 1
+          type: integer
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListSourceAccountsRequest'
+        description: 'Filter options.
+
+          '
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSourceAccountsResponse'
+          description: Source accounts retrieved.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: List Source Accounts
+      tags:
+      - accounts
+      x-mcp: true
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions: []
+      x-audit-log:
+        excluded: true
+  /v1/projects/{projectId}/source-accounts/{accountId}:
+    delete:
+      description: 'Description: Deletes a source account from the project.
+
+
+        This option is available only for source accounts whose status is `DISCONNECTED` or `INSUFFICIENT_PERMISSIONS`.
+
+        Source accounts with `CONNECTED` status must be disconnected before they can be deleted.
+
+        '
+      operationId: deleteSourceAccount
+      parameters:
+      - description: 'ID of the project.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the source account to delete.
+        example: 64a698c5-540d-5d09-80f7-f4c39c7045c1
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: Source account deleted.
+        '404':
+          description: Source account wasn't found.
+        '409':
+          description: Source account is connected and can't be deleted.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Delete Source Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - delete:source_accounts
+      x-audit-log:
+        action: delete
+        entityRefs:
+        - entityType: source_cloud_account
+          in: path
+          key: accountId
+    get:
+      description: 'Description: Retrieve a source account by ID.'
+      operationId: getSourceAccount
+      parameters:
+      - description: ID of the project.
+        example: 512010dd-8eaa-5b68-ab64-287458195d44
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the source account.
+        example: 0fa724c4-9251-5bcb-94ae-b5dd5bcb7a93
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSourceAccountResponse'
+          description: Source account retrieved.
+        '404':
+          description: Source account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Source Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions: []
+      x-audit-log:
+        excluded: true
+    patch:
+      description: 'Description: Updates source account properties.
+
+        '
+      operationId: updateSourceAccount
+      parameters:
+      - description: ID of the project.
+        example: 8b4655a7-5669-51d2-83b3-038e9bf6f12f
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the source account to update.
+        example: fc495499-9796-5fc9-ade7-1ba924cbcc42
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSourceAccountRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSourceAccountResponse'
+          description: Source account updated.
+        '400':
+          description: 'Invalid request.
+
+            Typically this indicates invalid JSON, invalid or changed source account ID, or the cloud provider did not accept verification of the updated role or service account.
+
+            '
+        '404':
+          description: Source account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Update Source Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:source_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: source_cloud_account
+          in: path
+          key: accountId
+  /v1/projects/{projectId}/source-accounts/{accountId}/disconnect:
+    post:
+      description: 'Description: Disconnects a source account from the given project.
+
+
+        After disconnecting, resources in the source account are no longer backed up.
+
+        Resources with snapshots continue to be displayed in the inventory, and you can still explore, query, and restore them.
+
+        Resources with no remaining snapshots are removed from the inventory.
+
+        '
+      operationId: DisconnectSourceAccount
+      parameters:
+      - description: 'ID of the project.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the source account to disconnect.
+        example: 72d29280-a0be-59df-b33c-59f9015606c3
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: tobedefined
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisconnectSourceAccountResponse'
+          description: Source account disconnected.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Disconnect Source Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:source_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: source_cloud_account
+          in: path
+          key: accountId
+  /v1/projects/{projectId}/source-accounts/{accountId}/reconnect:
+    post:
+      description: 'Description: Reconnects a source account to the given project.
+
+        '
+      operationId: ReconnectSourceAccount
+      parameters:
+      - description: 'ID of the project whose source account you want to reconnect.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the source account to reconnect.
+        example: 72d29280-a0be-59df-b33c-59f9015606c3
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: tobedefined
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconnectSourceAccountResponse'
+          description: Source account reconnected.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Reconnect Source Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:source_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: source_cloud_account
+          in: path
+          key: accountId
+  /v1/projects/{projectId}/source-accounts/{accountId}/metrics-config:
+    delete:
+      description: 'Description: Disables metrics for the specified source account.
+
+        '
+      operationId: disableSourceAccountMetricsConfig
+      parameters:
+      - description: 'ID of the project whose source account metrics configuration you want to disable.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: d593811b-bfbc-515b-a21d-9fb95eb1071b
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the source account.
+        example: 806f6781-1d66-4c7d-9f0e-e7da04e12541
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: Metrics disabled.
+        '404':
+          description: Source account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Disable Source Account Metrics
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - delete:source_accounts
+      x-audit-log:
+        action: delete
+        entityRefs:
+        - entityType: source_cloud_account
+          in: path
+          key: accountId
+    get:
+      description: 'Description: Retrieves the metrics configuration of the specified source account.
+
+        '
+      operationId: getSourceAccountMetricsConfig
+      parameters:
+      - description: 'ID of the project whose source account metrics configuration you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the source account.
+        example: 806f6781-1d66-4c7d-9f0e-e7da04e12541
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSourceAccountMetricsConfigResponse'
+          description: Metrics configuration retrieved.
+        '404':
+          description: Source account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Source Account Metrics Configuration
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - read:source_accounts
+      x-audit-log:
+        excluded: true
+    put:
+      description: 'Description: Enables or updates the metrics configuration of the specified source account.
+
+        '
+      operationId: enableSourceAccountMetricsConfig
+      parameters:
+      - description: 'ID of the project whose source account metrics you want to configure.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: b9c79c3f-399c-5e32-a8fb-762f87bebd7b
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the source account.
+        example: 806f6781-1d66-4c7d-9f0e-e7da04e12541
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableSourceAccountMetricsConfigRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnableSourceAccountMetricsConfigResponse'
+          description: Metrics configuration set.
+        '404':
+          description: Source account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Configure Source Account Metrics
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:source_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: source_cloud_account
+          in: path
+          key: accountId
+  /v1/projects/{projectId}/source-aws-organizational-units:
+    post:
+      description: 'Description: Connects an AWS organizational unit to the given project.
+
+
+        All current and future descendant AWS accounts within the organizational unit are discovered and available for backup.
+
+        '
+      operationId: connectSourceAwsOrganizationalUnit
+      parameters:
+      - description: 'ID of the project you want to connect the AWS organizational unit to.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectSourceAwsOrganizationalUnitRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectSourceAwsOrganizationalUnitResponse'
+          description: AWS organizational unit connected.
+        '409':
+          description: AWS organizational unit already exists in Eon.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Connect Source AWS Organizational Unit
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - create:source_accounts
+      x-audit-log:
+        action: create
+        entityRefs:
+        - entityType: account
+          in: resBody
+          key: id
+  /v1/projects/{projectId}/source-aws-organizational-units/list:
+    post:
+      description: 'Description: Retrieves a list of AWS organizational units for the given project.'
+      operationId: listSourceAwsOrganizationalUnits
+      parameters:
+      - description: 'ID of the project whose AWS organizational units you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 043090df-9fe5-4f89-9859-45db589c2936
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - allowEmptyValue: true
+        description: 'Cursor that points to the first record of the next page of results.
+
+          Get this value from the previous response.
+
+          '
+        example: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          format: tobedefined
+          type: string
+        style: form
+      - description: Maximum number of items to return in the response.
+        example: 10
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 50
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSourceAwsOrganizationalUnitsResponse'
+          description: AWS organizational units retrieved.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: List Source AWS Organizational Units
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions: []
+      x-audit-log:
+        excluded: true
+  /v1/projects/{projectId}/source-aws-organizational-units/{organizationalUnitId}/reconnect:
+    post:
+      description: 'Description: Reconnects a previously disconnected AWS organizational unit and its descendant accounts to the given project.
+
+        '
+      operationId: reconnectSourceAwsOrganizationalUnit
+      parameters:
+      - description: 'ID of the project whose AWS organizational unit you want to reconnect.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the AWS organizational unit to reconnect.
+        example: 72d29280-a0be-59df-b33c-59f9015606c3
+        explode: false
+        in: path
+        name: organizationalUnitId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconnectSourceAwsOrganizationalUnitResponse'
+          description: AWS organizational unit reconnected.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Reconnect Source AWS Organizational Unit
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:source_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: account
+          in: path
+          key: organizationalUnitId
+  /v1/projects/{projectId}/source-aws-organizational-units/{organizationalUnitId}/disconnect:
+    post:
+      description: 'Description: Disconnects an AWS organizational unit (OU) and its accounts from the given project.
+
+
+        After disconnecting, resources in the OU descendant accounts are no longer backed up.
+
+        Resources with snapshots continue to be shown in the inventory, and you can still explore, query, and restore them.
+
+        Resources with no remaining snapshots are removed from the inventory.
+
+        '
+      operationId: disconnectSourceAwsOrganizationalUnit
+      parameters:
+      - description: 'ID of the project whose AWS organizational unit you want to disconnect.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the AWS organizational unit to disconnect.
+        example: 72d29280-a0be-59df-b33c-59f9015606c3
+        explode: false
+        in: path
+        name: organizationalUnitId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisconnectSourceAwsOrganizationalUnitResponse'
+          description: AWS organizational unit disconnected.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Disconnect Source AWS Organizational Unit
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:source_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: account
+          in: path
+          key: organizationalUnitId
+  /v1/projects/{projectId}/restore-aws-organizational-units:
+    post:
+      description: 'Description: Connects an AWS organizational unit to the given project as a restore target.
+
+
+        All current and future descendant AWS accounts within the organizational unit are discovered and available as restore accounts.
+
+        '
+      operationId: connectRestoreAwsOrganizationalUnit
+      parameters:
+      - description: 'ID of the project you want to connect the AWS organizational unit to.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: 'ID of an APPROVED action approval request authorizing this operation. When set, the gateway
+
+          validates the request envelope still matches the captured one and atomically
+
+          marks it EXECUTED before letting the operation run. Single-use; ignored on routes
+
+          that are not action-approval-protected.
+
+          '
+        explode: false
+        in: header
+        name: X-Action-Approval-Request-Id
+        required: false
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectRestoreAwsOrganizationalUnitRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectRestoreAwsOrganizationalUnitResponse'
+          description: AWS organizational unit connected.
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MPAInterceptedResponse'
+          description: 'The operation is MPA-protected. An MPA request was created in CREATED status.
+
+            The caller should confirm via the submit endpoint (POST .../submit with action CONFIRM)
+
+            or discard (action DISCARD). The operation did not run.
+
+            '
+        '409':
+          description: AWS organizational unit already exists in Eon.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Connect Restore AWS Organizational Unit
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - create:restore_accounts
+      x-mpa:
+        operation: MPA_OPERATION_ADD_RESTORE_ACCOUNT
+      x-audit-log:
+        action: create
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: resBody
+          key: id
+  /v1/projects/{projectId}/restore-aws-organizational-units/list:
+    post:
+      description: 'Description: Retrieves a list of AWS restore organizational units for the given project.'
+      operationId: listRestoreAwsOrganizationalUnits
+      parameters:
+      - description: 'ID of the project whose AWS organizational units you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 043090df-9fe5-4f89-9859-45db589c2936
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - allowEmptyValue: true
+        description: 'Cursor that points to the first record of the next page of results.
+
+          Get this value from the previous response.
+
+          '
+        example: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          format: tobedefined
+          type: string
+        style: form
+      - description: Maximum number of items to return in the response.
+        example: 10
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 50
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRestoreAwsOrganizationalUnitsResponse'
+          description: AWS organizational units retrieved.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: List Restore AWS Organizational Units
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - read:restore_accounts
+      x-audit-log:
+        excluded: true
+  /v1/projects/{projectId}/restore-aws-organizational-units/{organizationalUnitId}/reconnect:
+    post:
+      description: 'Description: Reconnects a previously disconnected AWS restore organizational unit and its descendant accounts to the given project.
+
+        '
+      operationId: reconnectRestoreAwsOrganizationalUnit
+      parameters:
+      - description: 'ID of the project whose AWS organizational unit you want to reconnect.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the AWS organizational unit to reconnect.
+        example: 72d29280-a0be-59df-b33c-59f9015606c3
+        explode: false
+        in: path
+        name: organizationalUnitId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconnectRestoreAwsOrganizationalUnitResponse'
+          description: AWS organizational unit reconnected.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Reconnect Restore AWS Organizational Unit
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:restore_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: path
+          key: organizationalUnitId
+  /v1/projects/{projectId}/restore-aws-organizational-units/{organizationalUnitId}/disconnect:
+    post:
+      description: 'Description: Disconnects an AWS restore organizational unit (OU) and its accounts from the given project.
+
+
+        After disconnecting, the OU descendant accounts are no longer available as restore targets.
+
+        '
+      operationId: disconnectRestoreAwsOrganizationalUnit
+      parameters:
+      - description: 'ID of the project whose AWS organizational unit you want to disconnect.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the AWS organizational unit to disconnect.
+        example: 72d29280-a0be-59df-b33c-59f9015606c3
+        explode: false
+        in: path
+        name: organizationalUnitId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisconnectRestoreAwsOrganizationalUnitResponse'
+          description: AWS organizational unit disconnected.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Disconnect Restore AWS Organizational Unit
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:restore_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: path
+          key: organizationalUnitId
+  /v1/projects/{projectId}/restore-accounts:
+    post:
+      description: 'Description: Connects a restore account to the given project.
+
+        '
+      operationId: connectRestoreAccount
+      parameters:
+      - description: 'ID of the project you want to connect the source account to.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 733888d8-2573-5f9a-b81d-21f051d24fda
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: 'ID of an APPROVED action approval request authorizing this operation. When set, the gateway
+
+          validates the request envelope still matches the captured one and atomically
+
+          marks it EXECUTED before letting the operation run. Single-use; ignored on routes
+
+          that are not action-approval-protected.
+
+          '
+        explode: false
+        in: header
+        name: X-Action-Approval-Request-Id
+        required: false
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectRestoreAccountRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectRestoreAccountResponse'
+          description: Restore account connected.
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MPAInterceptedResponse'
+          description: 'The operation is MPA-protected. An MPA request was created in CREATED status.
+
+            The caller should confirm via the submit endpoint (POST .../submit with action CONFIRM)
+
+            or discard (action DISCARD). The operation did not run.
+
+            '
+        '409':
+          description: Restore account already connected to the project.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Connect Restore Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - create:restore_accounts
+      x-mpa:
+        operation: MPA_OPERATION_ADD_RESTORE_ACCOUNT
+      x-audit-log:
+        action: create
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: resBody
+          key: restoreAccount.id
+  /v1/projects/{projectId}/restore-accounts/list:
+    post:
+      description: 'Description: Retrieves a list of restore accounts for the given project.'
+      operationId: listRestoreAccounts
+      parameters:
+      - description: 'ID of the project whose restore accounts you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 043090df-9fe5-4f89-9859-45db589c2936
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - allowEmptyValue: true
+        description: 'Cursor that points to the first record of the next page of results.
+
+          Get this value from the previous response.
+
+          To preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.
+
+          '
+        example: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          format: tobedefined
+          type: string
+        style: form
+      - description: Maximum number of items to return in the response.
+        example: 10
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          minimum: 1
+          type: integer
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListRestoreAccountsRequest'
+        description: 'Filter options.
+
+          '
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRestoreAccountsResponse'
+          description: Restore accounts retrieved.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: List Restore Accounts
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - read:restore_accounts
+      x-audit-log:
+        excluded: true
+  /v1/projects/{projectId}/restore-accounts/{accountId}:
+    delete:
+      description: 'Description: Deletes a restore account from the project.
+
+
+        This option is available only for restore accounts whose status is `DISCONNECTED` or `INSUFFICIENT_PERMISSIONS`.
+
+        Restore accounts with `CONNECTED` status must be disconnected before they can be deleted.
+
+        '
+      operationId: DeleteRestoreAccountV1
+      parameters:
+      - description: 'ID of the project.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account to delete.
+        example: 64a698c5-540d-5d09-80f7-f4c39c7045c1
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: Restore account deleted.
+        '404':
+          description: Restore account wasn't found.
+        '409':
+          description: Restore account is connected and can't be deleted.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Delete Restore Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - delete:restore_accounts
+      x-audit-log:
+        action: delete
+        entityRefs:
+        - entityType: account
+          in: path
+          key: accountId
+    get:
+      description: 'Description: Retrieve a restore account by ID.'
+      operationId: getRestoreAccount
+      parameters:
+      - description: ID of the project.
+        example: 512010dd-8eaa-5b68-ab64-287458195d44
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account.
+        example: 0fa724c4-9251-5bcb-94ae-b5dd5bcb7a93
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRestoreAccountResponse'
+          description: Restore account retrieved.
+        '404':
+          description: Restore account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Restore Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - read:restore_accounts
+      x-audit-log:
+        excluded: true
+    patch:
+      description: 'Description: Updates restore account properties.
+
+        '
+      operationId: updateRestoreAccount
+      parameters:
+      - description: ID of the project.
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account to update.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRestoreAccountRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateRestoreAccountResponse'
+          description: Restore account updated.
+        '400':
+          description: 'Invalid request.
+
+            Typically this indicates invalid JSON, invalid or changed restore account ID, or the cloud provider did not accept verification of the updated role or service account.
+
+            '
+        '404':
+          description: Restore account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Update Restore Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:restore_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: path
+          key: accountId
+  /v1/projects/{projectId}/restore-accounts/{accountId}/disconnect:
+    post:
+      description: 'Description: Disconnects a restore account from the given project.
+
+
+        After disconnecting, resources can no longer be restored to the restore account.
+
+        '
+      operationId: DisconnectRestoreAccount
+      parameters:
+      - description: 'ID of the project.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account to disconnect.
+        example: 64a698c5-540d-5d09-80f7-f4c39c7045c1
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: tobedefined
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisconnectRestoreAccountResponse'
+          description: Restore account disconnected.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Disconnect Restore Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:restore_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: path
+          key: accountId
+  /v1/projects/{projectId}/restore-accounts/{accountId}/reconnect:
+    post:
+      description: 'Description: Reconnects a restore account to the given project.
+
+        '
+      operationId: ReconnectRestoreAccount
+      parameters:
+      - description: 'ID of the project whose restore account you want to reconnect.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: cc4fe8ee-0c62-56f2-9fda-f27bc7753e55
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account to reconnect.
+        example: 72d29280-a0be-59df-b33c-59f9015606c3
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: tobedefined
+          type: string
+        style: simple
+      - description: 'ID of an APPROVED action approval request authorizing this operation. When set, the gateway
+
+          validates the request envelope still matches the captured one and atomically
+
+          marks it EXECUTED before letting the operation run. Single-use; ignored on routes
+
+          that are not action-approval-protected.
+
+          '
+        explode: false
+        in: header
+        name: X-Action-Approval-Request-Id
+        required: false
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconnectRestoreAccountResponse'
+          description: Restore account reconnected.
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MPAInterceptedResponse'
+          description: 'The operation is MPA-protected. An MPA request was created in CREATED status.
+
+            The caller should confirm via the submit endpoint (POST .../submit with action CONFIRM)
+
+            or discard (action DISCARD). The operation did not run.
+
+            '
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Reconnect Restore Account
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:restore_accounts
+      x-mpa:
+        operation: MPA_OPERATION_ADD_RESTORE_ACCOUNT
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: path
+          key: accountId
+  /v1/projects/{projectId}/restore-accounts/{accountId}/connectivity-config:
+    delete:
+      description: 'Description: Deletes the restore account connectivity configuration, reverting to the default settings.
+
+        '
+      operationId: deleteRestoreAccountConnectivityConfig
+      parameters:
+      - description: 'ID of the project whose restore account connectivity configuration you want to delete.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: Restore account connectivity configuration deleted.
+        '404':
+          description: Restore account not found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Delete Restore Account Connectivity Configuration
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - delete:restore_accounts
+      x-audit-log:
+        action: delete
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: path
+          key: accountId
+    get:
+      description: 'Description: Retrieves the connectivity configuration of the specified restore account.
+
+        '
+      operationId: getRestoreAccountConnectivityConfig
+      parameters:
+      - description: 'ID of the project whose restore account connectivity configuration you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRestoreAccountConnectivityConfigResponse'
+          description: Restore account connectivity configuration retrieved.
+        '404':
+          description: Restore account not found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Restore Account Connectivity Configuration
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - read:restore_accounts
+      x-audit-log:
+        excluded: true
+    put:
+      description: 'Description: Updates the connectivity configuration of the specified restore account.
+
+        '
+      operationId: updateRestoreAccountConnectivityConfig
+      parameters:
+      - description: 'ID of the project whose restore account connectivity configuration you want to update.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: ID of the restore account
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRestoreAccountConnectivityConfigRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateRestoreAccountConnectivityConfigResponse'
+          description: Restore account connectivity configuration updated.
+        '404':
+          description: Restore account not found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Update Restore Account Connectivity Configuration
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:restore_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: path
+          key: accountId
+  /v1/projects/{projectId}/restore-accounts/{accountId}/metrics-config:
+    delete:
+      description: 'Description: Disables metrics for the specified restore account.
+
+        '
+      operationId: disableRestoreAccountMetricsConfig
+      parameters:
+      - description: 'ID of the project whose restore account metrics you want to disable.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account.
+        example: 806f6781-1d66-4c7d-9f0e-e7da04e12541
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: Metrics disabled.
+        '404':
+          description: Restore account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Disable Restore Account Metrics
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - delete:restore_accounts
+      x-audit-log:
+        action: delete
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: path
+          key: accountId
+    get:
+      description: 'Description: Retrieves the metrics configuration of the specified restore account.
+
+        '
+      operationId: getRestoreAccountMetricsConfig
+      parameters:
+      - description: 'ID of the project whose restore account metrics configuration you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 4bd9ca0f-b6cd-5a00-b6ce-76960e76c4ba
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account.
+        example: 806f6781-1d66-4c7d-9f0e-e7da04e12541
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRestoreAccountMetricsConfigResponse'
+          description: Metrics configuration retrieved.
+        '404':
+          description: Restore account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Restore Account Metrics Configuration
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - read:restore_accounts
+      x-audit-log:
+        excluded: true
+    put:
+      description: 'Description: Enables or updates the metrics configuration of the specified restore account.
+
+        '
+      operationId: enableRestoreAccountMetricsConfig
+      parameters:
+      - description: 'ID of the project whose restore account metrics you want to configure.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Eon-assigned ID of the restore account.
+        example: 806f6781-1d66-4c7d-9f0e-e7da04e12541
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableRestoreAccountMetricsConfigRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnableRestoreAccountMetricsConfigResponse'
+          description: Metrics configuration set.
+        '404':
+          description: Restore account wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Configure Restore Account Metrics
+      tags:
+      - accounts
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:restore_accounts
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: restore_cloud_account
+          in: path
+          key: accountId
+components:
+  schemas:
+    AzureSourceAccountAttributes:
+      description: 'Azure subscription configuration.
+
+        Applicable if `cloudProvider` is set to `AZURE`.
+
+        '
+      example:
+        managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+        tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+        eonInternalResourceGroupName: eon-source-internal-rg
+        subscriptionId: 12345678-1234-1234-1234-123456789012
+      nullable: true
+      properties:
+        tenantId:
+          description: ID of the Azure tenant the subscription belongs to.
+          example: 060901b5-ae27-5b6f-aaf5-829b635615e9
+          format: uuid
+          type: string
+        subscriptionId:
+          description: ID of the Azure subscription.
+          example: 12345678-1234-1234-1234-123456789012
+          format: uuid
+          type: string
+        eonInternalResourceGroupName:
+          default: eon-source-internal-rg
+          description: 'Resource group name for Eon''s temporary internal resources.
+
+            '
+          example: eon-source-internal-rg
+          type: string
+        managementGroupId:
+          description: ID of the Azure management group the source account is scoped to.
+          example: 3eca9074-011f-5008-9605-a7ccf00aa93e
+          type: string
+      required:
+      - subscriptionId
+      - tenantId
+      type: object
+    UpdateGcpRestoreAccountAttributes:
+      description: 'Updatable GCP account fields.
+
+        '
+      example:
+        serviceAccount: eon-restore@my-project.iam.gserviceaccount.com
+      nullable: true
+      properties:
+        serviceAccount:
+          description: 'Email of the service account Eon impersonates to access the GCP project.
+
+            Only the service account name portion can be changed.
+
+            The GCP project ID must remain the same.
+
+            '
+          example: eon-restore@my-project.iam.gserviceaccount.com
+          type: string
+          x-nullable: true
+      type: object
+      x-nullable: true
+    DisconnectSourceAwsOrganizationalUnitResponse:
+      example:
+        organizationalUnit:
+          providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          name: prod-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+      properties:
+        organizationalUnit:
+          $ref: '#/components/schemas/SourceAwsOrganizationalUnit'
+      required:
+      - organizationalUnit
+      type: object
+    AccountInstallationMethod:
+      default: UNSPECIFIED
+      description: 'Method used to deploy the cloud permissions.
+
+        `UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - UNSPECIFIED
+      - CLOUDFORMATION
+      - TERRAFORM
+      - BASH_SCRIPT
+      example: TERRAFORM
+      type: string
+      x-enum-varnames:
+      - ACCOUNT_INSTALLATION_METHOD_UNSPECIFIED
+      - ACCOUNT_INSTALLATION_METHOD_CLOUDFORMATION
+      - ACCOUNT_INSTALLATION_METHOD_TERRAFORM
+      - ACCOUNT_INSTALLATION_METHOD_BASH_SCRIPT
+    SourceAccountSortField:
+      description: Field to sort by.
+      enum:
+      - accountName
+      - installedVersion
+      - parentIdentifier
+      - createdAt
+      example: accountName
+      type: string
+      x-enum-varnames:
+      - SOURCE_ACCOUNT_SORT_ACCOUNT_NAME
+      - SOURCE_ACCOUNT_SORT_INSTALLED_VERSION
+      - SOURCE_ACCOUNT_SORT_PARENT_IDENTIFIER
+      - SOURCE_ACCOUNT_SORT_FIRST_CONNECTED
+    AccountNameFilters:
+      additionalProperties: false
+      example:
+        contains:
+        - contains
+        - contains
+        in:
+        - in
+        - in
+        notContains:
+        - notContains
+        - notContains
+        notIn:
+        - notIn
+        - notIn
+      properties:
+        in:
+          description: Matches if any string in this list equals `accountName`.
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if no string in this list equals `accountName`.
+          items:
+            type: string
+          type: array
+        contains:
+          description: Matches if any string in this list is a substring of `accountName`.
+          items:
+            type: string
+          type: array
+        notContains:
+          description: Matches if no string in this list is a substring of `accountName`.
+          items:
+            type: string
+          type: array
+      type: object
+    GetSourceAccountResponse:
+      example:
+        sourceAccount:
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          sourceAccountAttributes:
+            gcp:
+              organizationId: '123456789012'
+              serviceAccount: serviceAccount
+              folderId: '987654321098'
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+              eonInternalResourceGroupName: eon-source-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        sourceAccount:
+          $ref: '#/components/schemas/SourceAccount'
+      required:
+      - sourceAccount
+      type: object
+    AccountMetricsDestination:
+      example:
+        aws:
+          region: us-east-1
+      properties:
+        aws:
+          $ref: '#/components/schemas/AwsAccountMetricsDestination'
+      type: object
+    ReconnectSourceAwsOrganizationalUnitResponse:
+      example:
+        organizationalUnit:
+          providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          name: prod-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+      properties:
+        organizationalUnit:
+          $ref: '#/components/schemas/SourceAwsOrganizationalUnit'
+      required:
+      - organizationalUnit
+      type: object
+    AccountVersion:
+      description: 'Details on the Eon permissions version and installation method.
+
+        '
+      example:
+        installed: 1.0.0
+        installationMethod: TERRAFORM
+        latest: 1.2.0
+      properties:
+        installed:
+          description: Currently installed permissions version.
+          example: 1.0.0
+          type: string
+        installationMethod:
+          $ref: '#/components/schemas/AccountInstallationMethod'
+        latest:
+          description: Latest available permissions version.
+          example: 1.2.0
+          type: string
+      required:
+      - installed
+      type: object
+    ListRestoreAwsOrganizationalUnitsResponse:
+      example:
+        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+        organizationalUnits:
+        - providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+          name: dr-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+        - providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+          name: dr-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+        totalCount: 0
+      properties:
+        organizationalUnits:
+          description: List of AWS organizational units.
+          items:
+            $ref: '#/components/schemas/RestoreAwsOrganizationalUnit'
+          type: array
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+          type: string
+        totalCount:
+          description: Total number of AWS organizational units that matched the filter options.
+          type: integer
+      required:
+      - organizationalUnits
+      - totalCount
+      type: object
+    MPAOperationType:
+      description: Operation that requires action approval before it can be completed.
+      enum:
+      - MPA_OPERATION_TYPE_UNSPECIFIED
+      - MPA_OPERATION_ADD_RESTORE_ACCOUNT
+      - MPA_OPERATION_RESTORE_RESOURCE
+      - MPA_OPERATION_UPDATE_BACKUP_POLICY
+      - MPA_OPERATION_DELETE_BACKUP_POLICY
+      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
+      example: MPA_OPERATION_DELETE_BACKUP_POLICY
+      type: string
+      x-docs-internal-enum:
+      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
+      x-enum-varnames:
+      - MPA_OPERATION_TYPE_UNSPECIFIED
+      - MPA_OPERATION_TYPE_MPA_OPERATION_ADD_RESTORE_ACCOUNT
+      - MPA_OPERATION_TYPE_MPA_OPERATION_RESTORE_RESOURCE
+      - MPA_OPERATION_TYPE_MPA_OPERATION_UPDATE_BACKUP_POLICY
+      - MPA_OPERATION_TYPE_MPA_OPERATION_DELETE_BACKUP_POLICY
+      - MPA_OPERATION_TYPE_MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
+    AzureRestoreAccountAttributes:
+      description: 'Azure subscription configuration.
+
+        Applicable if `cloudProvider` is set to `AZURE`.
+
+        '
+      example:
+        managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+        resourceGroupName: my-resource-group
+        enableM365Restore: false
+        tenantId: 12345678-1234-1234-1234-123456789012
+        eonInternalResourceGroupName: eon-restore-internal-rg
+        subscriptionId: 12345678-1234-1234-1234-123456789012
+      nullable: true
+      properties:
+        tenantId:
+          description: ID of the tenant the subscription belongs to.
+          example: 12345678-1234-1234-1234-123456789012
+          format: uuid
+          type: string
+        subscriptionId:
+          description: ID of the Azure subscription.
+          example: 12345678-1234-1234-1234-123456789012
+          format: uuid
+          type: string
+        resourceGroupName:
+          description: 'Name of the Azure resource group to scope permissions to.
+
+            When provided, restoring is limited to this specific resource group.
+
+            When omitted, permissions are scoped to the subscription.
+
+            '
+          example: my-resource-group
+          type: string
+        eonInternalResourceGroupName:
+          description: 'Name of the Eon internal resource group for temporary restore resources.
+
+            '
+          example: eon-restore-internal-rg
+          type: string
+        managementGroupId:
+          description: ID of the Azure management group the restore account is scoped to.
+          example: 3eca9074-011f-5008-9605-a7ccf00aa93e
+          type: string
+        enableM365Restore:
+          description: 'True if this Azure restore subscription is dedicated to Microsoft 365 restore
+
+            (onboarded via the M365 restore module). Such subscriptions are selectable only
+
+            for Microsoft 365 restore and are excluded from Azure-resource restore pickers.
+
+            '
+          example: false
+          type: boolean
+      required:
+      - subscriptionId
+      - tenantId
+      type: object
+    AzureSourceAccountAttributesInput:
+      description: 'Azure subscription configuration.
+
+        Applicable if `cloudProvider` is set to `AZURE`.
+
+        '
+      example:
+        tenantId: c9f36fd0-566d-53d3-a59c-b59828f17e58
+        eonInternalResourceGroupName: eon-source-internal-rg
+        subscriptionId: 0b9c9b5f-75a1-5c98-8b76-39e301282301
+      nullable: true
+      properties:
+        tenantId:
+          description: ID of the Azure tenant the subscription belongs to.
+          example: c9f36fd0-566d-53d3-a59c-b59828f17e58
+          format: uuid
+          type: string
+        subscriptionId:
+          description: ID of the Azure source subscription.
+          example: 0b9c9b5f-75a1-5c98-8b76-39e301282301
+          format: uuid
+          type: string
+        eonInternalResourceGroupName:
+          default: eon-source-internal-rg
+          description: 'Resource group name for Eon''s temporary internal resources.
+
+            '
+          example: eon-source-internal-rg
+          type: string
+      required:
+      - subscriptionId
+      - tenantId
+      type: object
+    GetRestoreAccountResponse:
+      example:
+        restoreAccount:
+          restoreAccountAttributes:
+            gcp:
+              serviceAccount: serviceAccount
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              resourceGroupName: my-resource-group
+              enableM365Restore: false
+              tenantId: 12345678-1234-1234-1234-123456789012
+              eonInternalResourceGroupName: eon-restore-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          isRestoreAllowed: true
+          id: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        restoreAccount:
+          $ref: '#/components/schemas/RestoreAccount'
+      required:
+      - restoreAccount
+      type: object
+    SourceAccountsFilterConditions:
+      additionalProperties: false
+      description: 'Filter conditions.
+
+        If omitted, no filtering is applied.
+
+        '
+      example:
+        accountStatus:
+          in:
+          - CONNECTED
+          notIn:
+          - INSUFFICIENT_PERMISSIONS
+        accountName:
+          contains:
+          - contains
+          - contains
+          in:
+          - in
+          - in
+          notContains:
+          - notContains
+          - notContains
+          notIn:
+          - notIn
+          - notIn
+        providerAccountId:
+          in:
+          - '836638811603'
+          notIn:
+          - '529569125077'
+        cloudProvider:
+          in:
+          - AWS
+          - AZURE
+          notIn:
+          - GCP
+        id:
+          in:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+          notIn:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+      properties:
+        id:
+          $ref: '#/components/schemas/IdFilters'
+        providerAccountId:
+          $ref: '#/components/schemas/ProviderAccountIdFilters'
+        accountStatus:
+          $ref: '#/components/schemas/AccountStatusFilters'
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProviderFilters'
+        accountName:
+          $ref: '#/components/schemas/AccountNameFilters'
+      type: object
+    ProviderRestoreAccountConnectivityConfig:
+      example:
+        gcp:
+          networkConfigs:
+          - isSharedVpc: true
+            networkHostProject: my-shared-vpc-project
+            network: network-01234567890123456
+            subnetsPerRegion:
+            - region: us-east1
+              subnetName: subnet-01234567890123456
+            - region: us-east1
+              subnetName: subnet-01234567890123456
+          - isSharedVpc: true
+            networkHostProject: my-shared-vpc-project
+            network: network-01234567890123456
+            subnetsPerRegion:
+            - region: us-east1
+              subnetName: subnet-01234567890123456
+            - region: us-east1
+              subnetName: subnet-01234567890123456
+        aws:
+          vpcConfigs:
+          - vpc: vpc-01234567890123456
+            securityGroups:
+              restoreServer:
+              - sg-0d447a77aa14f9e90
+              restoredRdsInstance:
+              - sg-02ce123456e7893c7
+            region: us-east-1
+            subnetsPerAvailabilityZone:
+            - subnetId: subnet-01234567890123456
+              availabilityZone: us-east-1a
+            - subnetId: subnet-01234567890123456
+              availabilityZone: us-east-1a
+          - vpc: vpc-01234567890123456
+            securityGroups:
+              restoreServer:
+              - sg-0d447a77aa14f9e90
+              restoredRdsInstance:
+              - sg-02ce123456e7893c7
+            region: us-east-1
+            subnetsPerAvailabilityZone:
+            - subnetId: subnet-01234567890123456
+              availabilityZone: us-east-1a
+            - subnetId: subnet-01234567890123456
+              availabilityZone: us-east-1a
+      properties:
+        aws:
+          $ref: '#/components/schemas/AwsRestoreAccountConnectivityConfig'
+        gcp:
+          $ref: '#/components/schemas/GcpRestoreAccountConnectivityConfig'
+      type: object
+    ResourceTypeToSecurityGroup:
+      example:
+        restoreServer:
+        - sg-0d447a77aa14f9e90
+        restoredRdsInstance:
+        - sg-02ce123456e7893c7
+      properties:
+        restoreServer:
+          description: 'Security group to use for the restore server.
+
+            If not specified, Eon attempts to use the default security group.
+
+
+            Currently, a single security group is supported.
+
+            '
+          example:
+          - sg-0d447a77aa14f9e90
+          items:
+            type: string
+          type: array
+        restoredRdsInstance:
+          description: 'Security group to use for restored RDS instances.
+
+            If not specified, Eon attempts to use the default security group.
+
+
+            Currently, a single security group is supported.
+
+            '
+          example:
+          - sg-02ce123456e7893c7
+          items:
+            type: string
+          type: array
+      type: object
+    UpdateRestoreAccountConnectivityConfigRequest:
+      example:
+        gcp:
+          networkConfigs:
+          - isSharedVpc: true
+            networkHostProject: my-shared-vpc-project
+            network: network-01234567890123456
+            subnetsPerRegion:
+            - region: us-east1
+              subnetName: subnet-01234567890123456
+            - region: us-east1
+              subnetName: subnet-01234567890123456
+          - isSharedVpc: true
+            networkHostProject: my-shared-vpc-project
+            network: network-01234567890123456
+            subnetsPerRegion:
+            - region: us-east1
+              subnetName: subnet-01234567890123456
+            - region: us-east1
+              subnetName: subnet-01234567890123456
+        aws:
+          vpcConfigs:
+          - vpc: vpc-01234567890123456
+            securityGroups:
+              restoreServer:
+              - sg-0d447a77aa14f9e90
+              restoredRdsInstance:
+              - sg-02ce123456e7893c7
+            region: us-east-1
+            subnetsPerAvailabilityZone:
+            - subnetId: subnet-01234567890123456
+              availabilityZone: us-east-1a
+            - subnetId: subnet-01234567890123456
+              availabilityZone: us-east-1a
+          - vpc: vpc-01234567890123456
+            securityGroups:
+              restoreServer:
+              - sg-0d447a77aa14f9e90
+              restoredRdsInstance:
+              - sg-02ce123456e7893c7
+            region: us-east-1
+            subnetsPerAvailabilityZone:
+            - subnetId: subnet-01234567890123456
+              availabilityZone: us-east-1a
+            - subnetId: subnet-01234567890123456
+              availabilityZone: us-east-1a
+      properties:
+        aws:
+          $ref: '#/components/schemas/AwsRestoreAccountConnectivityConfig'
+        gcp:
+          $ref: '#/components/schemas/GcpRestoreAccountConnectivityConfig'
+      type: object
+    ReconnectSourceAccountResponse:
+      example:
+        sourceAccount:
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          sourceAccountAttributes:
+            gcp:
+              organizationId: '123456789012'
+              serviceAccount: serviceAccount
+              folderId: '987654321098'
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+              eonInternalResourceGroupName: eon-source-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        sourceAccount:
+          $ref: '#/components/schemas/SourceAccount'
+      required:
+      - sourceAccount
+      type: object
+    MPARequestPolicyDetail:
+      example:
+        approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+        requiredApprovals: 2
+        approverProviderGroupId: platform-admins
+        executionWindowHours: 4
+        description: Require approval before deleting backup policies.
+        approvalWindowHours: 24
+        currentApprovals: 1
+      properties:
+        requiredApprovals:
+          description: Number of approvals required by this policy.
+          example: 2
+          type: integer
+        currentApprovals:
+          description: Number of qualifying approvals received for this policy.
+          example: 1
+          type: integer
+        executionWindowHours:
+          description: Hours the requester has to execute the approved action after full approval.
+          example: 4
+          type: integer
+        approvalWindowHours:
+          description: Hours allowed for gathering all required approvals after submission.
+          example: 24
+          type: integer
+        description:
+          description: Human-readable description of the policy.
+          example: Require approval before deleting backup policies.
+          type: string
+        approverIdpId:
+          description: UUID of the SAML identity provider connection this approver group belongs to.
+          example: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+          format: uuid
+          nullable: true
+          type: string
+        approverProviderGroupId:
+          description: Provider group identifier from the IdP.
+          example: platform-admins
+          nullable: true
+          type: string
+      required:
+      - approvalWindowHours
+      - currentApprovals
+      - executionWindowHours
+      - mpaPolicyId
+      - requiredApprovals
+      type: object
+      x-nullable: true
+    ConnectSourceAwsOrganizationalUnitRequest:
+      example:
+        providerOrganizationalUnitId: ou-a1b2-f6g7h111
+        roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+      properties:
+        roleArn:
+          description: ARN of the role Eon assumes to access the organizational unit in AWS.
+          example: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          type: string
+        providerOrganizationalUnitId:
+          description: AWS-assigned organizational unit ID.
+          example: ou-a1b2-f6g7h111
+          type: string
+      required:
+      - providerOrganizationalUnitId
+      - roleArn
+      type: object
+    UpdateRestoreAccountAttributesInput:
+      description: 'Cloud-provider-specific fields to update.
+
+        One of: `aws`, `gcp`.
+
+        '
+      example:
+        gcp:
+          serviceAccount: eon-restore@my-project.iam.gserviceaccount.com
+        aws:
+          roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+      properties:
+        aws:
+          $ref: '#/components/schemas/UpdateAwsRestoreAccountAttributes'
+        gcp:
+          $ref: '#/components/schemas/UpdateGcpRestoreAccountAttributes'
+      type: object
+    GcpSourceAccountAttributesInput:
+      description: 'GCP project configuration.
+
+        Applicable if `cloudProvider` is set to `GCP`.
+
+        '
+      example:
+        serviceAccount: eon-source@my-project.iam.gserviceaccount.com
+      nullable: true
+      properties:
+        serviceAccount:
+          description: Email address of the GCP service account Eon uses to access the project.
+          example: eon-source@my-project.iam.gserviceaccount.com
+          type: string
+      required:
+      - serviceAccount
+      type: object
+    AwsRestoreAccountAttributes:
+      description: 'AWS account configuration.
+
+        Applicable if `cloudProvider` is set to `AWS`.
+
+        '
+      example:
+        organizationId: o-1234567890
+        roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+      nullable: true
+      properties:
+        roleArn:
+          description: ARN of the role Eon assumes to access the account in AWS.
+          example: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          type: string
+        organizationId:
+          description: Cloud-provider-assigned ID of the AWS organization the account belongs to.
+          example: o-1234567890
+          type: string
+      required:
+      - roleArn
+      type: object
+    MPARequest:
+      example:
+        requesterEmail: requester@example.com
+        resolvedTime: 2026-05-05 02:10:12+00:00
+        requesterName: Riley Chen
+        approvalExpirationTime: 2026-05-05 03:00:05+00:00
+        executionExpirationTime: 2026-05-05 07:00:05+00:00
+        createdTime: 2026-05-04 23:00:05+00:00
+        comment: Removing a backup policy that has been replaced.
+        id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+        policyDetails:
+        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+          requiredApprovals: 2
+          approverProviderGroupId: platform-admins
+          executionWindowHours: 4
+          description: Require approval before deleting backup policies.
+          approvalWindowHours: 24
+          currentApprovals: 1
+        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+          requiredApprovals: 2
+          approverProviderGroupId: platform-admins
+          executionWindowHours: 4
+          description: Require approval before deleting backup policies.
+          approvalWindowHours: 24
+          currentApprovals: 1
+        operation: MPA_OPERATION_DELETE_BACKUP_POLICY
+        status: PENDING_APPROVAL
+      properties:
+        id:
+          description: Unique identifier of the action approval request.
+          example: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+          format: uuid
+          type: string
+        operation:
+          $ref: '#/components/schemas/MPAOperationType'
+        requesterEmail:
+          description: Email address of the requester who created the approval request.
+          example: requester@example.com
+          type: string
+        requesterName:
+          description: Display name of the requester at the time the request was created.
+          example: Riley Chen
+          type: string
+        comment:
+          description: Optional comment from the requester explaining why this operation is needed.
+          example: Removing a backup policy that has been replaced.
+          type: string
+        status:
+          $ref: '#/components/schemas/MPARequestStatus'
+        policyDetails:
+          description: Per-policy configuration and approval progress.
+          items:
+            $ref: '#/components/schemas/MPARequestPolicyDetail'
+          type: array
+        approvalExpirationTime:
+          description: Deadline for gathering approvals. Set when the request is confirmed (submitted). Null for requests in CREATED or DISCARDED status.
+          example: 2026-05-05 03:00:05+00:00
+          format: date-time
+          nullable: true
+          type: string
+        executionExpirationTime:
+          description: Deadline for executing the approved action. Set when the request is approved.
+          example: 2026-05-05 07:00:05+00:00
+          format: date-time
+          nullable: true
+          type: string
+        resolvedTime:
+          description: Time when the request reached a terminal state, such as executed, expired, canceled, denied, or discarded. Null while the request is still active.
+          example: 2026-05-05 02:10:12+00:00
+          format: date-time
+          nullable: true
+          type: string
+        createdTime:
+          description: Time when the approval request was created.
+          example: 2026-05-04 23:00:05+00:00
+          format: date-time
+          type: string
+      required:
+      - createdTime
+      - id
+      - operation
+      - policyDetails
+      - requestMethod
+      - requestPath
+      - requesterEmail
+      - requesterId
+      - status
+      type: object
+      x-nullable: true
+    AwsRestoreAccountAttributesInput:
+      description: 'AWS account configuration.
+
+        Applicable if `cloudProvider` is set to `AWS`.
+
+        '
+      example:
+        roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+      nullable: true
+      properties:
+        roleArn:
+          description: ARN of the role Eon assumes to access the account in AWS.
+          example: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          type: string
+      required:
+      - roleArn
+      type: object
+    RestoreAccountCloudAttributes:
+      example:
+        gcp:
+          serviceAccount: serviceAccount
+        cloudProvider: AWS
+        aws:
+          organizationId: o-1234567890
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+        azure:
+          managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+          resourceGroupName: my-resource-group
+          enableM365Restore: false
+          tenantId: 12345678-1234-1234-1234-123456789012
+          eonInternalResourceGroupName: eon-restore-internal-rg
+          subscriptionId: 12345678-1234-1234-1234-123456789012
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/Provider'
+        aws:
+          $ref: '#/components/schemas/AwsRestoreAccountAttributes'
+        gcp:
+          $ref: '#/components/schemas/GcpRestoreAccountAttributes'
+        azure:
+          $ref: '#/components/schemas/AzureRestoreAccountAttributes'
+      required:
+      - cloudProvider
+      type: object
+    ConnectRestoreAccountRequest:
+      example:
+        restoreAccountAttributes:
+          gcp:
+            serviceAccount: eon-restore@my-project.iam.gserviceaccount.com
+          cloudProvider: AWS
+          aws:
+            roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          azure:
+            resourceGroupName: my-resource-group
+            tenantId: bbfc521c-73c1-5927-aa6e-41200f1e8c6d
+            eonInternalResourceGroupName: eon-restore-internal-rg
+            subscriptionId: 3e27a7a1-9e99-5cd9-8e03-bed54d48796e
+        name: restore-sandbox
+      properties:
+        name:
+          description: Account display name in Eon.
+          example: restore-sandbox
+          type: string
+        restoreAccountAttributes:
+          $ref: '#/components/schemas/RestoreAccountAttributesInput'
+      required:
+      - restoreAccountAttributes
+      type: object
+    GcpRestoreAccountAttributes:
+      description: 'GCP project configuration.
+
+        Applicable if `cloudProvider` is set to `GCP`.
+
+        '
+      example:
+        serviceAccount: serviceAccount
+      nullable: true
+      properties:
+        serviceAccount:
+          type: string
+      required:
+      - serviceAccount
+      type: object
+    GcpRestoreAccountConnectivityConfig:
+      example:
+        networkConfigs:
+        - isSharedVpc: true
+          networkHostProject: my-shared-vpc-project
+          network: network-01234567890123456
+          subnetsPerRegion:
+          - region: us-east1
+            subnetName: subnet-01234567890123456
+          - region: us-east1
+            subnetName: subnet-01234567890123456
+        - isSharedVpc: true
+          networkHostProject: my-shared-vpc-project
+          network: network-01234567890123456
+          subnetsPerRegion:
+          - region: us-east1
+            subnetName: subnet-01234567890123456
+          - region: us-east1
+            subnetName: subnet-01234567890123456
+      nullable: true
+      properties:
+        networkConfigs:
+          description: Networks to configure.
+          items:
+            $ref: '#/components/schemas/GcpNetworkConnectivityConfig'
+          type: array
+      type: object
+    AwsAccountMetricsDestination:
+      example:
+        region: us-east-1
+      nullable: true
+      properties:
+        region:
+          description: CloudWatch region to publish metrics to.
+          example: us-east-1
+          type: string
+      type: object
+    EnableRestoreAccountMetricsConfigRequest:
+      example:
+        aws:
+          region: us-east-1
+      properties:
+        aws:
+          $ref: '#/components/schemas/AwsAccountMetricsDestination'
+      type: object
+    EnableRestoreAccountMetricsConfigResponse:
+      example:
+        restoreAccountConfig:
+          restoreAccountId: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          destination:
+            aws:
+              region: us-east-1
+          enabled: true
+      properties:
+        restoreAccountConfig:
+          $ref: '#/components/schemas/RestoreAccountMetricsConfig'
+      required:
+      - restoreAccountConfig
+      type: object
+    ReconnectRestoreAwsOrganizationalUnitResponse:
+      example:
+        organizationalUnit:
+          providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+          name: dr-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+      properties:
+        organizationalUnit:
+          $ref: '#/components/schemas/RestoreAwsOrganizationalUnit'
+      required:
+      - organizationalUnit
+      type: object
+    SortSourceAccountsBy:
+      description: 'List of sorting options.
+
+        Sorting is applied in the order passed in the list.
+
+        '
+      example:
+        field: accountName
+        order: ASC
+      properties:
+        field:
+          $ref: '#/components/schemas/SourceAccountSortField'
+        order:
+          $ref: '#/components/schemas/SortOrder'
+      required:
+      - field
+      - order
+      type: object
+    EnableSourceAccountMetricsConfigRequest:
+      example:
+        aws:
+          region: us-east-1
+      properties:
+        aws:
+          $ref: '#/components/schemas/AwsAccountMetricsDestination'
+      type: object
+    RestoreAccountMetricsConfig:
+      example:
+        restoreAccountId: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+        destination:
+          aws:
+            region: us-east-1
+        enabled: true
+      properties:
+        restoreAccountId:
+          description: Eon-assigned restore account ID.
+          example: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          type: string
+        enabled:
+          description: 'Indicates whether job metrics are enabled for the restore account.
+
+            If `true`, job metrics are collected and can be queried.
+
+            '
+          example: true
+          type: boolean
+        destination:
+          $ref: '#/components/schemas/AccountMetricsDestination'
+      required:
+      - destination
+      - enabled
+      - restoreAccountId
+      type: object
+    UpdateAwsRestoreAccountAttributes:
+      description: 'Updatable AWS account fields.
+
+        '
+      example:
+        roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+      nullable: true
+      properties:
+        roleArn:
+          description: 'ARN of the role Eon assumes to access the account in AWS.
+
+            Only the role name portion of the ARN can be changed.
+
+            The AWS account ID must remain the same.
+
+            '
+          example: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+          type: string
+          x-nullable: true
+      type: object
+      x-nullable: true
+    GetRestoreAccountMetricsConfigResponse:
+      example:
+        restoreAccountConfig:
+          restoreAccountId: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          destination:
+            aws:
+              region: us-east-1
+          enabled: true
+      properties:
+        restoreAccountConfig:
+          $ref: '#/components/schemas/RestoreAccountMetricsConfig'
+      required:
+      - restoreAccountConfig
+      type: object
+    ConnectSourceAccountRequest:
+      example:
+        name: prod-eu
+        sourceAccountAttributes:
+          gcp:
+            serviceAccount: eon-source@my-project.iam.gserviceaccount.com
+          cloudProvider: AWS
+          aws:
+            roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          azure:
+            tenantId: c9f36fd0-566d-53d3-a59c-b59828f17e58
+            eonInternalResourceGroupName: eon-source-internal-rg
+            subscriptionId: 0b9c9b5f-75a1-5c98-8b76-39e301282301
+      properties:
+        name:
+          description: Account display name in Eon.
+          example: prod-eu
+          type: string
+        sourceAccountAttributes:
+          $ref: '#/components/schemas/SourceAccountAttributesInput'
+      required:
+      - sourceAccountAttributes
+      type: object
+    RestoreAccountSortField:
+      description: Field to sort by.
+      enum:
+      - accountName
+      - installedVersion
+      - createdAt
+      example: accountName
+      type: string
+      x-enum-varnames:
+      - RESTORE_ACCOUNT_SORT_ACCOUNT_NAME
+      - RESTORE_ACCOUNT_SORT_INSTALLED_VERSION
+      - RESTORE_ACCOUNT_SORT_FIRST_CONNECTED
+    ListSourceAccountsResponse:
+      example:
+        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+        accounts:
+        - providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          sourceAccountAttributes:
+            gcp:
+              organizationId: '123456789012'
+              serviceAccount: serviceAccount
+              folderId: '987654321098'
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+              eonInternalResourceGroupName: eon-source-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+        - providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          sourceAccountAttributes:
+            gcp:
+              organizationId: '123456789012'
+              serviceAccount: serviceAccount
+              folderId: '987654321098'
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+              eonInternalResourceGroupName: eon-source-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+        totalCount: 13
+      properties:
+        accounts:
+          description: List of source accounts.
+          items:
+            $ref: '#/components/schemas/SourceAccount'
+          type: array
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+          type: string
+        totalCount:
+          description: Total number of source accounts that matched the filter options.
+          example: 13
+          type: integer
+      required:
+      - accounts
+      - totalCount
+      type: object
+    MPARequestStatus:
+      description: 'Lifecycle state of an action approval request from creation through resolution. DISCARDED means the requester abandoned a draft before it was submitted for approval.
+
+        '
+      enum:
+      - MPA_REQUEST_STATUS_UNSPECIFIED
+      - CREATED
+      - PENDING_APPROVAL
+      - APPROVED
+      - DENIED
+      - EXPIRED_PENDING_APPROVAL
+      - EXPIRED_APPROVED
+      - EXECUTED
+      - CANCELED_PENDING_APPROVAL
+      - CANCELED_APPROVED
+      - DISCARDED
+      example: PENDING_APPROVAL
+      type: string
+      x-enum-varnames:
+      - MPA_REQUEST_STATUS_UNSPECIFIED
+      - MPA_REQUEST_STATUS_CREATED
+      - MPA_REQUEST_STATUS_PENDING_APPROVAL
+      - MPA_REQUEST_STATUS_APPROVED
+      - MPA_REQUEST_STATUS_DENIED
+      - MPA_REQUEST_STATUS_EXPIRED_PENDING_APPROVAL
+      - MPA_REQUEST_STATUS_EXPIRED_APPROVED
+      - MPA_REQUEST_STATUS_EXECUTED
+      - MPA_REQUEST_STATUS_CANCELLED_PENDING_APPROVAL
+      - MPA_REQUEST_STATUS_CANCELLED_APPROVED
+      - MPA_REQUEST_STATUS_DISCARDED
+    AwsRestoreAccountConnectivityConfig:
+      example:
+        vpcConfigs:
+        - vpc: vpc-01234567890123456
+          securityGroups:
+            restoreServer:
+            - sg-0d447a77aa14f9e90
+            restoredRdsInstance:
+            - sg-02ce123456e7893c7
+          region: us-east-1
+          subnetsPerAvailabilityZone:
+          - subnetId: subnet-01234567890123456
+            availabilityZone: us-east-1a
+          - subnetId: subnet-01234567890123456
+            availabilityZone: us-east-1a
+        - vpc: vpc-01234567890123456
+          securityGroups:
+            restoreServer:
+            - sg-0d447a77aa14f9e90
+            restoredRdsInstance:
+            - sg-02ce123456e7893c7
+          region: us-east-1
+          subnetsPerAvailabilityZone:
+          - subnetId: subnet-01234567890123456
+            availabilityZone: us-east-1a
+          - subnetId: subnet-01234567890123456
+            availabilityZone: us-east-1a
+      nullable: true
+      properties:
+        vpcConfigs:
+          description: VPCs to configure.
+          items:
+            $ref: '#/components/schemas/AwsVpcConnectivityConfig'
+          type: array
+      type: object
+    SourceAccountCloudAttributes:
+      example:
+        gcp:
+          organizationId: '123456789012'
+          serviceAccount: serviceAccount
+          folderId: '987654321098'
+        cloudProvider: AWS
+        aws:
+          organizationId: o-1234567890
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+        azure:
+          managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+          tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+          eonInternalResourceGroupName: eon-source-internal-rg
+          subscriptionId: 12345678-1234-1234-1234-123456789012
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/Provider'
+        aws:
+          $ref: '#/components/schemas/AwsSourceAccountAttributes'
+        gcp:
+          $ref: '#/components/schemas/GcpSourceAccountAttributes'
+        azure:
+          $ref: '#/components/schemas/AzureSourceAccountAttributes'
+      required:
+      - cloudProvider
+      type: object
+    ListRestoreAccountsRequest:
+      example:
+        filters:
+          accountStatus:
+            in:
+            - CONNECTED
+            notIn:
+            - INSUFFICIENT_PERMISSIONS
+          accountName:
+            contains:
+            - contains
+            - contains
+            in:
+            - in
+            - in
+            notContains:
+            - notContains
+            - notContains
+            notIn:
+            - notIn
+            - notIn
+          providerAccountId:
+            in:
+            - '836638811603'
+            notIn:
+            - '529569125077'
+          cloudProvider:
+            in:
+            - AWS
+            - AZURE
+            notIn:
+            - GCP
+          id:
+            in:
+            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+            notIn:
+            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+        sorts:
+        - field: accountName
+          order: ASC
+        - field: accountName
+          order: ASC
+      properties:
+        filters:
+          $ref: '#/components/schemas/RestoreAccountsFilterConditions'
+        sorts:
+          items:
+            $ref: '#/components/schemas/SortRestoreAccountsBy'
+          type: array
+      type: object
+    AccountStatusFilters:
+      additionalProperties: false
+      example:
+        in:
+        - CONNECTED
+        notIn:
+        - INSUFFICIENT_PERMISSIONS
+      properties:
+        in:
+          description: Matches if any value in this list equals `accountStatus`.
+          example:
+          - CONNECTED
+          items:
+            $ref: '#/components/schemas/AccountState'
+          type: array
+        notIn:
+          description: Matches if no value in this list equals `accountStatus`.
+          example:
+          - INSUFFICIENT_PERMISSIONS
+          items:
+            $ref: '#/components/schemas/AccountState'
+          type: array
+      type: object
+    UpdateSourceAccountResponse:
+      example:
+        sourceAccount:
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          sourceAccountAttributes:
+            gcp:
+              organizationId: '123456789012'
+              serviceAccount: serviceAccount
+              folderId: '987654321098'
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+              eonInternalResourceGroupName: eon-source-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        sourceAccount:
+          $ref: '#/components/schemas/SourceAccount'
+      required:
+      - sourceAccount
+      type: object
+    UpdateGcpSourceAccountAttributes:
+      description: 'Updatable GCP account fields.
+
+        '
+      example:
+        serviceAccount: eon-source@my-project.iam.gserviceaccount.com
+      nullable: true
+      properties:
+        serviceAccount:
+          description: 'Email of the service account Eon impersonates to access the GCP project.
+
+            Only the service account name portion can be changed.
+
+            The GCP project ID must remain the same.
+
+            '
+          example: eon-source@my-project.iam.gserviceaccount.com
+          type: string
+          x-nullable: true
+      type: object
+      x-nullable: true
+    SortRestoreAccountsBy:
+      description: 'List of sorting options.
+
+        Sorting is applied in the order passed in the list.
+
+        '
+      example:
+        field: accountName
+        order: ASC
+      properties:
+        field:
+          $ref: '#/components/schemas/RestoreAccountSortField'
+        order:
+          $ref: '#/components/schemas/SortOrder'
+      required:
+      - field
+      - order
+      type: object
+    AccountState:
+      description: 'Connection status of the AWS account, Azure subscription, or GCP project.
+
+        `NOT_READY` means the account was discovered but is not yet ready to be backed up;
+
+        see `statusReason` for the specific cause.
+
+        `NOT_READY` and `ACCOUNT_STATUS_UNSPECIFIED` are supported only in responses.
+
+        '
+      enum:
+      - CONNECTED
+      - DISCONNECTED
+      - INSUFFICIENT_PERMISSIONS
+      - NOT_READY
+      - ACCOUNT_STATUS_UNSPECIFIED
+      example: CONNECTED
+      type: string
+      x-enum-varnames:
+      - ACCOUNT_STATE_CONNECTED
+      - ACCOUNT_STATE_DISCONNECTED
+      - ACCOUNT_STATE_INSUFFICIENT_PERMISSIONS
+      - ACCOUNT_STATE_NOT_READY
+      - ACCOUNT_STATE_UNSPECIFIED
+    DisconnectSourceAccountResponse:
+      example:
+        sourceAccount:
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          sourceAccountAttributes:
+            gcp:
+              organizationId: '123456789012'
+              serviceAccount: serviceAccount
+              folderId: '987654321098'
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+              eonInternalResourceGroupName: eon-source-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        sourceAccount:
+          $ref: '#/components/schemas/SourceAccount'
+      required:
+      - sourceAccount
+      type: object
+    DisconnectRestoreAccountResponse:
+      example:
+        restoreAccount:
+          restoreAccountAttributes:
+            gcp:
+              serviceAccount: serviceAccount
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              resourceGroupName: my-resource-group
+              enableM365Restore: false
+              tenantId: 12345678-1234-1234-1234-123456789012
+              eonInternalResourceGroupName: eon-restore-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          isRestoreAllowed: true
+          id: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        restoreAccount:
+          $ref: '#/components/schemas/RestoreAccount'
+      required:
+      - restoreAccount
+      type: object
+    GcpSourceAccountAttributes:
+      description: 'GCP project configuration.
+
+        Applicable if `cloudProvider` is set to `GCP`.
+
+        '
+      example:
+        organizationId: '123456789012'
+        serviceAccount: serviceAccount
+        folderId: '987654321098'
+      nullable: true
+      properties:
+        serviceAccount:
+          type: string
+        organizationId:
+          description: Cloud-provider-assigned ID of the GCP project's parent organization.
+          example: '123456789012'
+          type: string
+        folderId:
+          description: Cloud-provider-assigned ID of the GCP project's parent folder.
+          example: '987654321098'
+          type: string
+      required:
+      - serviceAccount
+      type: object
+    SortOrder:
+      description: Sort order. Use `ASC` for ascending order and `DESC` for descending order.
+      enum:
+      - ASC
+      - DESC
+      example: ASC
+      type: string
+    SourceAccount:
+      example:
+        providerAccountId: '123412341234'
+        name: prod-eu
+        connectedTime: 2024-08-29 13:24:03+00:00
+        id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+        sourceAccountAttributes:
+          gcp:
+            organizationId: '123456789012'
+            serviceAccount: serviceAccount
+            folderId: '987654321098'
+          cloudProvider: AWS
+          aws:
+            organizationId: o-1234567890
+            roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          azure:
+            managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+            tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+            eonInternalResourceGroupName: eon-source-internal-rg
+            subscriptionId: 12345678-1234-1234-1234-123456789012
+        providerAccountName: providerAccountName
+        version:
+          installed: 1.0.0
+          installationMethod: TERRAFORM
+          latest: 1.2.0
+        status: CONNECTED
+      properties:
+        id:
+          description: Eon-assigned source account ID.
+          example: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          type: string
+        providerAccountId:
+          description: Cloud-provider-assigned account ID.
+          example: '123412341234'
+          type: string
+        name:
+          description: Account display name in Eon.
+          example: prod-eu
+          type: string
+        providerAccountName:
+          description: Display name inherited from the cloud provider.
+          type: string
+        status:
+          $ref: '#/components/schemas/AccountState'
+        version:
+          $ref: '#/components/schemas/AccountVersion'
+        connectedTime:
+          description: Date and time the account was connected to Eon.
+          example: 2024-08-29 13:24:03+00:00
+          format: date-time
+          type: string
+        sourceAccountAttributes:
+          $ref: '#/components/schemas/SourceAccountCloudAttributes'
+      required:
+      - id
+      - name
+      - providerAccountId
+      - sourceAccountAttributes
+      - status
+      type: object
+    ConnectRestoreAwsOrganizationalUnitResponse:
+      example:
+        organizationalUnit:
+          providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+          name: dr-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+      properties:
+        organizationalUnit:
+          $ref: '#/components/schemas/RestoreAwsOrganizationalUnit'
+      required:
+      - organizationalUnit
+      type: object
+    SubnetPerAvailabilityZone:
+      example:
+        subnetId: subnet-01234567890123456
+        availabilityZone: us-east-1a
+      properties:
+        availabilityZone:
+          description: Availability zone.
+          example: us-east-1a
+          type: string
+        subnetId:
+          description: Subnet ID to use.
+          example: subnet-01234567890123456
+          type: string
+      required:
+      - availabilityZone
+      - subnetId
+      type: object
+    AwsVpcConnectivityConfig:
+      example:
+        vpc: vpc-01234567890123456
+        securityGroups:
+          restoreServer:
+          - sg-0d447a77aa14f9e90
+          restoredRdsInstance:
+          - sg-02ce123456e7893c7
+        region: us-east-1
+        subnetsPerAvailabilityZone:
+        - subnetId: subnet-01234567890123456
+          availabilityZone: us-east-1a
+        - subnetId: subnet-01234567890123456
+          availabilityZone: us-east-1a
+      properties:
+        region:
+          description: VPC region.
+          example: us-east-1
+          type: string
+        vpc:
+          description: VPC ID.
+          example: vpc-01234567890123456
+          type: string
+        subnetsPerAvailabilityZone:
+          description: 'Subnets to configure for availability zones in the VPC.
+
+            For availability zones not specified in this list, Eon attempts to use the default subnet.
+
+            '
+          items:
+            $ref: '#/components/schemas/SubnetPerAvailabilityZone'
+          type: array
+        securityGroups:
+          $ref: '#/components/schemas/ResourceTypeToSecurityGroup'
+      required:
+      - region
+      - vpc
+      type: object
+    ListSourceAwsOrganizationalUnitsResponse:
+      example:
+        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+        organizationalUnits:
+        - providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          name: prod-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+        - providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          name: prod-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+        totalCount: 0
+      properties:
+        organizationalUnits:
+          description: List of AWS organizational units.
+          items:
+            $ref: '#/components/schemas/SourceAwsOrganizationalUnit'
+          type: array
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+          type: string
+        totalCount:
+          description: Total number of AWS organizational units that matched the filter options.
+          type: integer
+      required:
+      - organizationalUnits
+      - totalCount
+      type: object
+    ReconnectRestoreAccountResponse:
+      example:
+        restoreAccount:
+          restoreAccountAttributes:
+            gcp:
+              serviceAccount: serviceAccount
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              resourceGroupName: my-resource-group
+              enableM365Restore: false
+              tenantId: 12345678-1234-1234-1234-123456789012
+              eonInternalResourceGroupName: eon-restore-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          isRestoreAllowed: true
+          id: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        restoreAccount:
+          $ref: '#/components/schemas/RestoreAccount'
+      required:
+      - restoreAccount
+      type: object
+    UpdateAwsSourceAccountAttributes:
+      description: 'Updatable AWS account fields.
+
+        '
+      example:
+        roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+      nullable: true
+      properties:
+        roleArn:
+          description: 'ARN of the role Eon assumes to access the account in AWS.
+
+            Only the role name portion of the ARN can be changed.
+
+            The AWS account ID must remain the same.
+
+            '
+          example: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          type: string
+          x-nullable: true
+      type: object
+      x-nullable: true
+    SourceAccountAttributesInput:
+      example:
+        gcp:
+          serviceAccount: eon-source@my-project.iam.gserviceaccount.com
+        cloudProvider: AWS
+        aws:
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+        azure:
+          tenantId: c9f36fd0-566d-53d3-a59c-b59828f17e58
+          eonInternalResourceGroupName: eon-source-internal-rg
+          subscriptionId: 0b9c9b5f-75a1-5c98-8b76-39e301282301
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/Provider'
+        aws:
+          $ref: '#/components/schemas/AwsSourceAccountAttributesInput'
+        azure:
+          $ref: '#/components/schemas/AzureSourceAccountAttributesInput'
+        gcp:
+          $ref: '#/components/schemas/GcpSourceAccountAttributesInput'
+      required:
+      - cloudProvider
+      type: object
+    RestoreAccountsFilterConditions:
+      additionalProperties: false
+      description: 'Filter conditions.
+
+        If omitted, no filtering is applied.
+
+        '
+      example:
+        accountStatus:
+          in:
+          - CONNECTED
+          notIn:
+          - INSUFFICIENT_PERMISSIONS
+        accountName:
+          contains:
+          - contains
+          - contains
+          in:
+          - in
+          - in
+          notContains:
+          - notContains
+          - notContains
+          notIn:
+          - notIn
+          - notIn
+        providerAccountId:
+          in:
+          - '836638811603'
+          notIn:
+          - '529569125077'
+        cloudProvider:
+          in:
+          - AWS
+          - AZURE
+          notIn:
+          - GCP
+        id:
+          in:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+          notIn:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+      properties:
+        id:
+          $ref: '#/components/schemas/IdFilters'
+        providerAccountId:
+          $ref: '#/components/schemas/ProviderAccountIdFilters'
+        accountStatus:
+          $ref: '#/components/schemas/AccountStatusFilters'
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProviderFilters'
+        accountName:
+          $ref: '#/components/schemas/AccountNameFilters'
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    GetRestoreAccountConnectivityConfigResponse:
+      example:
+        restoreAccountConfig:
+          restoreAccountId: 7fb4bfae-853e-5e4f-9d35-ad8a1d2a0ad6
+          config:
+            gcp:
+              networkConfigs:
+              - isSharedVpc: true
+                networkHostProject: my-shared-vpc-project
+                network: network-01234567890123456
+                subnetsPerRegion:
+                - region: us-east1
+                  subnetName: subnet-01234567890123456
+                - region: us-east1
+                  subnetName: subnet-01234567890123456
+              - isSharedVpc: true
+                networkHostProject: my-shared-vpc-project
+                network: network-01234567890123456
+                subnetsPerRegion:
+                - region: us-east1
+                  subnetName: subnet-01234567890123456
+                - region: us-east1
+                  subnetName: subnet-01234567890123456
+            aws:
+              vpcConfigs:
+              - vpc: vpc-01234567890123456
+                securityGroups:
+                  restoreServer:
+                  - sg-0d447a77aa14f9e90
+                  restoredRdsInstance:
+                  - sg-02ce123456e7893c7
+                region: us-east-1
+                subnetsPerAvailabilityZone:
+                - subnetId: subnet-01234567890123456
+                  availabilityZone: us-east-1a
+                - subnetId: subnet-01234567890123456
+                  availabilityZone: us-east-1a
+              - vpc: vpc-01234567890123456
+                securityGroups:
+                  restoreServer:
+                  - sg-0d447a77aa14f9e90
+                  restoredRdsInstance:
+                  - sg-02ce123456e7893c7
+                region: us-east-1
+                subnetsPerAvailabilityZone:
+                - subnetId: subnet-01234567890123456
+                  availabilityZone: us-east-1a
+                - subnetId: subnet-01234567890123456
+                  availabilityZone: us-east-1a
+      properties:
+        restoreAccountConfig:
+          $ref: '#/components/schemas/RestoreAccountConnectivityConfig'
+      required:
+      - restoreAccountConfig
+      type: object
+    EnableSourceAccountMetricsConfigResponse:
+      example:
+        sourceAccountConfig:
+          sourceAccountId: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          destination:
+            aws:
+              region: us-east-1
+          enabled: true
+      properties:
+        sourceAccountConfig:
+          $ref: '#/components/schemas/SourceAccountMetricsConfig'
+      required:
+      - sourceAccountConfig
+      type: object
+    CloudProviderFilters:
+      additionalProperties: false
+      example:
+        in:
+        - AWS
+        - AZURE
+        notIn:
+        - GCP
+      properties:
+        in:
+          description: Matches if any value in this list equals `cloudProvider`.
+          example:
+          - AWS
+          - AZURE
+          items:
+            $ref: '#/components/schemas/Provider'
+          type: array
+        notIn:
+          description: Matches if none of the values in this list equal `cloudProvider`.
+          example:
+          - GCP
+          items:
+            $ref: '#/components/schemas/Provider'
+          type: array
+      type: object
+    GcpRestoreAccountAttributesInput:
+      description: 'GCP project configuration.
+
+        Applicable if `cloudProvider` is set to `GCP`.
+
+        '
+      example:
+        serviceAccount: eon-restore@my-project.iam.gserviceaccount.com
+      nullable: true
+      properties:
+        serviceAccount:
+          description: Email address of the GCP service account Eon uses to access the project for restore operations.
+          example: eon-restore@my-project.iam.gserviceaccount.com
+          type: string
+      required:
+      - serviceAccount
+      type: object
+    SourceAwsOrganizationalUnit:
+      example:
+        providerOrganizationalUnitId: ou-a1b2-f6g7h111
+        roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+        name: prod-eu organizational unit
+        id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+        providerManagementAccountId: '123456789012'
+        status: CONNECTED
+      properties:
+        id:
+          description: Eon-assigned organizational unit ID.
+          example: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          type: string
+        roleArn:
+          description: ARN of the role Eon assumes to access the organizational unit in AWS.
+          example: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          type: string
+        name:
+          description: Organizational unit display name in Eon.
+          example: prod-eu organizational unit
+          type: string
+        providerOrganizationalUnitId:
+          description: AWS-assigned organizational unit ID.
+          example: ou-a1b2-f6g7h111
+          type: string
+        providerManagementAccountId:
+          description: AWS-assigned ID of the organization's management account.
+          example: '123456789012'
+          type: string
+        status:
+          $ref: '#/components/schemas/AccountState'
+      required:
+      - id
+      - name
+      - providerManagementAccountId
+      - providerOrganizationalUnitId
+      - roleArn
+      - status
+      type: object
+    ConnectSourceAccountResponse:
+      example:
+        sourceAccount:
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          sourceAccountAttributes:
+            gcp:
+              organizationId: '123456789012'
+              serviceAccount: serviceAccount
+              folderId: '987654321098'
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              tenantId: 060901b5-ae27-5b6f-aaf5-829b635615e9
+              eonInternalResourceGroupName: eon-source-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        sourceAccount:
+          $ref: '#/components/schemas/SourceAccount'
+      required:
+      - sourceAccount
+      type: object
+    AwsSourceAccountAttributesInput:
+      description: 'AWS account configuration.
+
+        Applicable if `cloudProvider` is set to `AWS`.
+
+        '
+      example:
+        roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+      nullable: true
+      properties:
+        roleArn:
+          description: ARN of the role Eon assumes to access the account in AWS.
+          example: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          type: string
+      required:
+      - roleArn
+      type: object
+    GetSourceAccountMetricsConfigResponse:
+      example:
+        sourceAccountConfig:
+          sourceAccountId: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          destination:
+            aws:
+              region: us-east-1
+          enabled: true
+      properties:
+        sourceAccountConfig:
+          $ref: '#/components/schemas/SourceAccountMetricsConfig'
+      required:
+      - sourceAccountConfig
+      type: object
+    GcpNetworkConnectivityConfig:
+      example:
+        isSharedVpc: true
+        networkHostProject: my-shared-vpc-project
+        network: network-01234567890123456
+        subnetsPerRegion:
+        - region: us-east1
+          subnetName: subnet-01234567890123456
+        - region: us-east1
+          subnetName: subnet-01234567890123456
+      properties:
+        network:
+          description: Network name.
+          example: network-01234567890123456
+          type: string
+        subnetsPerRegion:
+          description: 'Subnets to configure for regions in the network.
+
+            For regions not specified in this list, Eon attempts to use the default subnet.
+
+            '
+          items:
+            $ref: '#/components/schemas/GcpSubnetPerRegion'
+          type: array
+        isSharedVpc:
+          description: 'Indicates whether the VPC network is a shared VPC.
+
+            If true, `networkHostProject` must be specified.
+
+            '
+          example: true
+          type: boolean
+        networkHostProject:
+          description: 'ID of the project that hosts the VPC network.
+
+            Applicable for shared VPC network.
+
+            '
+          example: my-shared-vpc-project
+          type: string
+      required:
+      - isSharedVpc
+      - network
+      - networkHostProject
+      type: object
+    UpdateSourceAccountRequest:
+      example:
+        name: name
+        sourceAccountAttributes:
+          gcp:
+            serviceAccount: eon-source@my-project.iam.gserviceaccount.com
+          aws:
+            roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+      properties:
+        name:
+          description: Display name for the source account in Eon.
+          type: string
+          x-internal: false
+          x-nullable: true
+        sourceAccountAttributes:
+          $ref: '#/components/schemas/UpdateSourceAccountAttributesInput'
+      type: object
+    ConnectSourceAwsOrganizationalUnitResponse:
+      example:
+        organizationalUnit:
+          providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          name: prod-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+      properties:
+        organizationalUnit:
+          $ref: '#/components/schemas/SourceAwsOrganizationalUnit'
+      required:
+      - organizationalUnit
+      type: object
+    ConnectRestoreAccountResponse:
+      example:
+        restoreAccount:
+          restoreAccountAttributes:
+            gcp:
+              serviceAccount: serviceAccount
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              resourceGroupName: my-resource-group
+              enableM365Restore: false
+              tenantId: 12345678-1234-1234-1234-123456789012
+              eonInternalResourceGroupName: eon-restore-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          isRestoreAllowed: true
+          id: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        restoreAccount:
+          $ref: '#/components/schemas/RestoreAccount'
+      required:
+      - restoreAccount
+      type: object
+    UpdateRestoreAccountConnectivityConfigResponse:
+      example:
+        restoreAccountConfig:
+          restoreAccountId: 7fb4bfae-853e-5e4f-9d35-ad8a1d2a0ad6
+          config:
+            gcp:
+              networkConfigs:
+              - isSharedVpc: true
+                networkHostProject: my-shared-vpc-project
+                network: network-01234567890123456
+                subnetsPerRegion:
+                - region: us-east1
+                  subnetName: subnet-01234567890123456
+                - region: us-east1
+                  subnetName: subnet-01234567890123456
+              - isSharedVpc: true
+                networkHostProject: my-shared-vpc-project
+                network: network-01234567890123456
+                subnetsPerRegion:
+                - region: us-east1
+                  subnetName: subnet-01234567890123456
+                - region: us-east1
+                  subnetName: subnet-01234567890123456
+            aws:
+              vpcConfigs:
+              - vpc: vpc-01234567890123456
+                securityGroups:
+                  restoreServer:
+                  - sg-0d447a77aa14f9e90
+                  restoredRdsInstance:
+                  - sg-02ce123456e7893c7
+                region: us-east-1
+                subnetsPerAvailabilityZone:
+                - subnetId: subnet-01234567890123456
+                  availabilityZone: us-east-1a
+                - subnetId: subnet-01234567890123456
+                  availabilityZone: us-east-1a
+              - vpc: vpc-01234567890123456
+                securityGroups:
+                  restoreServer:
+                  - sg-0d447a77aa14f9e90
+                  restoredRdsInstance:
+                  - sg-02ce123456e7893c7
+                region: us-east-1
+                subnetsPerAvailabilityZone:
+                - subnetId: subnet-01234567890123456
+                  availabilityZone: us-east-1a
+                - subnetId: subnet-01234567890123456
+                  availabilityZone: us-east-1a
+      properties:
+        restoreAccountConfig:
+          $ref: '#/components/schemas/RestoreAccountConnectivityConfig'
+      required:
+      - restoreAccountConfig
+      type: object
+    RestoreAccountAttributesInput:
+      example:
+        gcp:
+          serviceAccount: eon-restore@my-project.iam.gserviceaccount.com
+        cloudProvider: AWS
+        aws:
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+        azure:
+          resourceGroupName: my-resource-group
+          tenantId: bbfc521c-73c1-5927-aa6e-41200f1e8c6d
+          eonInternalResourceGroupName: eon-restore-internal-rg
+          subscriptionId: 3e27a7a1-9e99-5cd9-8e03-bed54d48796e
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/Provider'
+        aws:
+          $ref: '#/components/schemas/AwsRestoreAccountAttributesInput'
+        azure:
+          $ref: '#/components/schemas/AzureRestoreAccountAttributesInput'
+        gcp:
+          $ref: '#/components/schemas/GcpRestoreAccountAttributesInput'
+      required:
+      - cloudProvider
+      type: object
+    Provider:
+      description: 'Cloud provider.
+
+        `PROVIDER_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - AWS
+      - AZURE
+      - GCP
+      - MONGO_ATLAS
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
+      - PROVIDER_UNSPECIFIED
+      example: AWS
+      type: string
+      x-docs-internal-enum:
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
+    GcpSubnetPerRegion:
+      example:
+        region: us-east1
+        subnetName: subnet-01234567890123456
+      properties:
+        region:
+          description: Region.
+          example: us-east1
+          type: string
+        subnetName:
+          description: Subnet name.
+          example: subnet-01234567890123456
+          type: string
+      required:
+      - region
+      - subnetName
+      type: object
+    UpdateRestoreAccountResponse:
+      example:
+        restoreAccount:
+          restoreAccountAttributes:
+            gcp:
+              serviceAccount: serviceAccount
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              resourceGroupName: my-resource-group
+              enableM365Restore: false
+              tenantId: 12345678-1234-1234-1234-123456789012
+              eonInternalResourceGroupName: eon-restore-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          isRestoreAllowed: true
+          id: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+      properties:
+        restoreAccount:
+          $ref: '#/components/schemas/RestoreAccount'
+      required:
+      - restoreAccount
+      type: object
+    UpdateRestoreAccountRequest:
+      example:
+        restoreAccountAttributes:
+          gcp:
+            serviceAccount: eon-restore@my-project.iam.gserviceaccount.com
+          aws:
+            roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+        name: name
+      properties:
+        name:
+          description: Display name for the restore account in Eon.
+          type: string
+          x-internal: false
+          x-nullable: true
+        restoreAccountAttributes:
+          $ref: '#/components/schemas/UpdateRestoreAccountAttributesInput'
+      type: object
+    MPAInterceptedResponse:
+      description: Body returned when an operation is intercepted by an MPA policy.
+      example:
+        actionApprovalRequest:
+          requesterEmail: requester@example.com
+          resolvedTime: 2026-05-05 02:10:12+00:00
+          requesterName: Riley Chen
+          approvalExpirationTime: 2026-05-05 03:00:05+00:00
+          executionExpirationTime: 2026-05-05 07:00:05+00:00
+          createdTime: 2026-05-04 23:00:05+00:00
+          comment: Removing a backup policy that has been replaced.
+          id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+          policyDetails:
+          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+            requiredApprovals: 2
+            approverProviderGroupId: platform-admins
+            executionWindowHours: 4
+            description: Require approval before deleting backup policies.
+            approvalWindowHours: 24
+            currentApprovals: 1
+          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+            requiredApprovals: 2
+            approverProviderGroupId: platform-admins
+            executionWindowHours: 4
+            description: Require approval before deleting backup policies.
+            approvalWindowHours: 24
+            currentApprovals: 1
+          operation: MPA_OPERATION_DELETE_BACKUP_POLICY
+          status: PENDING_APPROVAL
+      properties:
+        actionApprovalRequest:
+          $ref: '#/components/schemas/MPARequest'
+      required:
+      - actionApprovalRequest
+      - mpaPolicies
+      type: object
+      x-nullable: true
+    AzureRestoreAccountAttributesInput:
+      description: 'Azure subscription configuration.
+
+        Applicable if `cloudProvider` is set to `AZURE`.
+
+        '
+      example:
+        resourceGroupName: my-resource-group
+        tenantId: bbfc521c-73c1-5927-aa6e-41200f1e8c6d
+        eonInternalResourceGroupName: eon-restore-internal-rg
+        subscriptionId: 3e27a7a1-9e99-5cd9-8e03-bed54d48796e
+      nullable: true
+      properties:
+        tenantId:
+          description: ID of the tenant the subscription belongs to.
+          example: bbfc521c-73c1-5927-aa6e-41200f1e8c6d
+          type: string
+        subscriptionId:
+          description: 'Subscription ID.
+
+            '
+          example: 3e27a7a1-9e99-5cd9-8e03-bed54d48796e
+          type: string
+        resourceGroupName:
+          description: Resource group name.
+          example: my-resource-group
+          type: string
+        eonInternalResourceGroupName:
+          default: eon-restore-internal-rg
+          description: 'Resource group name for Eon''s temporary internal resources.
+
+            '
+          example: eon-restore-internal-rg
+          type: string
+      required:
+      - subscriptionId
+      - tenantId
+      type: object
+    ListRestoreAccountsResponse:
+      example:
+        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+        accounts:
+        - restoreAccountAttributes:
+            gcp:
+              serviceAccount: serviceAccount
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              resourceGroupName: my-resource-group
+              enableM365Restore: false
+              tenantId: 12345678-1234-1234-1234-123456789012
+              eonInternalResourceGroupName: eon-restore-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          isRestoreAllowed: true
+          id: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+        - restoreAccountAttributes:
+            gcp:
+              serviceAccount: serviceAccount
+            cloudProvider: AWS
+            aws:
+              organizationId: o-1234567890
+              roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+            azure:
+              managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+              resourceGroupName: my-resource-group
+              enableM365Restore: false
+              tenantId: 12345678-1234-1234-1234-123456789012
+              eonInternalResourceGroupName: eon-restore-internal-rg
+              subscriptionId: 12345678-1234-1234-1234-123456789012
+          providerAccountId: '123412341234'
+          name: prod-eu
+          connectedTime: 2024-08-29 13:24:03+00:00
+          isRestoreAllowed: true
+          id: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          providerAccountName: providerAccountName
+          version:
+            installed: 1.0.0
+            installationMethod: TERRAFORM
+            latest: 1.2.0
+          status: CONNECTED
+        totalCount: 13
+      properties:
+        accounts:
+          description: List of restore accounts.
+          items:
+            $ref: '#/components/schemas/RestoreAccount'
+          type: array
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+          type: string
+        totalCount:
+          description: Total number of restore accounts that matched the filter options.
+          example: 13
+          type: integer
+      required:
+      - accounts
+      - totalCount
+      type: object
+    ConnectRestoreAwsOrganizationalUnitRequest:
+      example:
+        providerOrganizationalUnitId: ou-a1b2-f6g7h111
+        roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+      properties:
+        roleArn:
+          description: ARN of the role Eon assumes to access the organizational unit in AWS.
+          example: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+          type: string
+        providerOrganizationalUnitId:
+          description: AWS-assigned organizational unit ID.
+          example: ou-a1b2-f6g7h111
+          type: string
+      required:
+      - providerOrganizationalUnitId
+      - roleArn
+      type: object
+    AwsSourceAccountAttributes:
+      description: 'AWS account configuration.
+
+        Applicable if `cloudProvider` is set to `AWS`.
+
+        '
+      example:
+        organizationId: o-1234567890
+        roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+      nullable: true
+      properties:
+        roleArn:
+          description: ARN of the role Eon assumes to access the account in AWS.
+          example: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          type: string
+        organizationId:
+          description: Cloud-provider-assigned ID of the AWS organization the account belongs to.
+          example: o-1234567890
+          type: string
+      required:
+      - roleArn
+      type: object
+    ProviderAccountIdFilters:
+      additionalProperties: false
+      example:
+        in:
+        - '836638811603'
+        notIn:
+        - '529569125077'
+      properties:
+        in:
+          description: Matches if any value in this list equals `providerAccountId`.
+          example:
+          - '836638811603'
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if none of the values in this list equal `providerAccountId`.
+          example:
+          - '529569125077'
+          items:
+            type: string
+          type: array
+      type: object
+    SourceAccountMetricsConfig:
+      example:
+        sourceAccountId: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+        destination:
+          aws:
+            region: us-east-1
+        enabled: true
+      properties:
+        sourceAccountId:
+          description: Eon-assigned source account ID.
+          example: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          type: string
+        enabled:
+          description: 'Indicates whether job metrics are enabled for the source account.
+
+            If `true`, job metrics are collected and can be queried.
+
+            '
+          example: true
+          type: boolean
+        destination:
+          $ref: '#/components/schemas/AccountMetricsDestination'
+      required:
+      - destination
+      - enabled
+      - sourceAccountId
+      type: object
+    IdFilters:
+      additionalProperties: false
+      example:
+        in:
+        - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+        notIn:
+        - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+      properties:
+        in:
+          description: Matches if any string in this list equals `id`.
+          example:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if no string in this list equals `id`.
+          example:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          items:
+            type: string
+          type: array
+      type: object
+    RestoreAccount:
+      example:
+        restoreAccountAttributes:
+          gcp:
+            serviceAccount: serviceAccount
+          cloudProvider: AWS
+          aws:
+            organizationId: o-1234567890
+            roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+          azure:
+            managementGroupId: 3eca9074-011f-5008-9605-a7ccf00aa93e
+            resourceGroupName: my-resource-group
+            enableM365Restore: false
+            tenantId: 12345678-1234-1234-1234-123456789012
+            eonInternalResourceGroupName: eon-restore-internal-rg
+            subscriptionId: 12345678-1234-1234-1234-123456789012
+        providerAccountId: '123412341234'
+        name: prod-eu
+        connectedTime: 2024-08-29 13:24:03+00:00
+        isRestoreAllowed: true
+        id: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+        providerAccountName: providerAccountName
+        version:
+          installed: 1.0.0
+          installationMethod: TERRAFORM
+          latest: 1.2.0
+        status: CONNECTED
+      properties:
+        id:
+          description: Eon-assigned restore account ID.
+          example: 9b76a8a2-a918-57e6-94d5-0316ebab663c
+          type: string
+        providerAccountId:
+          description: Cloud-provider-assigned account ID.
+          example: '123412341234'
+          type: string
+        name:
+          description: Account display name in Eon.
+          example: prod-eu
+          type: string
+        providerAccountName:
+          description: Display name inherited from the cloud provider.
+          type: string
+        status:
+          $ref: '#/components/schemas/AccountState'
+        version:
+          $ref: '#/components/schemas/AccountVersion'
+        connectedTime:
+          description: Date and time the account was connected to Eon.
+          example: 2024-08-29 13:24:03+00:00
+          format: date-time
+          type: string
+        restoreAccountAttributes:
+          $ref: '#/components/schemas/RestoreAccountCloudAttributes'
+        isRestoreAllowed:
+          description: 'Whether the current role''s restore destination limits permit restoring to the restore account.
+
+            '
+          type: boolean
+          x-internal: false
+      required:
+      - id
+      - isRestoreAllowed
+      - name
+      - providerAccountId
+      - restoreAccountAttributes
+      - status
+      type: object
+    ListSourceAccountsRequest:
+      example:
+        filters:
+          accountStatus:
+            in:
+            - CONNECTED
+            notIn:
+            - INSUFFICIENT_PERMISSIONS
+          accountName:
+            contains:
+            - contains
+            - contains
+            in:
+            - in
+            - in
+            notContains:
+            - notContains
+            - notContains
+            notIn:
+            - notIn
+            - notIn
+          providerAccountId:
+            in:
+            - '836638811603'
+            notIn:
+            - '529569125077'
+          cloudProvider:
+            in:
+            - AWS
+            - AZURE
+            notIn:
+            - GCP
+          id:
+            in:
+            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+            notIn:
+            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+        sorts:
+        - field: accountName
+          order: ASC
+        - field: accountName
+          order: ASC
+      properties:
+        filters:
+          $ref: '#/components/schemas/SourceAccountsFilterConditions'
+        sorts:
+          items:
+            $ref: '#/components/schemas/SortSourceAccountsBy'
+          type: array
+      type: object
+    DisconnectRestoreAwsOrganizationalUnitResponse:
+      example:
+        organizationalUnit:
+          providerOrganizationalUnitId: ou-a1b2-f6g7h111
+          roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+          name: dr-eu organizational unit
+          id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          providerManagementAccountId: '123456789012'
+          status: CONNECTED
+      properties:
+        organizationalUnit:
+          $ref: '#/components/schemas/RestoreAwsOrganizationalUnit'
+      required:
+      - organizationalUnit
+      type: object
+    RestoreAccountConnectivityConfig:
+      example:
+        restoreAccountId: 7fb4bfae-853e-5e4f-9d35-ad8a1d2a0ad6
+        config:
+          gcp:
+            networkConfigs:
+            - isSharedVpc: true
+              networkHostProject: my-shared-vpc-project
+              network: network-01234567890123456
+              subnetsPerRegion:
+              - region: us-east1
+                subnetName: subnet-01234567890123456
+              - region: us-east1
+                subnetName: subnet-01234567890123456
+            - isSharedVpc: true
+              networkHostProject: my-shared-vpc-project
+              network: network-01234567890123456
+              subnetsPerRegion:
+              - region: us-east1
+                subnetName: subnet-01234567890123456
+              - region: us-east1
+                subnetName: subnet-01234567890123456
+          aws:
+            vpcConfigs:
+            - vpc: vpc-01234567890123456
+              securityGroups:
+                restoreServer:
+                - sg-0d447a77aa14f9e90
+                restoredRdsInstance:
+                - sg-02ce123456e7893c7
+              region: us-east-1
+              subnetsPerAvailabilityZone:
+              - subnetId: subnet-01234567890123456
+                availabilityZone: us-east-1a
+              - subnetId: subnet-01234567890123456
+                availabilityZone: us-east-1a
+            - vpc: vpc-01234567890123456
+              securityGroups:
+                restoreServer:
+                - sg-0d447a77aa14f9e90
+                restoredRdsInstance:
+                - sg-02ce123456e7893c7
+              region: us-east-1
+              subnetsPerAvailabilityZone:
+              - subnetId: subnet-01234567890123456
+                availabilityZone: us-east-1a
+              - subnetId: subnet-01234567890123456
+                availabilityZone: us-east-1a
+      properties:
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 7fb4bfae-853e-5e4f-9d35-ad8a1d2a0ad6
+          type: string
+        config:
+          $ref: '#/components/schemas/ProviderRestoreAccountConnectivityConfig'
+      required:
+      - config
+      - restoreAccountId
+      type: object
+    RestoreAwsOrganizationalUnit:
+      example:
+        providerOrganizationalUnitId: ou-a1b2-f6g7h111
+        roleArn: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+        name: dr-eu organizational unit
+        id: fc495499-9796-5fc9-ade7-1ba924cbcc42
+        providerManagementAccountId: '123456789012'
+        status: CONNECTED
+      properties:
+        id:
+          description: Eon-assigned organizational unit ID.
+          example: fc495499-9796-5fc9-ade7-1ba924cbcc42
+          type: string
+        roleArn:
+          description: ARN of the role Eon assumes to access the organizational unit in AWS.
+          example: arn:aws:iam::123412341234:role/EonRestoreAccountRole
+          type: string
+        name:
+          description: Organizational unit display name in Eon.
+          example: dr-eu organizational unit
+          type: string
+        providerOrganizationalUnitId:
+          description: AWS-assigned organizational unit ID.
+          example: ou-a1b2-f6g7h111
+          type: string
+        providerManagementAccountId:
+          description: AWS-assigned ID of the organization's management account.
+          example: '123456789012'
+          type: string
+        status:
+          $ref: '#/components/schemas/AccountState'
+      required:
+      - id
+      - name
+      - providerManagementAccountId
+      - providerOrganizationalUnitId
+      - roleArn
+      - status
+      type: object
+    UpdateSourceAccountAttributesInput:
+      description: 'Cloud-provider-specific fields to update.
+
+        One of: `aws`, `gcp`.
+
+        '
+      example:
+        gcp:
+          serviceAccount: eon-source@my-project.iam.gserviceaccount.com
+        aws:
+          roleArn: arn:aws:iam::123412341234:role/EonSourceAccountRole
+      properties:
+        aws:
+          $ref: '#/components/schemas/UpdateAwsSourceAccountAttributes'
+        gcp:
+          $ref: '#/components/schemas/UpdateGcpSourceAccountAttributes'
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

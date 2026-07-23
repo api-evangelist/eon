@@ -1,0 +1,1933 @@
+openapi: 3.0.0
+info:
+  description: The Eon.io REST API
+  title: Eon accounts jobs API
+  version: 1.0.0
+servers:
+- url: /
+security:
+- ApiKeyAuth: []
+tags:
+- description: Track backup, restore, and other asynchronous jobs.
+  name: jobs
+  x-displayName: Jobs
+paths:
+  /v1/projects/{projectId}/backup-jobs:
+    post:
+      description: 'Description: Retrieves a list of backup jobs for the given project.'
+      operationId: listBackupJobs
+      parameters:
+      - description: 'ID of the project whose restore jobs you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 6b3ea428-f6a4-5bb5-8fb2-e4d5d2d920ce
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - allowEmptyValue: true
+        description: 'Cursor that points to the first record of the next page of results.
+
+          Get this value from the previous response.
+
+          To preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.
+
+          '
+        example: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          format: tobedefined
+          type: string
+        style: form
+      - description: Maximum number of items to return in the response.
+        example: 10
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 50
+          minimum: 1
+          type: integer
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListBackupJobsRequest'
+        description: Filter and sort options.
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBackupJobsResponse'
+          description: Retrieved backup jobs.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: List Backup Jobs
+      tags:
+      - jobs
+      x-mcp: true
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - read:jobs
+      x-audit-log:
+        excluded: true
+  /v1/projects/{projectId}/backup-jobs/{jobId}:
+    get:
+      description: 'Description: Retrieves a backup job by ID.'
+      operationId: getBackupJob
+      parameters:
+      - description: 'ID of the project the job is in.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: ID of the job to retrieve.
+        example: 806f6781-1d66-4c7d-9f0e-e7da04e12541
+        explode: false
+        in: path
+        name: jobId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBackupJobResponse'
+          description: Job retrieved.
+        '404':
+          description: Job wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Backup Job
+      tags:
+      - jobs
+      x-mcp: true
+      x-permissions:
+      - read:jobs
+      x-audit-log:
+        excluded: true
+      x-internal: false
+      x-data-access:
+        excluded: false
+        entityRefs:
+        - in: path
+          entityType: backup_job
+          key: jobId
+  /v1/projects/{projectId}/restore-jobs:
+    post:
+      description: 'Description: Retrieves a list of restore jobs for the given project.
+
+        '
+      operationId: listRestoreJobs
+      parameters:
+      - description: 'ID of the project whose restore jobs you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 6b3ea428-f6a4-5bb5-8fb2-e4d5d2d920ce
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - allowEmptyValue: true
+        description: 'Cursor that points to the first record of the next page of results.
+
+          Get this value from the previous response.
+
+          To preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.
+
+          '
+        example: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          format: tobedefined
+          type: string
+        style: form
+      - description: Maximum number of items to return in the response.
+        example: 10
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 50
+          minimum: 1
+          type: integer
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListRestoreJobsRequest'
+        description: 'Filter and sort options.
+
+          '
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRestoreJobsResponse'
+          description: Retrieved restore jobs.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: List Restore Jobs
+      tags:
+      - jobs
+      x-mcp: true
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - read:jobs
+      x-audit-log:
+        excluded: true
+  /v1/projects/{projectId}/restore-jobs/{jobId}:
+    get:
+      description: 'Description: Retrieves a restore job by ID.'
+      operationId: getRestoreJob
+      parameters:
+      - description: 'ID of the project the job is in.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: ID of the job to retrieve.
+        example: 806f6781-1d66-4c7d-9f0e-e7da04e12541
+        explode: false
+        in: path
+        name: jobId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRestoreJobResponse'
+          description: Job retrieved.
+        '404':
+          description: Job wasn't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Restore Job
+      tags:
+      - jobs
+      x-mcp: true
+      x-permissions:
+      - read:jobs
+      x-audit-log:
+        excluded: true
+      x-internal: false
+      x-data-access:
+        excluded: false
+        entityRefs:
+        - in: path
+          entityType: restore_job
+          key: jobId
+components:
+  schemas:
+    GetRestoreJobResponse:
+      example:
+        job:
+          restoreType: AWS_EC2_INSTANCE_RESTORE
+          destinationDetails:
+            restoreAccountId: 146586e8-f69a-5148-9d7b-7c3a6b006048
+            providerAccountId: '836638811603'
+            cloudProvider: AWS
+            restoreResult:
+              azureDisk:
+                diskId: i-1234567890abcdef0
+              awsEc2Instance:
+                instanceId: i-1234567890abcdef0
+              azureVmInstance:
+                instanceId: instanceId
+              gcpVmInstance:
+                instanceId: instanceId
+              gcpBigQuery:
+                datasetId: my_restored_dataset
+              awsEbsVolume:
+                volumeId: vol-1234567890abcdef0
+            region: us-east-1
+          resourceDetails:
+            providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+            sourceStorageSizeBytes: 561566973952
+            providerAccountId: '123456789012'
+            cloudProvider: AWS
+            resourceName: customers db
+            id: d38906a7-ef8e-50f5-868e-2109ab881b15
+            region: eu-central-1
+            resourceType: AWS_EC2
+          jobExecutionDetails:
+            jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+            durationSeconds: 1338
+            expectedStartTime: 2025-06-12 20:38:35.073285+00:00
+            createdTime: 2025-06-12 20:18:35.073285+00:00
+            errorCode: INVALID_RESOURCE_STATE
+            startTime: 2025-06-12 20:28:35.073285+00:00
+            endTime: 2025-06-12 20:50:53.130436+00:00
+            statusMessage: statusMessage
+            status: JOB_PENDING
+          snapshotDetails:
+            pointInTime: 2024-10-29 23:01:30+00:00
+            expirationTime: 2025-01-20 09:40:26+00:00
+            id: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+          vault:
+            providerAccountId: '123412341234'
+            name: AWS US East 1
+            vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            vaultAttributes:
+              cloudProvider: AWS
+              aws:
+                encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+            id: 37732835-d768-5990-ba93-a7c2d2e6d754
+            isManagedByEon: true
+            region: us-east-1
+      properties:
+        job:
+          $ref: '#/components/schemas/RestoreJob'
+      required:
+      - job
+      type: object
+    EndTimeDateFilters:
+      additionalProperties: false
+      example:
+        endDate: 2025-12-31
+        startDate: 2025-01-01
+      properties:
+        startDate:
+          description: 'Matches if `endTime` is on or later than this date.
+
+            Must be in ISO 8601 YYYY-MM-DD format.
+
+            '
+          example: 2025-01-01
+          type: string
+        endDate:
+          description: 'Matches if `endTime` is on or earlier than this date.
+
+            Must be in ISO 8601 YYYY-MM-DD format.
+
+            '
+          example: 2025-12-31
+          type: string
+      type: object
+    Provider:
+      description: 'Cloud provider.
+
+        `PROVIDER_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - AWS
+      - AZURE
+      - GCP
+      - MONGO_ATLAS
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
+      - PROVIDER_UNSPECIFIED
+      example: AWS
+      type: string
+      x-docs-internal-enum:
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
+    BackupJobSortField:
+      description: Field to sort by.
+      enum:
+      - createdTime
+      - startTime
+      - endTime
+      example: startTime
+      type: string
+      x-enum-varnames:
+      - BACKUP_JOB_SORT_CREATED_TIME
+      - BACKUP_JOB_SORT_START_TIME
+      - BACKUP_JOB_SORT_END_TIME
+    SortRestoreJobBy:
+      description: 'List of sorting options.
+
+        Sorting is applied in the order passed in the list.
+
+        '
+      example:
+        field: startTime
+        order: ASC
+      properties:
+        field:
+          $ref: '#/components/schemas/RestoreJobSortField'
+        order:
+          $ref: '#/components/schemas/SortOrder'
+      required:
+      - field
+      - order
+      type: object
+    AzureVmInstanceRestoreResult:
+      example:
+        instanceId: instanceId
+      nullable: true
+      properties:
+        instanceId:
+          description: ID of the restored VM instance.
+          type: string
+      required:
+      - instanceId
+      type: object
+    ResourceIdFilters:
+      additionalProperties: false
+      example:
+        in:
+        - i-0f600a1b15b035105
+        notIn:
+        - i-0dcd0d3e17ca4d350
+      properties:
+        in:
+          description: Matches if any string in this list equals `providerResourceId`.
+          example:
+          - i-0f600a1b15b035105
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if no string in this list equals `providerResourceId`.
+          example:
+          - i-0dcd0d3e17ca4d350
+          items:
+            type: string
+          type: array
+      type: object
+    RestoreJobsFilterConditions:
+      additionalProperties: false
+      description: 'Filter conditions.
+
+        If omitted, no filtering is applied.
+
+        '
+      example:
+        providerResourceId:
+          in:
+          - i-0f600a1b15b035105
+          notIn:
+          - i-0dcd0d3e17ca4d350
+        jobId:
+          in:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          notIn:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+        restoreType:
+          in:
+          - AWS_RDS_INSTANCE_RESTORE
+          - AWS_EKS_NAMESPACE_RESTORE
+          notIn:
+          - AWS_S3_OBJECT_RESTORE
+          - AWS_EC2_EBS_VOLUME_RESTORE
+        snapshotId:
+          in:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          notIn:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+        startTime:
+          endDate: 2025-07-10
+          startDate: 2025-07-01
+        endTime:
+          endDate: 2025-12-31
+          startDate: 2025-01-01
+        status:
+          in:
+          - JOB_COMPLETED
+          - JOB_FAILED
+          notIn:
+          - JOB_COMPLETED
+          - JOB_FAILED
+      properties:
+        jobId:
+          $ref: '#/components/schemas/JobIdFilters'
+        snapshotId:
+          $ref: '#/components/schemas/SnapshotIdFilters'
+        status:
+          $ref: '#/components/schemas/JobStatusFilters'
+        providerResourceId:
+          $ref: '#/components/schemas/ResourceIdFilters'
+        restoreType:
+          $ref: '#/components/schemas/RestoreJobTypeFilters'
+        startTime:
+          $ref: '#/components/schemas/StartTimeDateFilters'
+        endTime:
+          $ref: '#/components/schemas/EndTimeDateFilters'
+      type: object
+    SnapshotIdFilters:
+      additionalProperties: false
+      example:
+        in:
+        - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        notIn:
+        - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+      properties:
+        in:
+          description: Matches if any string in this list equals `snapshotId`.
+          example:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if no string in this list equals `snapshotId`.
+          example:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          items:
+            type: string
+          type: array
+      type: object
+    AwsEbsVolumeRestoreResult:
+      example:
+        volumeId: vol-1234567890abcdef0
+      nullable: true
+      properties:
+        volumeId:
+          description: ID of the restored EBS volume.
+          example: vol-1234567890abcdef0
+          type: string
+      required:
+      - volumeId
+      type: object
+    GetBackupJobResponse:
+      example:
+        job:
+          resourceDetails:
+            providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+            sourceStorageSizeBytes: 561566973952
+            providerAccountId: '123456789012'
+            cloudProvider: AWS
+            resourceName: customers db
+            id: d38906a7-ef8e-50f5-868e-2109ab881b15
+            region: eu-central-1
+            resourceType: AWS_EC2
+          jobExecutionDetails:
+            jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+            durationSeconds: 1338
+            expectedStartTime: 2025-06-12 20:38:35.073285+00:00
+            createdTime: 2025-06-12 20:18:35.073285+00:00
+            errorCode: INVALID_RESOURCE_STATE
+            startTime: 2025-06-12 20:28:35.073285+00:00
+            endTime: 2025-06-12 20:50:53.130436+00:00
+            statusMessage: statusMessage
+            status: JOB_PENDING
+          snapshotDetails:
+            pointInTime: 2024-10-29 23:01:30+00:00
+            expirationTime: 2025-01-20 09:40:26+00:00
+            id: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+          vault:
+            providerAccountId: '123412341234'
+            name: AWS US East 1
+            vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            vaultAttributes:
+              cloudProvider: AWS
+              aws:
+                encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+            id: 37732835-d768-5990-ba93-a7c2d2e6d754
+            isManagedByEon: true
+            region: us-east-1
+          backupType: AWS_EC2_BACKUP
+      properties:
+        job:
+          $ref: '#/components/schemas/BackupJob'
+      required:
+      - job
+      type: object
+    AwsEc2InstanceRestoreResult:
+      example:
+        instanceId: i-1234567890abcdef0
+      nullable: true
+      properties:
+        instanceId:
+          description: ID of the restored EC2 instance.
+          example: i-1234567890abcdef0
+          type: string
+      required:
+      - instanceId
+      - volumeId
+      type: object
+    ListRestoreJobsRequest:
+      example:
+        filters:
+          providerResourceId:
+            in:
+            - i-0f600a1b15b035105
+            notIn:
+            - i-0dcd0d3e17ca4d350
+          jobId:
+            in:
+            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            notIn:
+            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          restoreType:
+            in:
+            - AWS_RDS_INSTANCE_RESTORE
+            - AWS_EKS_NAMESPACE_RESTORE
+            notIn:
+            - AWS_S3_OBJECT_RESTORE
+            - AWS_EC2_EBS_VOLUME_RESTORE
+          snapshotId:
+            in:
+            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            notIn:
+            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          startTime:
+            endDate: 2025-07-10
+            startDate: 2025-07-01
+          endTime:
+            endDate: 2025-12-31
+            startDate: 2025-01-01
+          status:
+            in:
+            - JOB_COMPLETED
+            - JOB_FAILED
+            notIn:
+            - JOB_COMPLETED
+            - JOB_FAILED
+        sorts:
+        - field: startTime
+          order: ASC
+        - field: startTime
+          order: ASC
+      properties:
+        filters:
+          $ref: '#/components/schemas/RestoreJobsFilterConditions'
+        sorts:
+          items:
+            $ref: '#/components/schemas/SortRestoreJobBy'
+          type: array
+      type: object
+    RestoreResult:
+      example:
+        azureDisk:
+          diskId: i-1234567890abcdef0
+        awsEc2Instance:
+          instanceId: i-1234567890abcdef0
+        azureVmInstance:
+          instanceId: instanceId
+        gcpVmInstance:
+          instanceId: instanceId
+        gcpBigQuery:
+          datasetId: my_restored_dataset
+        awsEbsVolume:
+          volumeId: vol-1234567890abcdef0
+      nullable: true
+      properties:
+        awsEc2Instance:
+          $ref: '#/components/schemas/AwsEc2InstanceRestoreResult'
+        awsEbsVolume:
+          $ref: '#/components/schemas/AwsEbsVolumeRestoreResult'
+        azureDisk:
+          $ref: '#/components/schemas/AzureDiskRestoreResult'
+        azureVmInstance:
+          $ref: '#/components/schemas/AzureVmInstanceRestoreResult'
+        gcpVmInstance:
+          $ref: '#/components/schemas/GcpVmInstanceRestoreResult'
+        gcpBigQuery:
+          $ref: '#/components/schemas/GcpBigQueryDatasetRestoreResult'
+      type: object
+    ListBackupJobsResponse:
+      example:
+        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+        jobs:
+        - resourceDetails:
+            providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+            sourceStorageSizeBytes: 561566973952
+            providerAccountId: '123456789012'
+            cloudProvider: AWS
+            resourceName: customers db
+            id: d38906a7-ef8e-50f5-868e-2109ab881b15
+            region: eu-central-1
+            resourceType: AWS_EC2
+          jobExecutionDetails:
+            jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+            durationSeconds: 1338
+            expectedStartTime: 2025-06-12 20:38:35.073285+00:00
+            createdTime: 2025-06-12 20:18:35.073285+00:00
+            errorCode: INVALID_RESOURCE_STATE
+            startTime: 2025-06-12 20:28:35.073285+00:00
+            endTime: 2025-06-12 20:50:53.130436+00:00
+            statusMessage: statusMessage
+            status: JOB_PENDING
+          snapshotDetails:
+            pointInTime: 2024-10-29 23:01:30+00:00
+            expirationTime: 2025-01-20 09:40:26+00:00
+            id: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+          vault:
+            providerAccountId: '123412341234'
+            name: AWS US East 1
+            vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            vaultAttributes:
+              cloudProvider: AWS
+              aws:
+                encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+            id: 37732835-d768-5990-ba93-a7c2d2e6d754
+            isManagedByEon: true
+            region: us-east-1
+          backupType: AWS_EC2_BACKUP
+        - resourceDetails:
+            providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+            sourceStorageSizeBytes: 561566973952
+            providerAccountId: '123456789012'
+            cloudProvider: AWS
+            resourceName: customers db
+            id: d38906a7-ef8e-50f5-868e-2109ab881b15
+            region: eu-central-1
+            resourceType: AWS_EC2
+          jobExecutionDetails:
+            jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+            durationSeconds: 1338
+            expectedStartTime: 2025-06-12 20:38:35.073285+00:00
+            createdTime: 2025-06-12 20:18:35.073285+00:00
+            errorCode: INVALID_RESOURCE_STATE
+            startTime: 2025-06-12 20:28:35.073285+00:00
+            endTime: 2025-06-12 20:50:53.130436+00:00
+            statusMessage: statusMessage
+            status: JOB_PENDING
+          snapshotDetails:
+            pointInTime: 2024-10-29 23:01:30+00:00
+            expirationTime: 2025-01-20 09:40:26+00:00
+            id: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+          vault:
+            providerAccountId: '123412341234'
+            name: AWS US East 1
+            vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            vaultAttributes:
+              cloudProvider: AWS
+              aws:
+                encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+            id: 37732835-d768-5990-ba93-a7c2d2e6d754
+            isManagedByEon: true
+            region: us-east-1
+          backupType: AWS_EC2_BACKUP
+        totalCount: 2347
+      properties:
+        jobs:
+          description: List of retrieved backup jobs.
+          items:
+            $ref: '#/components/schemas/BackupJob'
+          type: array
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+          type: string
+        totalCount:
+          description: Total number of backup jobs that matched the filter options.
+          example: 2347
+          type: integer
+      required:
+      - jobs
+      - totalCount
+      type: object
+    RestoreJob:
+      example:
+        restoreType: AWS_EC2_INSTANCE_RESTORE
+        destinationDetails:
+          restoreAccountId: 146586e8-f69a-5148-9d7b-7c3a6b006048
+          providerAccountId: '836638811603'
+          cloudProvider: AWS
+          restoreResult:
+            azureDisk:
+              diskId: i-1234567890abcdef0
+            awsEc2Instance:
+              instanceId: i-1234567890abcdef0
+            azureVmInstance:
+              instanceId: instanceId
+            gcpVmInstance:
+              instanceId: instanceId
+            gcpBigQuery:
+              datasetId: my_restored_dataset
+            awsEbsVolume:
+              volumeId: vol-1234567890abcdef0
+          region: us-east-1
+        resourceDetails:
+          providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+          sourceStorageSizeBytes: 561566973952
+          providerAccountId: '123456789012'
+          cloudProvider: AWS
+          resourceName: customers db
+          id: d38906a7-ef8e-50f5-868e-2109ab881b15
+          region: eu-central-1
+          resourceType: AWS_EC2
+        jobExecutionDetails:
+          jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+          durationSeconds: 1338
+          expectedStartTime: 2025-06-12 20:38:35.073285+00:00
+          createdTime: 2025-06-12 20:18:35.073285+00:00
+          errorCode: INVALID_RESOURCE_STATE
+          startTime: 2025-06-12 20:28:35.073285+00:00
+          endTime: 2025-06-12 20:50:53.130436+00:00
+          statusMessage: statusMessage
+          status: JOB_PENDING
+        snapshotDetails:
+          pointInTime: 2024-10-29 23:01:30+00:00
+          expirationTime: 2025-01-20 09:40:26+00:00
+          id: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+        vault:
+          providerAccountId: '123412341234'
+          name: AWS US East 1
+          vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          vaultAttributes:
+            cloudProvider: AWS
+            aws:
+              encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+          id: 37732835-d768-5990-ba93-a7c2d2e6d754
+          isManagedByEon: true
+          region: us-east-1
+      properties:
+        jobExecutionDetails:
+          $ref: '#/components/schemas/JobExecutionDetails'
+        resourceDetails:
+          $ref: '#/components/schemas/ResourceDetails'
+        snapshotDetails:
+          $ref: '#/components/schemas/JobSnapshotDetails'
+        destinationDetails:
+          $ref: '#/components/schemas/DestinationDetails'
+        vault:
+          $ref: '#/components/schemas/BackupVault'
+        restoreType:
+          $ref: '#/components/schemas/RestoreJobType'
+      required:
+      - destinationDetails
+      - jobExecutionDetails
+      - restoreType
+      type: object
+    JobIdFilters:
+      additionalProperties: false
+      example:
+        in:
+        - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        notIn:
+        - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+      properties:
+        in:
+          description: Matches if any string in this list equals `jobId`.
+          example:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if no string in this list equals `jobId`.
+          example:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          items:
+            type: string
+          type: array
+      type: object
+    BackupJobTypeFilters:
+      additionalProperties: false
+      example:
+        in:
+        - AWS_EC2_BACKUP
+        - AWS_RDS_BACKUP
+        notIn:
+        - AWS_S3_BACKUP
+        - AWS_EKS_NAMESPACE_BACKUP
+      properties:
+        in:
+          description: Matches if any item in this list equals `backupType`.
+          example:
+          - AWS_EC2_BACKUP
+          - AWS_RDS_BACKUP
+          items:
+            $ref: '#/components/schemas/BackupJobType'
+          type: array
+        notIn:
+          description: Matches if no item in this list equals `backupType`.
+          example:
+          - AWS_S3_BACKUP
+          - AWS_EKS_NAMESPACE_BACKUP
+          items:
+            $ref: '#/components/schemas/BackupJobType'
+          type: array
+      type: object
+    SortBackupJobBy:
+      description: 'List of sorting options.
+
+        Sorting is applied in the order passed in the list.
+
+        '
+      example:
+        field: startTime
+        order: ASC
+      properties:
+        field:
+          $ref: '#/components/schemas/BackupJobSortField'
+        order:
+          $ref: '#/components/schemas/SortOrder'
+      required:
+      - field
+      - order
+      type: object
+    BackupJobsFilterConditions:
+      additionalProperties: false
+      example:
+        providerResourceId:
+          in:
+          - i-0f600a1b15b035105
+          notIn:
+          - i-0dcd0d3e17ca4d350
+        jobId:
+          in:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          notIn:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+        snapshotId:
+          in:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          notIn:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+        startTime:
+          endDate: 2025-07-10
+          startDate: 2025-07-01
+        endTime:
+          endDate: 2025-12-31
+          startDate: 2025-01-01
+        status:
+          in:
+          - JOB_COMPLETED
+          - JOB_FAILED
+          notIn:
+          - JOB_COMPLETED
+          - JOB_FAILED
+        backupType:
+          in:
+          - AWS_EC2_BACKUP
+          - AWS_RDS_BACKUP
+          notIn:
+          - AWS_S3_BACKUP
+          - AWS_EKS_NAMESPACE_BACKUP
+      properties:
+        jobId:
+          $ref: '#/components/schemas/JobIdFilters'
+        snapshotId:
+          $ref: '#/components/schemas/SnapshotIdFilters'
+        status:
+          $ref: '#/components/schemas/JobStatusFilters'
+        providerResourceId:
+          $ref: '#/components/schemas/ResourceIdFilters'
+        backupType:
+          $ref: '#/components/schemas/BackupJobTypeFilters'
+        startTime:
+          $ref: '#/components/schemas/StartTimeDateFilters'
+        endTime:
+          $ref: '#/components/schemas/EndTimeDateFilters'
+      type: object
+    RestoreJobTypeFilters:
+      additionalProperties: false
+      example:
+        in:
+        - AWS_RDS_INSTANCE_RESTORE
+        - AWS_EKS_NAMESPACE_RESTORE
+        notIn:
+        - AWS_S3_OBJECT_RESTORE
+        - AWS_EC2_EBS_VOLUME_RESTORE
+      properties:
+        in:
+          description: Matches if any item in this list equals `restoreType`.
+          example:
+          - AWS_RDS_INSTANCE_RESTORE
+          - AWS_EKS_NAMESPACE_RESTORE
+          items:
+            $ref: '#/components/schemas/RestoreJobType'
+          type: array
+        notIn:
+          description: Matches if no item in this list equals `restoreType`.
+          example:
+          - AWS_S3_OBJECT_RESTORE
+          - AWS_EC2_EBS_VOLUME_RESTORE
+          items:
+            $ref: '#/components/schemas/RestoreJobType'
+          type: array
+      type: object
+    ListBackupJobsRequest:
+      example:
+        filters:
+          providerResourceId:
+            in:
+            - i-0f600a1b15b035105
+            notIn:
+            - i-0dcd0d3e17ca4d350
+          jobId:
+            in:
+            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            notIn:
+            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          snapshotId:
+            in:
+            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            notIn:
+            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          startTime:
+            endDate: 2025-07-10
+            startDate: 2025-07-01
+          endTime:
+            endDate: 2025-12-31
+            startDate: 2025-01-01
+          status:
+            in:
+            - JOB_COMPLETED
+            - JOB_FAILED
+            notIn:
+            - JOB_COMPLETED
+            - JOB_FAILED
+          backupType:
+            in:
+            - AWS_EC2_BACKUP
+            - AWS_RDS_BACKUP
+            notIn:
+            - AWS_S3_BACKUP
+            - AWS_EKS_NAMESPACE_BACKUP
+        sorts:
+        - field: startTime
+          order: ASC
+        - field: startTime
+          order: ASC
+      properties:
+        filters:
+          $ref: '#/components/schemas/BackupJobsFilterConditions'
+        sorts:
+          items:
+            $ref: '#/components/schemas/SortBackupJobBy'
+          type: array
+      type: object
+    GcpBigQueryDatasetRestoreResult:
+      example:
+        datasetId: my_restored_dataset
+      nullable: true
+      properties:
+        datasetId:
+          description: ID of the restored BigQuery dataset.
+          example: my_restored_dataset
+          type: string
+      required:
+      - datasetId
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    BackupVault:
+      example:
+        providerAccountId: '123412341234'
+        name: AWS US East 1
+        vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        vaultAttributes:
+          cloudProvider: AWS
+          aws:
+            encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+        id: 37732835-d768-5990-ba93-a7c2d2e6d754
+        isManagedByEon: true
+        region: us-east-1
+      properties:
+        id:
+          description: Vault ID.
+          example: 37732835-d768-5990-ba93-a7c2d2e6d754
+          type: string
+        vaultAccountId:
+          description: Eon-assigned ID of the vault account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        providerAccountId:
+          description: Cloud provider-assigned ID of the vault account.
+          example: '123412341234'
+          type: string
+        name:
+          description: Vault display name.
+          example: AWS US East 1
+          type: string
+        region:
+          description: Region where the vault is located.
+          example: us-east-1
+          type: string
+        isManagedByEon:
+          description: Whether the vault is in an Eon-managed vault account.
+          example: true
+          type: boolean
+        vaultAttributes:
+          $ref: '#/components/schemas/VaultProviderAttributes'
+      required:
+      - id
+      - isManagedByEon
+      - name
+      - providerAccountId
+      - region
+      - vaultAccountId
+      - vaultAttributes
+      type: object
+    ListRestoreJobsResponse:
+      example:
+        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+        jobs:
+        - restoreType: AWS_EC2_INSTANCE_RESTORE
+          destinationDetails:
+            restoreAccountId: 146586e8-f69a-5148-9d7b-7c3a6b006048
+            providerAccountId: '836638811603'
+            cloudProvider: AWS
+            restoreResult:
+              azureDisk:
+                diskId: i-1234567890abcdef0
+              awsEc2Instance:
+                instanceId: i-1234567890abcdef0
+              azureVmInstance:
+                instanceId: instanceId
+              gcpVmInstance:
+                instanceId: instanceId
+              gcpBigQuery:
+                datasetId: my_restored_dataset
+              awsEbsVolume:
+                volumeId: vol-1234567890abcdef0
+            region: us-east-1
+          resourceDetails:
+            providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+            sourceStorageSizeBytes: 561566973952
+            providerAccountId: '123456789012'
+            cloudProvider: AWS
+            resourceName: customers db
+            id: d38906a7-ef8e-50f5-868e-2109ab881b15
+            region: eu-central-1
+            resourceType: AWS_EC2
+          jobExecutionDetails:
+            jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+            durationSeconds: 1338
+            expectedStartTime: 2025-06-12 20:38:35.073285+00:00
+            createdTime: 2025-06-12 20:18:35.073285+00:00
+            errorCode: INVALID_RESOURCE_STATE
+            startTime: 2025-06-12 20:28:35.073285+00:00
+            endTime: 2025-06-12 20:50:53.130436+00:00
+            statusMessage: statusMessage
+            status: JOB_PENDING
+          snapshotDetails:
+            pointInTime: 2024-10-29 23:01:30+00:00
+            expirationTime: 2025-01-20 09:40:26+00:00
+            id: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+          vault:
+            providerAccountId: '123412341234'
+            name: AWS US East 1
+            vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            vaultAttributes:
+              cloudProvider: AWS
+              aws:
+                encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+            id: 37732835-d768-5990-ba93-a7c2d2e6d754
+            isManagedByEon: true
+            region: us-east-1
+        - restoreType: AWS_EC2_INSTANCE_RESTORE
+          destinationDetails:
+            restoreAccountId: 146586e8-f69a-5148-9d7b-7c3a6b006048
+            providerAccountId: '836638811603'
+            cloudProvider: AWS
+            restoreResult:
+              azureDisk:
+                diskId: i-1234567890abcdef0
+              awsEc2Instance:
+                instanceId: i-1234567890abcdef0
+              azureVmInstance:
+                instanceId: instanceId
+              gcpVmInstance:
+                instanceId: instanceId
+              gcpBigQuery:
+                datasetId: my_restored_dataset
+              awsEbsVolume:
+                volumeId: vol-1234567890abcdef0
+            region: us-east-1
+          resourceDetails:
+            providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+            sourceStorageSizeBytes: 561566973952
+            providerAccountId: '123456789012'
+            cloudProvider: AWS
+            resourceName: customers db
+            id: d38906a7-ef8e-50f5-868e-2109ab881b15
+            region: eu-central-1
+            resourceType: AWS_EC2
+          jobExecutionDetails:
+            jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+            durationSeconds: 1338
+            expectedStartTime: 2025-06-12 20:38:35.073285+00:00
+            createdTime: 2025-06-12 20:18:35.073285+00:00
+            errorCode: INVALID_RESOURCE_STATE
+            startTime: 2025-06-12 20:28:35.073285+00:00
+            endTime: 2025-06-12 20:50:53.130436+00:00
+            statusMessage: statusMessage
+            status: JOB_PENDING
+          snapshotDetails:
+            pointInTime: 2024-10-29 23:01:30+00:00
+            expirationTime: 2025-01-20 09:40:26+00:00
+            id: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+          vault:
+            providerAccountId: '123412341234'
+            name: AWS US East 1
+            vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            vaultAttributes:
+              cloudProvider: AWS
+              aws:
+                encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+            id: 37732835-d768-5990-ba93-a7c2d2e6d754
+            isManagedByEon: true
+            region: us-east-1
+        totalCount: 188
+      properties:
+        jobs:
+          description: List of retrieved restore jobs.
+          items:
+            $ref: '#/components/schemas/RestoreJob'
+          type: array
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+          type: string
+        totalCount:
+          description: Total number of restore jobs that matched the filter options.
+          example: 188
+          type: integer
+      required:
+      - jobs
+      - totalCount
+      type: object
+    JobExecutionDetails:
+      example:
+        jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+        durationSeconds: 1338
+        expectedStartTime: 2025-06-12 20:38:35.073285+00:00
+        createdTime: 2025-06-12 20:18:35.073285+00:00
+        errorCode: INVALID_RESOURCE_STATE
+        startTime: 2025-06-12 20:28:35.073285+00:00
+        endTime: 2025-06-12 20:50:53.130436+00:00
+        statusMessage: statusMessage
+        status: JOB_PENDING
+      properties:
+        jobId:
+          description: Job ID.
+          example: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+          type: string
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        createdTime:
+          description: Date and time the job was created.
+          example: 2025-06-12 20:18:35.073285+00:00
+          format: date-time
+          type: string
+        expectedStartTime:
+          description: 'Date and time the job is expected to start.
+
+            Returned only for pending jobs.
+
+            '
+          example: 2025-06-12 20:38:35.073285+00:00
+          format: date-time
+          nullable: true
+          type: string
+        startTime:
+          description: Date and time the job started.
+          example: 2025-06-12 20:28:35.073285+00:00
+          format: date-time
+          nullable: true
+          type: string
+        endTime:
+          description: Date and time the job finished.
+          example: 2025-06-12 20:50:53.130436+00:00
+          format: date-time
+          nullable: true
+          type: string
+        durationSeconds:
+          description: How long the job took, in seconds.
+          example: 1338
+          format: int64
+          nullable: true
+          type: integer
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        statusMessage:
+          description: Message that gives additional details about the job status, if applicable.
+          type: string
+      required:
+      - createdTime
+      - jobId
+      - status
+      type: object
+    BackupJob:
+      example:
+        resourceDetails:
+          providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+          sourceStorageSizeBytes: 561566973952
+          providerAccountId: '123456789012'
+          cloudProvider: AWS
+          resourceName: customers db
+          id: d38906a7-ef8e-50f5-868e-2109ab881b15
+          region: eu-central-1
+          resourceType: AWS_EC2
+        jobExecutionDetails:
+          jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+          durationSeconds: 1338
+          expectedStartTime: 2025-06-12 20:38:35.073285+00:00
+          createdTime: 2025-06-12 20:18:35.073285+00:00
+          errorCode: INVALID_RESOURCE_STATE
+          startTime: 2025-06-12 20:28:35.073285+00:00
+          endTime: 2025-06-12 20:50:53.130436+00:00
+          statusMessage: statusMessage
+          status: JOB_PENDING
+        snapshotDetails:
+          pointInTime: 2024-10-29 23:01:30+00:00
+          expirationTime: 2025-01-20 09:40:26+00:00
+          id: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+        vault:
+          providerAccountId: '123412341234'
+          name: AWS US East 1
+          vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          vaultAttributes:
+            cloudProvider: AWS
+            aws:
+              encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+          id: 37732835-d768-5990-ba93-a7c2d2e6d754
+          isManagedByEon: true
+          region: us-east-1
+        backupType: AWS_EC2_BACKUP
+      properties:
+        jobExecutionDetails:
+          $ref: '#/components/schemas/JobExecutionDetails'
+        resourceDetails:
+          $ref: '#/components/schemas/ResourceDetails'
+        snapshotDetails:
+          $ref: '#/components/schemas/JobSnapshotDetails'
+        backupType:
+          $ref: '#/components/schemas/BackupJobType'
+        vault:
+          $ref: '#/components/schemas/BackupVault'
+      required:
+      - backupType
+      - jobExecutionDetails
+      type: object
+    ResourceType:
+      description: 'Resource type identifier combining cloud provider and service type.
+
+        `RESOURCE_TYPE_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - AWS_EC2
+      - AWS_RDS
+      - AWS_S3
+      - AWS_EFS
+      - AWS_FSX
+      - AWS_EKS_NAMESPACE
+      - AWS_DYNAMO_DB
+      - AWS_EBS_VOLUME
+      - AWS_KEYSPACES_TABLE
+      - AWS_CASSANDRA_CLUSTER
+      - AWS_DOCUMENTDB
+      - AWS_NEPTUNE
+      - AZURE_VIRTUAL_MACHINE
+      - AZURE_FILE_SHARE
+      - AZURE_STORAGE_ACCOUNT
+      - AZURE_DISK
+      - AZURE_SQL_DATABASE
+      - AZURE_SQL_MANAGED_INSTANCE
+      - AZURE_SQL_VIRTUAL_MACHINE
+      - AZURE_SAP_HANA_VM
+      - AZURE_MYSQL
+      - AZURE_POSTGRESQL
+      - AZURE_COSMOSDB_MONGODB
+      - AZURE_COSMOSDB_NOSQL
+      - AZURE_AKS_NAMESPACE
+      - AZURE_CASSANDRA_CLUSTER
+      - ATLAS_MONGODB_CLUSTER
+      - GCP_COMPUTE_ENGINE_INSTANCE
+      - GCP_CLOUD_SQL_INSTANCE
+      - GCP_CLOUD_STORAGE_BUCKET
+      - GCP_GKE_NAMESPACE
+      - GCP_BIG_QUERY
+      - GCP_CLOUD_FIRESTORE
+      - GCP_DISK
+      - GCP_SAP_HANA_VM
+      - GCP_CASSANDRA_CLUSTER
+      - GOOGLE_WORKSPACE_RESOURCE
+      - MICROSOFT_365_RESOURCE
+      - RESOURCE_TYPE_UNSPECIFIED
+      example: AWS_EC2
+      type: string
+      x-docs-internal-enum:
+      - AWS_EBS_VOLUME
+      - AWS_KEYSPACES_TABLE
+      - AWS_CASSANDRA_CLUSTER
+      - GCP_CASSANDRA_CLUSTER
+      - AZURE_CASSANDRA_CLUSTER
+      - AWS_DOCUMENTDB
+      - AWS_NEPTUNE
+      - AZURE_SAP_HANA_VM
+      - AZURE_AKS_NAMESPACE
+      - GCP_GKE_NAMESPACE
+      - GCP_BIG_QUERY
+      - GCP_CLOUD_FIRESTORE
+      - GCP_DISK
+      - GCP_SAP_HANA_VM
+      - GOOGLE_WORKSPACE_RESOURCE
+      - MICROSOFT_365_RESOURCE
+    AwsVaultConfig:
+      description: 'AWS-specific vault configuration.
+
+        '
+      example:
+        encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+      nullable: true
+      properties:
+        encryptionKey:
+          description: 'ARN of the KMS key used for encryption.
+
+            Omitted if the key is managed by Eon.
+
+            '
+          example: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+          type: string
+      type: object
+    StartTimeDateFilters:
+      additionalProperties: false
+      example:
+        endDate: 2025-07-10
+        startDate: 2025-07-01
+      properties:
+        startDate:
+          description: 'Matches if `startTime` is on or later than this date.
+
+            Must be in ISO 8601 YYYY-MM-DD format.
+
+            '
+          example: 2025-07-01
+          type: string
+        endDate:
+          description: 'Matches if `startTime` is on or earlier than this date.
+
+            Must be in ISO 8601 YYYY-MM-DD format.
+
+            '
+          example: 2025-07-10
+          type: string
+      type: object
+    GcpVmInstanceRestoreResult:
+      example:
+        instanceId: instanceId
+      nullable: true
+      properties:
+        instanceId:
+          description: ID of the restored VM instance.
+          type: string
+      required:
+      - instanceId
+      type: object
+    VaultProviderAttributes:
+      description: 'Cloud-provider-specific vault attributes.
+
+        '
+      example:
+        cloudProvider: AWS
+        aws:
+          encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/Provider'
+        aws:
+          $ref: '#/components/schemas/AwsVaultConfig'
+      required:
+      - cloudProvider
+      type: object
+    RestoreJobSortField:
+      description: Field to sort by.
+      enum:
+      - createdTime
+      - startTime
+      - endTime
+      example: startTime
+      type: string
+      x-enum-varnames:
+      - RESTORE_JOB_SORT_CREATED_TIME
+      - RESTORE_JOB_SORT_START_TIME
+      - RESTORE_JOB_SORT_END_TIME
+    ResourceDetails:
+      example:
+        providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+        sourceStorageSizeBytes: 561566973952
+        providerAccountId: '123456789012'
+        cloudProvider: AWS
+        resourceName: customers db
+        id: d38906a7-ef8e-50f5-868e-2109ab881b15
+        region: eu-central-1
+        resourceType: AWS_EC2
+      nullable: true
+      properties:
+        id:
+          description: Eon-assigned resource ID.
+          example: d38906a7-ef8e-50f5-868e-2109ab881b15
+          type: string
+        providerResourceId:
+          description: Cloud-provider-assigned resource ID.
+          example: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+          type: string
+        resourceName:
+          description: Resource display name.
+          example: customers db
+          type: string
+        resourceType:
+          $ref: '#/components/schemas/ResourceType'
+        providerAccountId:
+          description: Cloud-provider-assigned account ID.
+          example: '123456789012'
+          type: string
+        cloudProvider:
+          $ref: '#/components/schemas/Provider'
+        region:
+          description: Region the resource is hosted in.
+          example: eu-central-1
+          type: string
+        sourceStorageSizeBytes:
+          description: Total storage size at the source, in bytes.
+          example: 561566973952
+          format: int64
+          type: integer
+      required:
+      - accountDisplayName
+      - cloudProvider
+      - id
+      - providerAccountId
+      - providerResourceId
+      - region
+      - resourceName
+      - resourceType
+      - sourceStorageSizeBytes
+      type: object
+    JobStatusFilters:
+      additionalProperties: false
+      example:
+        in:
+        - JOB_COMPLETED
+        - JOB_FAILED
+        notIn:
+        - JOB_COMPLETED
+        - JOB_FAILED
+      properties:
+        in:
+          example:
+          - JOB_COMPLETED
+          - JOB_FAILED
+          items:
+            $ref: '#/components/schemas/JobStatus'
+          type: array
+        notIn:
+          example:
+          - JOB_COMPLETED
+          - JOB_FAILED
+          items:
+            $ref: '#/components/schemas/JobStatus'
+          type: array
+      type: object
+    BackupJobType:
+      description: 'Backup job type.
+
+        `BACKUP_JOB_TYPE_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - BACKUP_JOB_TYPE_UNSPECIFIED
+      - AWS_EC2_BACKUP
+      - AWS_EBS_VOLUME_BACKUP
+      - AWS_EC2_SNAPSHOT_CONVERSION
+      - AWS_RDS_BACKUP
+      - AWS_S3_BACKUP
+      - AWS_S3_LLG_BACKUP
+      - AWS_FSX_BACKUP
+      - AWS_EFS_BACKUP
+      - AWS_DOCUMENTDB_BACKUP
+      - AWS_NEPTUNE_BACKUP
+      - AWS_DYNAMO_DB_BACKUP
+      - AWS_DYNAMO_DB_BACKUP_FULL
+      - AWS_EKS_NAMESPACE_BACKUP
+      - AWS_KEYSPACES_BACKUP_FULL
+      - AZURE_STORAGE_ACCOUNT_BACKUP
+      - AZURE_VM_BACKUP
+      - AZURE_VM_RESTORE_POINT_CONVERSION
+      - AZURE_SQL_DATABASE_BACKUP
+      - AZURE_SQL_MANAGED_INSTANCE_BACKUP
+      - AZURE_SQL_VIRTUAL_MACHINE_BACKUP
+      - AZURE_SQL_VIRTUAL_MACHINE_BACKUP_FULL
+      - AZURE_POSTGRESQL_BACKUP
+      - AZURE_MYSQL_BACKUP
+      - GCP_COMPUTE_ENGINE_INSTANCE_BACKUP
+      - GCP_DISK_BACKUP
+      - GCP_CLOUD_STORAGE_BACKUP
+      - GCP_CLOUD_SQL_BACKUP
+      - GCP_BIGQUERY_BACKUP
+      - GCP_SAP_HANA_VM_BACKUP
+      - AZURE_SAP_HANA_VM_BACKUP
+      - ATLAS_MONGODB_CLUSTER_BACKUP
+      - ATLAS_MONGODB_CLUSTER_BACKUP_FULL
+      - GOOGLE_WORKSPACE_BACKUP
+      - MICROSOFT_365_BACKUP
+      example: AWS_EC2_BACKUP
+      type: string
+      x-docs-internal-enum:
+      - AWS_EBS_VOLUME_BACKUP
+      - AWS_S3_LLG_BACKUP
+      - AWS_DOCUMENTDB_BACKUP
+      - AWS_NEPTUNE_BACKUP
+      - AWS_KEYSPACES_BACKUP_FULL
+      - AZURE_VM_RESTORE_POINT_CONVERSION
+      - GCP_DISK_BACKUP
+      - GCP_SAP_HANA_VM_BACKUP
+      - AZURE_SAP_HANA_VM_BACKUP
+      - GOOGLE_WORKSPACE_BACKUP
+      - MICROSOFT_365_BACKUP
+    DestinationDetails:
+      example:
+        restoreAccountId: 146586e8-f69a-5148-9d7b-7c3a6b006048
+        providerAccountId: '836638811603'
+        cloudProvider: AWS
+        restoreResult:
+          azureDisk:
+            diskId: i-1234567890abcdef0
+          awsEc2Instance:
+            instanceId: i-1234567890abcdef0
+          azureVmInstance:
+            instanceId: instanceId
+          gcpVmInstance:
+            instanceId: instanceId
+          gcpBigQuery:
+            datasetId: my_restored_dataset
+          awsEbsVolume:
+            volumeId: vol-1234567890abcdef0
+        region: us-east-1
+      properties:
+        restoreAccountId:
+          description: Eon-assigned restore account ID.
+          example: 146586e8-f69a-5148-9d7b-7c3a6b006048
+          type: string
+        providerAccountId:
+          description: Cloud-provider-assigned restore account ID.
+          example: '836638811603'
+          type: string
+        cloudProvider:
+          $ref: '#/components/schemas/Provider'
+        region:
+          description: Region the data is restored to.
+          example: us-east-1
+          type: string
+        restoreResult:
+          $ref: '#/components/schemas/RestoreResult'
+      required:
+      - cloudProvider
+      - providerAccountId
+      - region
+      - restoreAccountId
+      type: object
+    AzureDiskRestoreResult:
+      example:
+        diskId: i-1234567890abcdef0
+      nullable: true
+      properties:
+        diskId:
+          description: ID of the restored Azure disk.
+          example: i-1234567890abcdef0
+          type: string
+      required:
+      - diskId
+      type: object
+    JobStatus:
+      description: 'Job status.
+
+        `JOB_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - JOB_UNSPECIFIED
+      - JOB_PENDING
+      - JOB_RUNNING
+      - JOB_COMPLETED
+      - JOB_FAILED
+      - JOB_PARTIAL
+      - JOB_CANCELED
+      - JOB_REJECTED
+      - JOB_SKIPPED
+      example: JOB_PENDING
+      type: string
+      x-enum-varnames:
+      - JOB_UNSPECIFIED
+      - JOB_PENDING
+      - JOB_RUNNING
+      - JOB_COMPLETED
+      - JOB_FAILED
+      - JOB_PARTIAL
+      - JOB_CANCELED
+      - JOB_REJECTED
+      - JOB_SKIPPED
+    JobSnapshotDetails:
+      description: Eon snapshot.
+      example:
+        pointInTime: 2024-10-29 23:01:30+00:00
+        expirationTime: 2025-01-20 09:40:26+00:00
+        id: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+      nullable: true
+      properties:
+        id:
+          description: Snapshot ID.
+          example: 67e0447a-10a4-5cde-8fc2-2a8cac051e16
+          type: string
+        pointInTime:
+          description: Date and time of the resource that's preserved by the snapshot.
+          example: 2024-10-29 23:01:30+00:00
+          format: date-time
+          type: string
+        expirationTime:
+          description: Date and time the snapshot's retention is expected to expire, after which it's marked for deletion.
+          example: 2025-01-20 09:40:26+00:00
+          format: date-time
+          type: string
+      required:
+      - pointInTime
+      type: object
+    SortOrder:
+      description: Sort order. Use `ASC` for ascending order and `DESC` for descending order.
+      enum:
+      - ASC
+      - DESC
+      example: ASC
+      type: string
+    ErrorCode:
+      description: Code indicating the type of error.
+      enum:
+      - INTERNAL_JOB_ERROR
+      - JOB_CANCELED_ERROR
+      - CLOUD_OPERATION_FAILED
+      - FAILED_TO_GET_RESOURCE_INFORMATION
+      - RESOURCE_IS_TERMINATED
+      - INVALID_RESOURCE_STATE
+      - INVALID_RESOURCE_CONFIGURATION
+      - RESOURCE_CONFLICT
+      - UNSUPPORTED_OPERATION_ON_RESOURCE
+      - FAILED_TO_CREATE_RESOURCE
+      - FAILED_TO_START_RESOURCE
+      - FAILED_TO_STOP_RESOURCE
+      - FAILED_TO_GET_STORAGE_INFORMATION
+      - FAILED_TO_CREATE_STORAGE
+      - FAILED_TO_DELETE_STORAGE
+      - FAILED_TO_ATTACH_STORAGE
+      - FAILED_TO_DETACH_STORAGE
+      - FAILED_TO_CREATE_IMAGE
+      - FAILED_TO_GET_SNAPSHOT_INFORMATION
+      - FAILED_TO_TAKE_SNAPSHOT
+      - FAILED_TO_USE_SNAPSHOT
+      - FAILED_TO_DELETE_SNAPSHOT
+      - SNAPSHOT_QUOTA_EXCEEDED
+      - RESOURCE_USAGE_QUOTA_EXCEEDED
+      - AUTHENTICATION_FAILURE
+      - INVALID_ACCOUNT_CONFIGURATION
+      - INVALID_VAULT_CONFIGURATION
+      - INVALID_INPUT_PARAMETERS
+      - TOO_MANY_REQUESTS
+      - BACKUP_CONFLICT
+      - CLASSIFICATION_CONFLICT
+      - FAILED_TO_RUN_QUERY
+      - OPERATION_DENIED_BY_CONFIGURATION
+      - INSUFFICIENT_ENCRYPTION_PERMISSIONS
+      example: INVALID_RESOURCE_STATE
+      nullable: true
+      type: string
+    RestoreJobType:
+      description: 'Type of restore.
+
+        This value is a combination of the cloud provider, resource type, and restore method.
+
+        `RESTORE_JOB_TYPE_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - RESTORE_JOB_TYPE_UNSPECIFIED
+      - AWS_S3_OBJECT_RESTORE
+      - AWS_S3_BUCKET_RESTORE
+      - AWS_EC2_FILE_RESTORE
+      - AWS_EC2_INSTANCE_RESTORE
+      - AWS_EC2_AMI_CONVERT
+      - AWS_EC2_EBS_VOLUME_RESTORE
+      - AWS_EC2_EBS_SNAPSHOT_CONVERT
+      - AWS_EC2_RECORD_RESTORE
+      - AWS_EBS_VOLUME_RESTORE
+      - AWS_EBS_SNAPSHOT_CONVERT
+      - AWS_RDS_INSTANCE_RESTORE
+      - AWS_RDS_RECORD_RESTORE
+      - AWS_EKS_NAMESPACE_RESTORE
+      - AWS_EKS_NAMESPACE_RECORD_RESTORE
+      - AWS_EKS_FILE_RESTORE
+      - AWS_DYNAMO_DB_TABLE_RESTORE
+      - AWS_DYNAMO_DB_TABLE_TO_EXISTING_TABLE_RESTORE
+      - AWS_DYNAMO_DB_RESTORE_TO_S3
+      - AWS_DYNAMO_DB_RECORD_RESTORE
+      - AZURE_STORAGE_ACCOUNT_RESTORE
+      - AZURE_STORAGE_ACCOUNT_BLOB_RESTORE
+      - AZURE_VM_FILE_RESTORE
+      - AZURE_VM_DISK_RESTORE
+      - AZURE_VM_INSTANCE_RESTORE
+      - AZURE_VM_RECORD_RESTORE
+      - AZURE_SQL_DATABASE_RECORD_RESTORE
+      - AZURE_SQL_DATABASE_RESTORE
+      - AZURE_SQL_VM_INSTANCE_RESTORE
+      - AZURE_SQL_VM_RECORD_RESTORE
+      - AZURE_POSTGRESQL_RECORD_RESTORE
+      - AZURE_SAP_HANA_VM_INSTANCE_RESTORE
+      - GCP_CLOUD_STORAGE_BUCKET_RESTORE
+      - GCP_CLOUD_STORAGE_OBJECT_RESTORE
+      - GCP_COMPUTE_ENGINE_FILE_RESTORE
+      - GCP_COMPUTE_ENGINE_DISK_RESTORE
+      - GCP_COMPUTE_ENGINE_INSTANCE_RESTORE
+      - GCP_COMPUTE_ENGINE_RECORD_RESTORE
+      - GCP_CLOUD_SQL_DATABASE_RESTORE
+      - GCP_CLOUD_SQL_RECORD_RESTORE
+      - GCP_BIGQUERY_DATASET_RESTORE
+      - GCP_BIGQUERY_RECORD_RESTORE
+      - GCP_BIGQUERY_NATIVE_RESTORE_DATASET
+      - GCP_BIGQUERY_NATIVE_RESTORE_TABLE
+      - RDS_NATIVE_PITR_RESTORE
+      - AWS_FSX_RESTORE
+      - AWS_DOCUMENTDB_RESTORE
+      - AWS_NEPTUNE_RESTORE
+      - GCP_SAP_HANA_VM_INSTANCE_RESTORE
+      - AWS_KEYSPACES_TABLE_RESTORE
+      - AWS_KEYSPACES_RECORD_RESTORE
+      - ATLAS_CLUSTER_RESTORE
+      - ATLAS_CLUSTER_RECORD_RESTORE
+      - MICROSOFT_365_RESTORE
+      - GOOGLE_WORKSPACE_RESTORE
+      - EXPORT_ACCESS_DENIED_ITEMS
+      example: AWS_EC2_INSTANCE_RESTORE
+      type: string
+      x-docs-internal-enum:
+      - AWS_EBS_VOLUME_RESTORE
+      - AWS_EBS_SNAPSHOT_CONVERT
+      - AWS_DYNAMO_DB_RESTORE_TO_S3
+      - AZURE_POSTGRESQL_RECORD_RESTORE
+      - AZURE_SAP_HANA_VM_INSTANCE_RESTORE
+      - AWS_DOCUMENTDB_RESTORE
+      - AWS_NEPTUNE_RESTORE
+      - GCP_SAP_HANA_VM_INSTANCE_RESTORE
+      - AWS_KEYSPACES_TABLE_RESTORE
+      - AWS_KEYSPACES_RECORD_RESTORE
+      - MICROSOFT_365_RESTORE
+      - GOOGLE_WORKSPACE_RESTORE
+      - EXPORT_ACCESS_DENIED_ITEMS
+  securitySchemes:
+    ApiKeyAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

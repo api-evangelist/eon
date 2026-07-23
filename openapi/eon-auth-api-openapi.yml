@@ -1,0 +1,385 @@
+openapi: 3.0.0
+info:
+  description: The Eon.io REST API
+  title: Eon accounts auth API
+  version: 1.0.0
+servers:
+- url: /
+security:
+- ApiKeyAuth: []
+tags:
+- description: Authentication and access token management.
+  name: auth
+  x-displayName: Auth
+paths:
+  /v1/api-credentials/{clientId}/rotate:
+    post:
+      description: 'Description: Replaces the client secret for the specified API client credentials.
+
+
+        This method can be used to rotate a secret for the API credentials specified in the request body.
+
+        To replace the client secret for the access key passed in the `Authorization` header, you can also use [Rotate Current API Client Secret].
+
+
+        Once replaced, the old client secret can''t be used to authenticate or obtain new tokens.
+
+        However, access tokens that were issued before the rotation remain valid until they expire.
+
+        This means there is an effective grace period of up to 12 hours where previously issued access tokens continue to work, even though the client secret used to obtain them has been rotated.
+
+
+        [Rotate Current API Client Secret]: ./rotate-current-api-client-secret
+
+        '
+      operationId: rotateApiClientSecret
+      parameters:
+      - description: API client ID.
+        example: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
+        explode: false
+        in: path
+        name: clientId
+        required: true
+        schema:
+          format: tobedefined
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiCredentials'
+          description: Client secret rotated.
+        '404':
+          description: API credentials weren't found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Rotate API Client Secret
+      tags:
+      - auth
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:rotate_api_credentials_secret
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: api_token
+          in: path
+          key: id
+  /v1/api-credentials/current/rotate:
+    post:
+      description: 'Description: Replaces the client secret for the currently used set of API credentials.
+
+
+        This method can be used to rotate a secret only for the access key passed in the `Authorization` header.
+
+        To replace client secrets for other sets of API credentials, use [Rotate API Client Secret].
+
+
+        Once replaced, the old client secret can''t be used to authenticate or obtain new tokens.
+
+        However, access tokens that were issued before the rotation remain valid until they expire.
+
+        This means there is an effective grace period of up to 12 hours where previously issued access tokens continue to work, even though the client secret used to obtain them has been rotated.
+
+
+        [Rotate API Client Secret]: ./rotate-api-client-secret
+
+        '
+      operationId: rotateCurrentApiClientSecret
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiCredentials'
+          description: Client secret rotated.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Rotate Current API Client Secret
+      tags:
+      - auth
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - update:rotate_self_api_credentials_secret
+      x-audit-log:
+        action: update
+        entityRefs:
+        - entityType: api_token
+          in: path
+          key: id
+  /v1/token:
+    post:
+      description: 'Description: Retrieves an access token, which you then pass in the `Authorization` header when calling API methods.
+
+
+        The client ID and secret you provide when calling this method must be from a set of API credentials from your Eon account.
+
+        To learn more about creating API credentials and completing the authentication flow, see [Authentication](/api/using-the-api/authentication).
+
+
+        The returned access token has the permissions included in the role you assigned to the API credentials.
+
+        Always make sure the API credentials have the permissions needed for the API methods you want to use it for.
+
+
+        The access token is valid for 12 hours.
+
+        After that, you must call this method again to get a new token.
+
+        '
+      operationId: getAccessToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiCredentials'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+          description: Authenticated
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: API credentials not found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      security: []
+      summary: Get Access Token
+      tags:
+      - auth
+      x-permissions: []
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-audit-log:
+        excluded: false
+        action: auth
+  /v1/oauth2/token:
+    post:
+      description: 'Description: Retrieves an access token using an OAuth-2.0-compliant flow.
+
+        Accepts form-encoded credentials using standard `client_id` and `client_secret` field names.
+
+
+        This method is specifically designed for OAuth 2.0 clients like Grafana that send credentials as form-encoded data.
+
+        For JSON-based API calls, use [Get Access Token].
+
+
+        The client ID and secret you provide when calling this method must be from a set of API credentials from your Eon account.
+
+        To learn more about creating API credentials and completing the authentication flow, see [Authentication](/api/using-the-api/authentication).
+
+
+        The returned access token has the permissions included in the role you assigned to the API credentials.
+
+        Always make sure the API credentials have the permissions needed for the API methods you want to use it for.
+
+
+        The access token is valid for 12 hours.
+
+        After that, you must call this method again to get a new token.
+
+
+        [Get Access Token]: ./get-access-token
+
+        '
+      operationId: getAccessTokenOAuth2
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OAuth2TokenRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Oauth2TokenResponse'
+          description: Authenticated
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: API credentials not found.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      security: []
+      summary: Get Access Token (OAuth 2)
+      tags:
+      - auth
+      x-permissions: []
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-audit-log:
+        excluded: false
+        action: auth
+components:
+  schemas:
+    TokenResponse:
+      example:
+        expirationSeconds: 43200
+        accessToken: accessToken
+      properties:
+        accessToken:
+          description: Access token, which you pass in the `Authorization` header when calling API methods.
+          type: string
+        expirationSeconds:
+          description: 'Length of time until the token expires, in seconds.
+
+
+            Default: `43200` (12 hours).
+
+            '
+          example: 43200
+          type: integer
+      type: object
+    Oauth2TokenResponse:
+      example:
+        access_token: access_token
+        token_type: Bearer
+        expires_in: 43200
+      properties:
+        access_token:
+          description: Access token, which you pass in the `Authorization` header when calling API methods.
+          type: string
+        token_type:
+          description: Type of the token, which is always `Bearer`.
+          example: Bearer
+          type: string
+        expires_in:
+          description: 'Length of time until the token expires, in seconds.
+
+            Default: `43200` (12 hours).
+
+            '
+          example: 43200
+          type: integer
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    ApiCredentials:
+      additionalProperties: false
+      example:
+        clientId: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
+        clientSecret: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
+      properties:
+        clientId:
+          description: API client ID.
+          example: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
+          type: string
+        clientSecret:
+          description: API client secret.
+          example: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
+          type: string
+      required:
+      - clientId
+      - clientSecret
+      type: object
+    OAuth2TokenRequest:
+      additionalProperties: false
+      properties:
+        client_id:
+          description: API client ID.
+          example: rachelyaf5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
+          type: string
+        client_secret:
+          description: API client secret.
+          example: eon_sample008789765400caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
+          type: string
+        grant_type:
+          description: 'The OAuth 2.0 grant type you''re using.
+
+            Must be `client_credentials`.
+
+            '
+          enum:
+          - client_credentials
+          example: client_credentials
+          type: string
+      required:
+      - client_id
+      - client_secret
+      - grant_type
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

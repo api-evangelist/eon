@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  description: The Eon.io REST API
+  title: Eon accounts dashboard API
+  version: 1.0.0
+servers:
+- url: /
+security:
+- ApiKeyAuth: []
+tags:
+- name: dashboard
+paths:
+  /v1/projects/{projectId}/dashboard/daily-storage-summary:
+    get:
+      description: 'Description: Retrieves a list of snapshot storage sizes per day for the given date range.'
+      operationId: getDailyStorageSummaries
+      parameters:
+      - description: 'ID of the project whose daily storage summaries you want to retrieve.
+
+          You can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.
+
+          '
+        example: f9304613-dddb-52fe-b883-f5e671a868a3
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: First day of the date range in `YYYY-MM-DD` format.
+        explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - description: Last day of the date range in `YYYY-MM-DD` format.
+        explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyStorageSummaries'
+          description: Daily storage summaries retrieved.
+        1XX:
+          description: Informational
+        3XX:
+          description: Redirect
+        4XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Client Error
+        5XX:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get Daily Storage Summaries
+      tags:
+      - dashboard
+      x-internal: false
+      x-data-access:
+        excluded: true
+      x-permissions:
+      - read:dashboard
+      x-audit-log:
+        excluded: true
+components:
+  schemas:
+    DailyStorageSummary:
+      example:
+        summaryDay: 2024-11-01 00:00:00+00:00
+        dailyStorageBytes: 225000000000000
+      properties:
+        summaryDay:
+          description: Date the storage is calculated for.
+          example: 2024-11-01 00:00:00+00:00
+          format: date-time
+          type: string
+        dailyStorageBytes:
+          description: Total snapshot storage for the day, in bytes.
+          example: 225000000000000
+          format: int64
+          type: integer
+      required:
+      - dailyStorageBytes
+      - summaryDay
+      type: object
+    DailyStorageSummaries:
+      example:
+        data:
+        - summaryDay: 2024-11-01 00:00:00+00:00
+          dailyStorageBytes: 225000000000000
+        - summaryDay: 2024-11-01 00:00:00+00:00
+          dailyStorageBytes: 225000000000000
+      properties:
+        data:
+          description: List of daily storage summaries.
+          items:
+            $ref: '#/components/schemas/DailyStorageSummary'
+          type: array
+      required:
+      - data
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
