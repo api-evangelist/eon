@@ -1,0 +1,21 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/eon-openapi-original.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  evidence: all operations namespaced under /v1/
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: No published deprecation policy or Sunset/Deprecation header support found.
+sla:
+  url: null
+status_page: null
+assurance_reports:
+  source: https://trust.eon.io/
+  available:
+  - SOC 2 Type II report
+  - Penetration Test report
+  - Disaster Recovery Test report
+deprecated_operations: []

@@ -1,0 +1,37 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/eon-openapi-original.yml
+format: custom
+envelope:
+  media_type: application/json
+  shape: '{ "error": "<message string>" }'
+  schema: Error
+  notes: Eon returns a flat JSON error envelope with a single `error` string field; it is
+    not RFC 9457 application/problem+json.
+problems:
+- status: 400
+  title: Validation error
+  description: The request failed input validation (INVALID_INPUT_PARAMETERS).
+  remediation: Correct the request body or query parameters and retry.
+- status: 403
+  title: Insufficient permissions
+  description: The caller's role lacks permission for the requested object or action.
+  remediation: Grant the required IAM role/permission or request approval via the action-approval flow.
+- status: 404
+  title: Resource not found
+  description: The referenced resource (role, vault, snapshot, account, job) does not exist.
+  remediation: Verify the resource id and project scope.
+- status: 409
+  title: Conflict
+  description: The resource conflicts with existing state (e.g. a role with the same name, backup conflict).
+  remediation: Use a unique name or resolve the conflicting state before retrying.
+- status: 429
+  title: Too many requests
+  description: Rate or concurrency limit exceeded (e.g. simultaneous on-demand backups, TOO_MANY_REQUESTS).
+  remediation: Back off and retry with exponential delay.
+- status: '4XX'
+  title: Client error
+  description: Generic client error envelope for unenumerated 4xx conditions.
+- status: '5XX'
+  title: Internal server error
+  description: Generic server error envelope for unenumerated 5xx conditions.

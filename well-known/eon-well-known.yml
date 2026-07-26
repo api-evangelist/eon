@@ -1,0 +1,27 @@
+generated: '2026-07-19'
+method: searched
+source: live probes of eon.io + docs.eon.io well-known paths
+hosts:
+- host: https://docs.eon.io
+  documents:
+  - path: /.well-known/api-catalog
+    status: 200
+    file: eon-api-catalog.json
+    profile: 'https://www.rfc-editor.org/info/rfc9727'
+    notes: RFC 9727 API catalog present but linkset is currently empty.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+- host: https://eon.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404

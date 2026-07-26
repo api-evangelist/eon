@@ -1,0 +1,68 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/eon-openapi-original.yml
+notes: Entity graph derived from OpenAPI path templating ({projectId}, {accountId}, {vaultId},
+  {snapshotId}, {backupPolicyId}, {roleId}, {jobId}) and id-reference fields. Project is the
+  top-level tenant scope for most resources.
+entities:
+- name: Project
+  id_param: projectId
+  root: true
+  relationships:
+  - {kind: has_many, target: SourceAccount, via: projectId}
+  - {kind: has_many, target: RestoreAccount, via: projectId}
+  - {kind: has_many, target: Vault, via: projectId}
+  - {kind: has_many, target: InventoryResource, via: projectId}
+  - {kind: has_many, target: BackupPolicy, via: projectId}
+  - {kind: has_many, target: Snapshot, via: projectId}
+  - {kind: has_many, target: Job, via: projectId}
+- name: SourceAccount
+  id_param: accountId
+  relationships:
+  - {kind: belongs_to, target: Project, via: projectId}
+  - {kind: has_many, target: SourceAwsOrganizationalUnit, via: organizationalUnitId}
+  - {kind: has_many, target: InventoryResource, via: accountId}
+- name: RestoreAccount
+  id_param: accountId
+  relationships:
+  - {kind: belongs_to, target: Project, via: projectId}
+  - {kind: has_many, target: RestoreAwsOrganizationalUnit, via: organizationalUnitId}
+- name: InventoryResource
+  id_param: id
+  relationships:
+  - {kind: belongs_to, target: SourceAccount, via: accountId}
+  - {kind: has_many, target: Snapshot, via: id}
+  - {kind: has_many, target: InventoryVolume, via: volumeId}
+- name: BackupPolicy
+  id_param: backupPolicyId
+  relationships:
+  - {kind: belongs_to, target: Project, via: projectId}
+- name: Vault
+  id_param: vaultId
+  relationships:
+  - {kind: belongs_to, target: Project, via: projectId}
+  - {kind: has_many, target: Snapshot, via: vaultId}
+- name: Snapshot
+  id_param: snapshotId
+  relationships:
+  - {kind: belongs_to, target: InventoryResource, via: resourceId}
+  - {kind: belongs_to, target: Vault, via: vaultId}
+- name: Job
+  id_param: jobId
+  variants: [BackupJob, RestoreJob]
+  relationships:
+  - {kind: belongs_to, target: Project, via: projectId}
+- name: Role
+  id_param: roleId
+  domain: iam
+  relationships:
+  - {kind: has_many, target: Permission, via: permissionId}
+  - {kind: has_many, target: IdpGroupAssignment, via: groupId}
+- name: MPARequest
+  id_param: requestId
+  domain: action-approvals
+  relationships:
+  - {kind: belongs_to, target: Project, via: projectId}
+- name: ApiClient
+  id_param: clientId
+  domain: auth

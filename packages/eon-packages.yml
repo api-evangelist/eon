@@ -1,0 +1,20 @@
+generated: '2026-07-19'
+method: searched
+source: https://github.com/eon-io
+packages:
+- language: go
+  registry: pkg.go.dev
+  name: github.com/eon-io/eon-sdk-go
+  url: https://pkg.go.dev/github.com/eon-io/eon-sdk-go
+  repo: https://github.com/eon-io/eon-sdk-go
+  install: go get github.com/eon-io/eon-sdk-go
+  official: true
+  notes: Official Go SDK for the Eon API, generated with OpenAPI Generator from api/openapi.yaml.
+- language: hcl
+  registry: terraform-registry
+  name: eon-io/eon
+  url: https://registry.terraform.io/providers/eon-io/eon
+  repo: https://github.com/eon-io/terraform-provider-eon
+  install: 'terraform: required_providers { eon = { source = "eon-io/eon" } }'
+  official: true
+  notes: Official Terraform provider for managing Eon backup resources as infrastructure-as-code.

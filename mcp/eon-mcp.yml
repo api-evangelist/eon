@@ -1,0 +1,314 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/eon-openapi-original.yml
+notes: >-
+  No official hosted MCP server URL was found. The Eon GitHub org publishes agent/editor plugins
+  (claude-code-eon-plugin, cursor-eon-plugin, codex-eon-plugin) and the homepage advertises "MCP and
+  A2A connectors", but no public MCP endpoint/manifest is documented. Tools below are candidate
+  one-per-operation mappings derived from the OpenAPI for a would-be server.
+server:
+  name: eon
+  transport: http
+related_plugins:
+- https://github.com/eon-io/claude-code-eon-plugin
+- https://github.com/eon-io/cursor-eon-plugin
+- https://github.com/eon-io/codex-eon-plugin
+tools:
+- name: listPermissions
+  description: List Permissions
+  source_operation: openapi/eon-openapi-original.yml#listPermissions
+- name: createRole
+  description: Create Role
+  source_operation: openapi/eon-openapi-original.yml#createRole
+- name: listRoles
+  description: List Roles
+  source_operation: openapi/eon-openapi-original.yml#listRoles
+- name: deleteRole
+  description: Delete Role
+  source_operation: openapi/eon-openapi-original.yml#deleteRole
+- name: getRole
+  description: Get Role
+  source_operation: openapi/eon-openapi-original.yml#getRole
+- name: updateRole
+  description: Update Role
+  source_operation: openapi/eon-openapi-original.yml#updateRole
+- name: listIdps
+  description: List Identity Providers
+  source_operation: openapi/eon-openapi-original.yml#listIdps
+- name: createIdpGroup
+  description: Create IdP Group Role Assignment
+  source_operation: openapi/eon-openapi-original.yml#createIdpGroup
+- name: listIdpGroups
+  description: List IdP Group Role Assignments
+  source_operation: openapi/eon-openapi-original.yml#listIdpGroups
+- name: deleteIdpGroup
+  description: Delete IdP Group Role Assignment
+  source_operation: openapi/eon-openapi-original.yml#deleteIdpGroup
+- name: getIdpGroup
+  description: Get IdP Group Role Assignment
+  source_operation: openapi/eon-openapi-original.yml#getIdpGroup
+- name: updateIdpGroup
+  description: Update IdP Group Role Assignment
+  source_operation: openapi/eon-openapi-original.yml#updateIdpGroup
+- name: connectSourceAccount
+  description: Connect Source Account
+  source_operation: openapi/eon-openapi-original.yml#connectSourceAccount
+- name: listSourceAccounts
+  description: List Source Accounts
+  source_operation: openapi/eon-openapi-original.yml#listSourceAccounts
+- name: deleteSourceAccount
+  description: Delete Source Account
+  source_operation: openapi/eon-openapi-original.yml#deleteSourceAccount
+- name: getSourceAccount
+  description: Get Source Account
+  source_operation: openapi/eon-openapi-original.yml#getSourceAccount
+- name: updateSourceAccount
+  description: Update Source Account
+  source_operation: openapi/eon-openapi-original.yml#updateSourceAccount
+- name: DisconnectSourceAccount
+  description: Disconnect Source Account
+  source_operation: openapi/eon-openapi-original.yml#DisconnectSourceAccount
+- name: ReconnectSourceAccount
+  description: Reconnect Source Account
+  source_operation: openapi/eon-openapi-original.yml#ReconnectSourceAccount
+- name: disableSourceAccountMetricsConfig
+  description: Disable Source Account Metrics
+  source_operation: openapi/eon-openapi-original.yml#disableSourceAccountMetricsConfig
+- name: getSourceAccountMetricsConfig
+  description: Get Source Account Metrics Configuration
+  source_operation: openapi/eon-openapi-original.yml#getSourceAccountMetricsConfig
+- name: enableSourceAccountMetricsConfig
+  description: Configure Source Account Metrics
+  source_operation: openapi/eon-openapi-original.yml#enableSourceAccountMetricsConfig
+- name: connectSourceAwsOrganizationalUnit
+  description: Connect Source AWS Organizational Unit
+  source_operation: openapi/eon-openapi-original.yml#connectSourceAwsOrganizationalUnit
+- name: listSourceAwsOrganizationalUnits
+  description: List Source AWS Organizational Units
+  source_operation: openapi/eon-openapi-original.yml#listSourceAwsOrganizationalUnits
+- name: reconnectSourceAwsOrganizationalUnit
+  description: Reconnect Source AWS Organizational Unit
+  source_operation: openapi/eon-openapi-original.yml#reconnectSourceAwsOrganizationalUnit
+- name: disconnectSourceAwsOrganizationalUnit
+  description: Disconnect Source AWS Organizational Unit
+  source_operation: openapi/eon-openapi-original.yml#disconnectSourceAwsOrganizationalUnit
+- name: connectRestoreAwsOrganizationalUnit
+  description: Connect Restore AWS Organizational Unit
+  source_operation: openapi/eon-openapi-original.yml#connectRestoreAwsOrganizationalUnit
+- name: listRestoreAwsOrganizationalUnits
+  description: List Restore AWS Organizational Units
+  source_operation: openapi/eon-openapi-original.yml#listRestoreAwsOrganizationalUnits
+- name: reconnectRestoreAwsOrganizationalUnit
+  description: Reconnect Restore AWS Organizational Unit
+  source_operation: openapi/eon-openapi-original.yml#reconnectRestoreAwsOrganizationalUnit
+- name: disconnectRestoreAwsOrganizationalUnit
+  description: Disconnect Restore AWS Organizational Unit
+  source_operation: openapi/eon-openapi-original.yml#disconnectRestoreAwsOrganizationalUnit
+- name: connectRestoreAccount
+  description: Connect Restore Account
+  source_operation: openapi/eon-openapi-original.yml#connectRestoreAccount
+- name: listRestoreAccounts
+  description: List Restore Accounts
+  source_operation: openapi/eon-openapi-original.yml#listRestoreAccounts
+- name: DeleteRestoreAccountV1
+  description: Delete Restore Account
+  source_operation: openapi/eon-openapi-original.yml#DeleteRestoreAccountV1
+- name: getRestoreAccount
+  description: Get Restore Account
+  source_operation: openapi/eon-openapi-original.yml#getRestoreAccount
+- name: updateRestoreAccount
+  description: Update Restore Account
+  source_operation: openapi/eon-openapi-original.yml#updateRestoreAccount
+- name: DisconnectRestoreAccount
+  description: Disconnect Restore Account
+  source_operation: openapi/eon-openapi-original.yml#DisconnectRestoreAccount
+- name: ReconnectRestoreAccount
+  description: Reconnect Restore Account
+  source_operation: openapi/eon-openapi-original.yml#ReconnectRestoreAccount
+- name: deleteRestoreAccountConnectivityConfig
+  description: Delete Restore Account Connectivity Configuration
+  source_operation: openapi/eon-openapi-original.yml#deleteRestoreAccountConnectivityConfig
+- name: getRestoreAccountConnectivityConfig
+  description: Get Restore Account Connectivity Configuration
+  source_operation: openapi/eon-openapi-original.yml#getRestoreAccountConnectivityConfig
+- name: updateRestoreAccountConnectivityConfig
+  description: Update Restore Account Connectivity Configuration
+  source_operation: openapi/eon-openapi-original.yml#updateRestoreAccountConnectivityConfig
+- name: disableRestoreAccountMetricsConfig
+  description: Disable Restore Account Metrics
+  source_operation: openapi/eon-openapi-original.yml#disableRestoreAccountMetricsConfig
+- name: getRestoreAccountMetricsConfig
+  description: Get Restore Account Metrics Configuration
+  source_operation: openapi/eon-openapi-original.yml#getRestoreAccountMetricsConfig
+- name: enableRestoreAccountMetricsConfig
+  description: Configure Restore Account Metrics
+  source_operation: openapi/eon-openapi-original.yml#enableRestoreAccountMetricsConfig
+- name: listBackupJobs
+  description: List Backup Jobs
+  source_operation: openapi/eon-openapi-original.yml#listBackupJobs
+- name: getBackupJob
+  description: Get Backup Job
+  source_operation: openapi/eon-openapi-original.yml#getBackupJob
+- name: listRestoreJobs
+  description: List Restore Jobs
+  source_operation: openapi/eon-openapi-original.yml#listRestoreJobs
+- name: getRestoreJob
+  description: Get Restore Job
+  source_operation: openapi/eon-openapi-original.yml#getRestoreJob
+- name: takeSnapshot
+  description: Take Snapshot
+  source_operation: openapi/eon-openapi-original.yml#takeSnapshot
+- name: getObjectStoreScanMethod
+  description: Get object-store scan method
+  source_operation: openapi/eon-openapi-original.yml#getObjectStoreScanMethod
+- name: updateObjectStoreScanMethod
+  description: Update object-store scan method
+  source_operation: openapi/eon-openapi-original.yml#updateObjectStoreScanMethod
+- name: createBackupPolicy
+  description: Create Backup Policy
+  source_operation: openapi/eon-openapi-original.yml#createBackupPolicy
+- name: listBackupPolicies
+  description: List Backup Policies
+  source_operation: openapi/eon-openapi-original.yml#listBackupPolicies
+- name: deleteBackupPolicy
+  description: Delete Backup Policy
+  source_operation: openapi/eon-openapi-original.yml#deleteBackupPolicy
+- name: getBackupPolicy
+  description: Get Backup Policy
+  source_operation: openapi/eon-openapi-original.yml#getBackupPolicy
+- name: updateBackupPolicy
+  description: Update Backup Policy
+  source_operation: openapi/eon-openapi-original.yml#updateBackupPolicy
+- name: createVault
+  description: Create Vault
+  source_operation: openapi/eon-openapi-original.yml#createVault
+- name: getVault
+  description: Get Vault
+  source_operation: openapi/eon-openapi-original.yml#getVault
+- name: updateVault
+  description: Update Vault
+  source_operation: openapi/eon-openapi-original.yml#updateVault
+- name: listVaults
+  description: List Vaults
+  source_operation: openapi/eon-openapi-original.yml#listVaults
+- name: restoreFiles
+  description: Restore Files
+  source_operation: openapi/eon-openapi-original.yml#restoreFiles
+- name: restoreBucket
+  description: Restore Bucket
+  source_operation: openapi/eon-openapi-original.yml#restoreBucket
+- name: restoreBigQueryDataset
+  description: Restore BigQuery Dataset
+  source_operation: openapi/eon-openapi-original.yml#restoreBigQueryDataset
+- name: restoreEbsVolume
+  description: Restore EBS Volume
+  source_operation: openapi/eon-openapi-original.yml#restoreEbsVolume
+- name: restoreToEbsSnapshot
+  description: Restore to EBS Snapshot
+  source_operation: openapi/eon-openapi-original.yml#restoreToEbsSnapshot
+- name: restoreDatabase
+  description: Restore RDS Instance
+  source_operation: openapi/eon-openapi-original.yml#restoreDatabase
+- name: restoreEc2Instance
+  description: Restore EC2 Instance
+  source_operation: openapi/eon-openapi-original.yml#restoreEc2Instance
+- name: restoreDynamoDBTable
+  description: Restore DynamoDB Table
+  source_operation: openapi/eon-openapi-original.yml#restoreDynamoDBTable
+- name: restoreAzureVmInstance
+  description: Restore Azure VM Instance
+  source_operation: openapi/eon-openapi-original.yml#restoreAzureVmInstance
+- name: restoreAzureSqlDatabase
+  description: Restore Azure SQL Database
+  source_operation: openapi/eon-openapi-original.yml#restoreAzureSqlDatabase
+- name: restoreAzureDisk
+  description: Restore Azure Disk
+  source_operation: openapi/eon-openapi-original.yml#restoreAzureDisk
+- name: restoreGcpDisk
+  description: Restore GCP Disk
+  source_operation: openapi/eon-openapi-original.yml#restoreGcpDisk
+- name: restoreGcpVmInstance
+  description: Restore GCP VM Instance
+  source_operation: openapi/eon-openapi-original.yml#restoreGcpVmInstance
+- name: restoreGcpCloudSql
+  description: Restore GCP Cloud SQL Instance
+  source_operation: openapi/eon-openapi-original.yml#restoreGcpCloudSql
+- name: runQuery
+  description: Run Query
+  source_operation: openapi/eon-openapi-original.yml#runQuery
+- name: getQueryStatus
+  description: Get Query Status
+  source_operation: openapi/eon-openapi-original.yml#getQueryStatus
+- name: getQueryResult
+  description: Get Query Result
+  source_operation: openapi/eon-openapi-original.yml#getQueryResult
+- name: listResources
+  description: List Resources
+  source_operation: openapi/eon-openapi-original.yml#listResources
+- name: getResource
+  description: Get Resource
+  source_operation: openapi/eon-openapi-original.yml#getResource
+- name: removeDataClassesOverride
+  description: Remove Data Classes Override
+  source_operation: openapi/eon-openapi-original.yml#removeDataClassesOverride
+- name: overrideDataClasses
+  description: Override Data Classes
+  source_operation: openapi/eon-openapi-original.yml#overrideDataClasses
+- name: removeEnvironmentOverride
+  description: Remove Environment Override
+  source_operation: openapi/eon-openapi-original.yml#removeEnvironmentOverride
+- name: overrideEnvironment
+  description: Override Environment
+  source_operation: openapi/eon-openapi-original.yml#overrideEnvironment
+- name: excludeResourceFromBackup
+  description: Exclude Resource from Backup
+  source_operation: openapi/eon-openapi-original.yml#excludeResourceFromBackup
+- name: cancelResourceBackupExclusion
+  description: Cancel Resource Backup Exclusion
+  source_operation: openapi/eon-openapi-original.yml#cancelResourceBackupExclusion
+- name: excludeVolumeFromBackup
+  description: Exclude Volume from Backup
+  source_operation: openapi/eon-openapi-original.yml#excludeVolumeFromBackup
+- name: cancelVolumeBackupExclusion
+  description: Cancel Volume Backup Exclusion
+  source_operation: openapi/eon-openapi-original.yml#cancelVolumeBackupExclusion
+- name: getSnapshot
+  description: Get Snapshot
+  source_operation: openapi/eon-openapi-original.yml#getSnapshot
+- name: holdSnapshot
+  description: Hold Snapshot
+  source_operation: openapi/eon-openapi-original.yml#holdSnapshot
+- name: removeSnapshotHold
+  description: Remove Snapshot Hold
+  source_operation: openapi/eon-openapi-original.yml#removeSnapshotHold
+- name: listResourceSnapshots
+  description: List Resource Snapshots
+  source_operation: openapi/eon-openapi-original.yml#listResourceSnapshots
+- name: rotateApiClientSecret
+  description: Rotate API Client Secret
+  source_operation: openapi/eon-openapi-original.yml#rotateApiClientSecret
+- name: rotateCurrentApiClientSecret
+  description: Rotate Current API Client Secret
+  source_operation: openapi/eon-openapi-original.yml#rotateCurrentApiClientSecret
+- name: getAccessToken
+  description: Get Access Token
+  source_operation: openapi/eon-openapi-original.yml#getAccessToken
+- name: getAccessTokenOAuth2
+  description: Get Access Token (OAuth 2)
+  source_operation: openapi/eon-openapi-original.yml#getAccessTokenOAuth2
+- name: queryCostData
+  description: Query Cost Data
+  source_operation: openapi/eon-openapi-original.yml#queryCostData
+- name: getDailyStorageSummaries
+  description: Get Daily Storage Summaries
+  source_operation: openapi/eon-openapi-original.yml#getDailyStorageSummaries
+- name: getMyActionApprovalRequest
+  description: Get My Action Approval Request
+  source_operation: openapi/eon-openapi-original.yml#getMyActionApprovalRequest
+- name: cancelActionApprovalRequest
+  description: Cancel Action Approval Request
+  source_operation: openapi/eon-openapi-original.yml#cancelActionApprovalRequest
+- name: createActionApprovalRequest
+  description: Create Action Approval Request
+  source_operation: openapi/eon-openapi-original.yml#createActionApprovalRequest

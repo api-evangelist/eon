@@ -1,0 +1,31 @@
+# Eon
+
+> Eon is a next-generation cloud backup platform that turns cloud backups into live, searchable, strategic assets across AWS, Google Cloud, and Azure. It offers agentless backup, backup posture management, ransomware protection, global search over backups, live/granular restore, and a zero-ETL data-lake tier for analytics and AI. The REST API (OpenAPI 3.0) covers accounts, resources, vaults, snapshots, backup policies, restores, jobs, IAM, billing, and multi-party action approvals.
+
+## APIs
+- [Eon API (OpenAPI 3.0)](https://raw.githubusercontent.com/eon-io/eon-sdk-go/main/api/openapi.yaml): 99 operations, bearer-JWT auth, host https://console.eon.io
+
+## Specs & artifacts
+- [OpenAPI](openapi/eon-openapi-original.yml)
+- [Authentication](authentication/eon-authentication.yml)
+- [Conventions](conventions/eon-conventions.yml)
+- [Error catalog](errors/eon-problem-types.yml)
+- [Error codes](errors/eon-error-codes.yml)
+- [Data model](data-model/eon-data-model.yml)
+- [Agent skills](skills/_index.yml)
+- [Agentic access](agentic-access/eon-agentic-access.yml)
+- [Conformance](conformance/eon-conformance.yml)
+- [Trust center](security/eon-trust-center.yml)
+
+## Docs & developer
+- [Developer docs](https://docs.eon.io)
+- [API credentials](https://console.eon.io/global-management/api-credentials)
+- [Go SDK](https://github.com/eon-io/eon-sdk-go)
+- [Terraform provider](https://registry.terraform.io/providers/eon-io/eon)
+- [GitHub org](https://github.com/eon-io)
+
+## Company
+- [Website](https://www.eon.io)
+- [Pricing](https://www.eon.io/pricing)
+- [Trust center](https://trust.eon.io)
+- [Blog / resources](https://www.eon.io/resources)

@@ -1,0 +1,38 @@
+{
+  "provider": "eon",
+  "sources": [
+    "eon-accounts-api-openapi.yml",
+    "eon-actionapprovals-api-openapi.yml",
+    "eon-auth-api-openapi.yml",
+    "eon-backuppolicies-api-openapi.yml",
+    "eon-backups-api-openapi.yml",
+    "eon-billing-api-openapi.yml",
+    "eon-dashboard-api-openapi.yml",
+    "eon-databasesnapshots-api-openapi.yml",
+    "eon-iam-api-openapi.yml",
+    "eon-jobs-api-openapi.yml",
+    "eon-resources-api-openapi.yml",
+    "eon-snapshots-api-openapi.yml",
+    "eon-vaults-api-openapi.yml"
+  ],
+  "outputs": [
+    "eon-accounts-api-openapi.yml",
+    "eon-actionapprovals-api-openapi.yml",
+    "eon-auth-api-openapi.yml",
+    "eon-backuppolicies-api-openapi.yml",
+    "eon-backups-api-openapi.yml",
+    "eon-billing-api-openapi.yml",
+    "eon-dashboard-api-openapi.yml",
+    "eon-databasesnapshots-api-openapi.yml",
+    "eon-iam-api-openapi.yml",
+    "eon-jobs-api-openapi.yml",
+    "eon-resources-api-openapi.yml",
+    "eon-snapshots-api-openapi.yml",
+    "eon-vaults-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

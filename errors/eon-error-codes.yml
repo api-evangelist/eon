@@ -1,0 +1,41 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/eon-openapi-original.yml#/components/schemas/ErrorCode
+description: Operation-level error code registry surfaced on job and resource operations
+  (the ErrorCode enum). Complements the HTTP-status problem catalog in eon-problem-types.yml.
+envelope_field: errorCode
+error_codes:
+- {code: INTERNAL_JOB_ERROR, area: jobs}
+- {code: JOB_CANCELED_ERROR, area: jobs}
+- {code: CLOUD_OPERATION_FAILED, area: resources}
+- {code: FAILED_TO_GET_RESOURCE_INFORMATION, area: resources}
+- {code: RESOURCE_IS_TERMINATED, area: resources}
+- {code: INVALID_RESOURCE_STATE, area: resources}
+- {code: INVALID_RESOURCE_CONFIGURATION, area: resources}
+- {code: RESOURCE_CONFLICT, area: resources}
+- {code: UNSUPPORTED_OPERATION_ON_RESOURCE, area: resources}
+- {code: FAILED_TO_CREATE_RESOURCE, area: resources}
+- {code: FAILED_TO_START_RESOURCE, area: resources}
+- {code: FAILED_TO_STOP_RESOURCE, area: resources}
+- {code: FAILED_TO_GET_STORAGE_INFORMATION, area: storage}
+- {code: FAILED_TO_CREATE_STORAGE, area: storage}
+- {code: FAILED_TO_DELETE_STORAGE, area: storage}
+- {code: FAILED_TO_ATTACH_STORAGE, area: storage}
+- {code: FAILED_TO_DETACH_STORAGE, area: storage}
+- {code: FAILED_TO_CREATE_IMAGE, area: storage}
+- {code: FAILED_TO_GET_SNAPSHOT_INFORMATION, area: snapshots}
+- {code: FAILED_TO_TAKE_SNAPSHOT, area: snapshots}
+- {code: FAILED_TO_USE_SNAPSHOT, area: snapshots}
+- {code: FAILED_TO_DELETE_SNAPSHOT, area: snapshots}
+- {code: SNAPSHOT_QUOTA_EXCEEDED, area: snapshots}
+- {code: RESOURCE_USAGE_QUOTA_EXCEEDED, area: quota}
+- {code: AUTHENTICATION_FAILURE, area: auth}
+- {code: INVALID_ACCOUNT_CONFIGURATION, area: accounts}
+- {code: INVALID_VAULT_CONFIGURATION, area: vaults}
+- {code: INVALID_INPUT_PARAMETERS, area: validation}
+- {code: TOO_MANY_REQUESTS, area: rate-limit}
+- {code: BACKUP_CONFLICT, area: backups}
+- {code: CLASSIFICATION_CONFLICT, area: classification}
+- {code: FAILED_TO_RUN_QUERY, area: query}
+- {code: OPERATION_DENIED_BY_CONFIGURATION, area: policy}
+- {code: INSUFFICIENT_ENCRYPTION_PERMISSIONS, area: security}

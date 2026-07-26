@@ -1,22 +1,182 @@
 aid: eon
 name: Eon
-description: Eon is a company surfaced as a portfolio company of bond-capital, lightspeed-venture-partners
-  and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the
-  enrichment pipeline.
+description: >-
+  Eon is a next-generation cloud backup and data-protection platform that turns cloud backups into
+  live, searchable, strategic assets across AWS, Google Cloud, and Azure. It provides agentless
+  backup, cloud backup posture management, ransomware protection, global search over backups, live and
+  granular file/resource restore, and a zero-ETL data-lake storage tier that makes old snapshots useful
+  for analytics and AI. Eon exposes a REST API (OpenAPI 3.0, 99 operations) covering source/restore
+  accounts, resources, vaults, snapshots, backup policies, restores, jobs, IAM, billing, and
+  multi-party action approvals, with an official Go SDK and Terraform provider. Backed by BOND Capital
+  and Lightspeed Venture Partners.
 url: https://raw.githubusercontent.com/api-evangelist/eon/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - bond-capital
 - lightspeed-venture-partners
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: active
+x-tier-reason: openapi-harvested
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
+image: https://cdn.prod.website-files.com/6728a53e42fda9e629eb3ed6/672a2f7a6d97e6ab9f07f37e_og.webp
 tags:
 - Company
-apis: []
+- Cloud Backup
+- Data Protection
+- Disaster Recovery
+- Ransomware Protection
+- Backup
+- Cloud Storage
+- Data Lake
+- Multi-Cloud
+- AWS
+- Azure
+- Google Cloud
+apis:
+- aid: eon:eon-accounts-api
+  name: Eon accounts API
+  description: Manage connected cloud accounts onboarded to Eon.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-accounts-api-openapi.yml
+- aid: eon:eon-actionapprovals-api
+  name: Eon actionApprovals API
+  description: The actionApprovals API from Eon — 3 operation(s) for actionapprovals.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - actionApprovals
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-actionapprovals-api-openapi.yml
+- aid: eon:eon-auth-api
+  name: Eon auth API
+  description: Authentication and access token management.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-auth-api-openapi.yml
+- aid: eon:eon-backuppolicies-api
+  name: Eon backupPolicies API
+  description: Define and manage backup policies and schedules.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - backupPolicies
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-backuppolicies-api-openapi.yml
+- aid: eon:eon-backups-api
+  name: Eon backups API
+  description: The backups API from Eon — 1 operation(s) for backups.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - backups
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-backups-api-openapi.yml
+- aid: eon:eon-billing-api
+  name: Eon billing API
+  description: Access billing and usage metering information.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - billing
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-billing-api-openapi.yml
+- aid: eon:eon-dashboard-api
+  name: Eon dashboard API
+  description: The dashboard API from Eon — 1 operation(s) for dashboard.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - dashboard
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-dashboard-api-openapi.yml
+- aid: eon:eon-databasesnapshots-api
+  name: Eon databaseSnapshots API
+  description: Manage database snapshots and their recovery points.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - databaseSnapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-databasesnapshots-api-openapi.yml
+- aid: eon:eon-iam-api
+  name: Eon iam API
+  description: The iam API from Eon — 8 operation(s) for iam.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - iam
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-iam-api-openapi.yml
+- aid: eon:eon-jobs-api
+  name: Eon jobs API
+  description: Track backup, restore, and other asynchronous jobs.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-jobs-api-openapi.yml
+- aid: eon:eon-resources-api
+  name: Eon resources API
+  description: Discover and manage protected cloud resources.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - resources
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-resources-api-openapi.yml
+- aid: eon:eon-snapshots-api
+  name: Eon snapshots API
+  description: Manage resource snapshots and point-in-time recovery points.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - snapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-snapshots-api-openapi.yml
+- aid: eon:eon-vaults-api
+  name: Eon vaults API
+  description: Manage backup vaults that store snapshots.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - vaults
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-vaults-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -24,4 +184,65 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://eon.io
+  url: https://www.eon.io
+- type: DeveloperPortal
+  url: https://docs.eon.io
+- type: Documentation
+  url: https://docs.eon.io
+- type: APIReference
+  url: https://docs.eon.io
+- type: GettingStarted
+  url: https://console.eon.io/global-management/api-credentials
+- type: GitHubOrganization
+  url: https://github.com/eon-io
+- type: Pricing
+  url: https://www.eon.io/pricing
+- type: SignUp
+  url: https://www.eon.io/get-a-demo
+- type: TermsOfService
+  url: https://www.eon.io/terms-of-use
+- type: PrivacyPolicy
+  url: https://www.eon.io/privacy-policy
+- type: Blog
+  url: https://www.eon.io/resources
+- type: Compliance
+  url: https://trust.eon.io
+- type: TrustCenter
+  url: security/eon-trust-center.yml
+- type: DomainSecurity
+  url: security/eon-domain-security.yml
+- type: Authentication
+  url: authentication/eon-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/eon-agentic-access.yml
+- type: Packages
+  url: packages/eon-packages.yml
+- type: SDKs
+  url: packages/eon-packages.yml
+- type: WellKnown
+  url: well-known/eon-well-known.yml
+- type: LLMsTxt
+  url: llms/eon-llms.txt
+- type: Conventions
+  url: conventions/eon-conventions.yml
+- type: ErrorCatalog
+  url: errors/eon-problem-types.yml
+- type: ErrorCatalog
+  url: errors/eon-error-codes.yml
+- type: Lifecycle
+  url: lifecycle/eon-lifecycle.yml
+- type: Conformance
+  url: conformance/eon-conformance.yml
+- type: DataModel
+  url: data-model/eon-data-model.yml
+- type: Overlay
+  url: overlays/eon-openapi-overlay.yaml
+- type: MCPServer
+  url: mcp/eon-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

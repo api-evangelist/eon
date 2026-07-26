@@ -1,0 +1,38 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/eon-openapi-original.yml + https://trust.eon.io/
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: openapi/eon-openapi-original.yml is OpenAPI 3.0.0
+- id: oauth2
+  conforms: partial
+  evidence: exposes POST /v1/oauth2/token (getAccessTokenOAuth2) but declares only an HTTP bearer
+    (ApiKeyAuth) securityScheme, not an oauth2 flow object.
+- id: bearer-jwt
+  conforms: true
+  evidence: ApiKeyAuth is http bearer with bearerFormat JWT
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: error envelope is a flat {"error":"..."} object, not application/problem+json
+- id: cursor-pagination
+  conforms: true
+  evidence: list operations use pageToken/pageSize with nextToken response field
+- id: rfc9727-api-catalog
+  conforms: true
+  evidence: docs.eon.io/.well-known/api-catalog returns an RFC 9727 linkset document
+- id: soc2
+  conforms: true
+  evidence: SOC 2 Type 2 report published at trust.eon.io
+- id: iso27001
+  conforms: true
+  evidence: ISO/IEC 27001 certified per trust.eon.io
+- id: pci-dss
+  conforms: true
+  evidence: PCI DSS listed at trust.eon.io
+- id: hipaa
+  conforms: true
+  evidence: HIPAA listed at trust.eon.io
+- id: gdpr
+  conforms: true
+  evidence: GDPR listed at trust.eon.io

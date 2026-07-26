@@ -1,0 +1,22 @@
+generated: '2026-07-19'
+method: searched
+probe: true
+source: https://trust.eon.io/
+url: https://trust.eon.io/
+certifications:
+- SOC 2
+- ISO 27001
+- ISO 27017
+- ISO 27018
+- PCI DSS
+- HIPAA
+- GDPR
+evidence:
+- source: https://trust.eon.io/
+  keywords:
+  - soc 2
+  - iso/iec 27001
+  - pci dss
+  - hipaa
+  - trust center
+  - gdpr

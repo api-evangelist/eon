@@ -1,0 +1,24 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/eon-openapi-original.yml
+skills:
+- file: eon-authenticate.md
+  name: Authenticate to the Eon API
+  api: openapi/eon-openapi-original.yml
+  operations: [getAccessToken, getAccessTokenOAuth2, rotateCurrentApiClientSecret]
+- file: eon-connect-and-backup.md
+  name: Connect a source account and back it up
+  api: openapi/eon-openapi-original.yml
+  operations: [connectSourceAccount, listSourceAccounts, createBackupPolicy, takeSnapshot, listBackupJobs, getBackupJob]
+- file: eon-restore-snapshot.md
+  name: Find a snapshot and restore a resource
+  api: openapi/eon-openapi-original.yml
+  operations: [listResourceSnapshots, getSnapshot, connectRestoreAccount, restoreEc2Instance, listRestoreJobs, getRestoreJob]
+- file: eon-manage-iam.md
+  name: Manage IAM roles and IdP group assignments
+  api: openapi/eon-openapi-original.yml
+  operations: [listPermissions, createRole, listRoles, updateRole, listIdps, createIdpGroup, listIdpGroups]
+- file: eon-approve-action.md
+  name: Request and manage multi-party action approvals
+  api: openapi/eon-openapi-original.yml
+  operations: [createActionApprovalRequest, getMyActionApprovalRequest, cancelActionApprovalRequest]

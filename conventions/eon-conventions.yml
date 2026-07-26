@@ -1,0 +1,40 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/eon-openapi-original.yml
+authentication:
+  style: bearer
+  scheme: ApiKeyAuth (HTTP bearer, JWT)
+  token_endpoints:
+  - POST /v1/token (getAccessToken)
+  - POST /v1/oauth2/token (getAccessTokenOAuth2)
+  credentials: API client id/secret issued at https://console.eon.io/global-management/api-credentials
+  cross_ref: authentication/eon-authentication.yml
+idempotency:
+  supported: false
+  notes: No Idempotency-Key header or idempotency parameter is declared in the OpenAPI; retries
+    are not documented as idempotent. No Idempotency pointer emitted (no fabrication).
+pagination:
+  style: cursor
+  request_params:
+  - pageToken
+  - pageSize
+  response_field: nextToken
+  notes: List endpoints accept pageToken + pageSize and return nextToken plus totalCount.
+versioning:
+  scheme: uri-path
+  current: v1
+  notes: All operations are namespaced under /v1/.
+scoping:
+  tenancy: project
+  notes: Most resource operations are scoped under /v1/projects/{projectId}/...
+error_envelope:
+  media_type: application/json
+  shape: '{ "error": "<message>" }'
+  cross_ref: errors/eon-problem-types.yml
+  error_codes: errors/eon-error-codes.yml
+approvals:
+  multi_party_approval: true
+  notes: Sensitive actions can require an Action Approval Request (createActionApprovalRequest /
+    getMyActionApprovalRequest / cancelActionApprovalRequest) — a multi-party-approval (MPA) gate.
+rate_limiting:
+  signaled_via: HTTP 429 (TOO_MANY_REQUESTS); concurrency caps on on-demand backups.
