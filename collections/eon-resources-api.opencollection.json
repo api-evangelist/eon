@@ -1,0 +1,358 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Eon accounts resources API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get object-store scan method",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/projects/:projectId/resources/:id/object-store-scan-method",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "Eon-assigned ID of the AWS S3 bucket or GCP Cloud Storage bucket resource."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves object-store scan method settings for an AWS S3 bucket or GCP Cloud Storage bucket."
+        },
+        {
+          "info": {
+            "name": "Update object-store scan method",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "/v1/projects/:projectId/resources/:id/object-store-scan-method",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "Eon-assigned ID of the AWS S3 bucket or GCP Cloud Storage bucket resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Updates object-store scan method settings for an AWS S3 bucket or GCP Cloud Storage bucket. Despite S3-oriented setting names, CDC and inventory settings apply to both AWS S3 buckets and GCP Cloud Storage buckets."
+        },
+        {
+          "info": {
+            "name": "List Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/projects/:projectId/resources",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "f9304613-dddb-52fe-b883-f5e671a868a3",
+                "type": "path",
+                "description": "ID of the project whose resources you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query",
+                "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.\n"
+              },
+              {
+                "name": "pageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of items to return in the response."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Retrieves a list of resources for the given project."
+        },
+        {
+          "info": {
+            "name": "Get Resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/projects/:projectId/resources/:id",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "Eon-assigned ID of the resource to retrieve."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a resource by ID."
+        },
+        {
+          "info": {
+            "name": "Override Data Classes",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "/v1/projects/:projectId/resources/:id/data-classifications",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "Eon-assigned ID of the resource to override."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Manually sets a resource's data classes, overriding auto-classification.\n\nYou can revert to auto-classification of data classes by calling [Remove Data Classes Override](remove-data-classes-override) for the same resource.\n"
+        },
+        {
+          "info": {
+            "name": "Remove Data Classes Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/projects/:projectId/resources/:id/data-classifications",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "Eon-assigned ID of the resource to remove the override from."
+              }
+            ]
+          },
+          "docs": "Description: Removes a resource's data classes override, which re-enables auto-classification for the resource.\n"
+        },
+        {
+          "info": {
+            "name": "Override Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "/v1/projects/:projectId/resources/:id/environments",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "Eon-assigned ID of the resource to override."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Manually sets a resource's environment, overriding auto-classification.\n\nYou can revert to auto-classification of environment by calling [Remove Environment Override](remove-environment-override) for the same resource.\n"
+        },
+        {
+          "info": {
+            "name": "Remove Environment Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/projects/:projectId/resources/:id/environments",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "Eon-assigned ID of the resource to remove the override from."
+              }
+            ]
+          },
+          "docs": "Description: Removes a resource's environment override, which re-enables auto-classification for the resource.\n"
+        },
+        {
+          "info": {
+            "name": "Exclude Resource from Backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "/v1/projects/:projectId/resources/:id/exclude",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "Eon-assigned ID of the resource to exclude from backup."
+              }
+            ]
+          },
+          "docs": "Description: Prevents a resource from being backed up by Eon and suppresses scanning and violations.\n\nYou can cancel this action by calling [Cancel Resource Backup Exclusion](cancel-resource-backup-exclusion) for the same resource.\n"
+        },
+        {
+          "info": {
+            "name": "Cancel Resource Backup Exclusion",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "/v1/projects/:projectId/resources/:id/include",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "Eon-assigned ID of the resource to cancel the backup exclusion for."
+              }
+            ]
+          },
+          "docs": "Description: Allows a resource to be backed up by Eon, scanned, and checked for violations.\n"
+        },
+        {
+          "info": {
+            "name": "Exclude Volume from Backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "/v1/projects/:projectId/resources/:id/volumes/:volumeId/exclude",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "ID of the project the resource is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "Eon-assigned ID of the EC2 instance the volume is attached to."
+              },
+              {
+                "name": "volumeId",
+                "value": "vol-049df61146c064d1c",
+                "type": "path",
+                "description": "AWS-assigned ID of the EBS volume to exclude from backup.\nThe volume must be attached to the instance specified in `id` and must not be the root volume.\n"
+              }
+            ]
+          },
+          "docs": "Description: Excludes an EC2-attached EBS volume from being backed up by Eon.\n\nYou can cancel this action by calling [Cancel Volume Backup Exclusion](cancel-volume-backup-exclusion) for the same volume.\n\nRoot volumes can't be excluded.\n"
+        },
+        {
+          "info": {
+            "name": "Cancel Volume Backup Exclusion",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "/v1/projects/:projectId/resources/:id/volumes/:volumeId/include",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "043090df-9fe5-4f89-9859-45db589c2936",
+                "type": "path",
+                "description": "ID of the project the EC2 instance is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "id",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "Eon-assigned ID of the EC2 resource."
+              },
+              {
+                "name": "volumeId",
+                "value": "vol-049df61146c064d1c",
+                "type": "path",
+                "description": "AWS-assigned ID of the EBS volume to include in backup.\nThe volume must be attached to the instance specified in `id`.\n"
+              }
+            ]
+          },
+          "docs": "Description: Allows an EC2-attached EBS volume to be backed up by Eon.\n\nBy default, all EBS volumes are included in backups.\nIt's not necessary to cancel a volume exclusion unless the volume was previously [excluded from backup](exclude-volume-from-backup).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

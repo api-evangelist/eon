@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Eon accounts auth API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Rotate API Client Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/api-credentials/:clientId/rotate",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta",
+                "type": "path",
+                "description": "API client ID."
+              }
+            ]
+          },
+          "docs": "Description: Replaces the client secret for the specified API client credentials.\n\nThis method can be used to rotate a secret for the API credentials specified in the request body.\nTo replace the client secret for the access key passed in the `Authorization` header, you can also use [Rotate Current API Client Secret].\n\nOnce replaced, the old client secret can't be used to authenticate or obtain new tokens.\nHowever, access tokens that were issued before the rotation remain valid until they expire"
+        },
+        {
+          "info": {
+            "name": "Rotate Current API Client Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/api-credentials/current/rotate"
+          },
+          "docs": "Description: Replaces the client secret for the currently used set of API credentials.\n\nThis method can be used to rotate a secret only for the access key passed in the `Authorization` header.\nTo replace client secrets for other sets of API credentials, use [Rotate API Client Secret].\n\nOnce replaced, the old client secret can't be used to authenticate or obtain new tokens.\nHowever, access tokens that were issued before the rotation remain valid until they expire.\nThis means there is an effective"
+        },
+        {
+          "info": {
+            "name": "Get Access Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Retrieves an access token, which you then pass in the `Authorization` header when calling API methods.\n\nThe client ID and secret you provide when calling this method must be from a set of API credentials from your Eon account.\nTo learn more about creating API credentials and completing the authentication flow, see [Authentication](/api/using-the-api/authentication).\n\nThe returned access token has the permissions included in the role you assigned to the API credentials.\nAlways make s"
+        },
+        {
+          "info": {
+            "name": "Get Access Token (OAuth 2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/oauth2/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Description: Retrieves an access token using an OAuth-2.0-compliant flow.\nAccepts form-encoded credentials using standard `client_id` and `client_secret` field names.\n\nThis method is specifically designed for OAuth 2.0 clients like Grafana that send credentials as form-encoded data.\nFor JSON-based API calls, use [Get Access Token].\n\nThe client ID and secret you provide when calling this method must be from a set of API credentials from your Eon account.\nTo learn more about creating API credentia"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

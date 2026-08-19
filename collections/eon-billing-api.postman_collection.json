@@ -1,0 +1,461 @@
+{
+  "item": [
+    {
+      "id": "46699ade-f0b4-4d97-9551-35ab41940a3c",
+      "name": "billing",
+      "description": {
+        "content": "Access billing and usage metering information.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a4851a20-b558-4ca5-a7ad-df81e7cb638b",
+          "name": "Query Cost Data",
+          "request": {
+            "name": "Query Cost Data",
+            "description": {
+              "content": "Description: Retrieves cost and usage data for the given time frame.\n\nUse Query Cost Data to analyze backup costs by cloud provider, resource type, and resource.\nFor details on exploring your costs visually in the Eon console, see [About Cost Explorer](/user-guide/administration/cost-explorer/about-the-cost-explorer).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "cost-data"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "Maximum number of cost records to return in a single response."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageToken",
+                  "value": "<tobedefined>",
+                  "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same time frame, grouping, and filters in the first request as all subsequent requests.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timeFrame\": {\n    \"endTime\": \"<dateTime>\",\n    \"startTime\": \"<dateTime>\"\n  },\n  \"costUnit\": \"CREDITS\",\n  \"usageUnit\": \"BYTE_MONTHS\",\n  \"granularity\": \"MONTHLY\",\n  \"filters\": {\n    \"sourceAccountProviderId\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"cloudProvider\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"resourceType\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"resourceId\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"tagKeys\": {\n      \"containsAllOf\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"containsAnyOf\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"containsNoneOf\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"tagKeyValues\": {\n      \"containsAllOf\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"containsAnyOf\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"containsNoneOf\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"groupBy\": \"SOURCE_ACCOUNT\",\n  \"topN\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d35f0a28-cce5-47b7-b61b-e2ac39316181",
+              "name": "Cost data retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "cost-data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timeFrame\": {\n    \"startTime\": \"2025-01-01 00:00:00+00:00\",\n    \"endTime\": \"2025-01-31 23:59:59+00:00\"\n  },\n  \"costUnit\": \"CREDITS\",\n  \"usageUnit\": \"BYTES\",\n  \"granularity\": \"MONTHLY\",\n  \"filters\": {\n    \"sourceAccountProviderId\": {\n      \"in\": [\n        \"123456789012\",\n        \"ce865f0b-3e4a-5455-8dae-826803bd5ca7\"\n      ],\n      \"notIn\": [\n        \"111222333444\",\n        \"9b28c6e9-2423-52f8-af66-3c2a0ec3e536\"\n      ]\n    },\n    \"cloudProvider\": {\n      \"in\": [\n        \"AWS\",\n        \"AZURE\"\n      ],\n      \"notIn\": [\n        \"GCP\"\n      ]\n    },\n    \"resourceType\": {\n      \"in\": [\n        \"AWS_EC2\"\n      ],\n      \"notIn\": [\n        \"AWS_RDS\"\n      ]\n    },\n    \"resourceId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"2ff45ed6-1b8d-5f67-b931-028482f16e0e\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"tagKeys\": {\n      \"containsAllOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsNoneOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsAnyOf\": [\n        \"environment\",\n        \"app\"\n      ]\n    },\n    \"tagKeyValues\": {\n      \"containsAllOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsNoneOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsAnyOf\": [\n        \"environment=production\",\n        \"app=web\"\n      ]\n    }\n  },\n  \"groupBy\": \"SOURCE_ACCOUNT\",\n  \"topN\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"records\": [\n    {\n      \"costs\": [\n        {\n          \"cost\": {\n            \"amount\": 150.75,\n            \"unit\": \"CREDITS\"\n          },\n          \"usage\": {\n            \"amount\": 1073741824,\n            \"unit\": \"BYTES\"\n          },\n          \"meteringDimension\": \"AWS_EC2_METERING_DIMENSION\"\n        },\n        {\n          \"cost\": {\n            \"amount\": 150.75,\n            \"unit\": \"CREDITS\"\n          },\n          \"usage\": {\n            \"amount\": 1073741824,\n            \"unit\": \"BYTES\"\n          },\n          \"meteringDimension\": \"AWS_EC2_METERING_DIMENSION\"\n        }\n      ],\n      \"resourceCount\": 10,\n      \"recordTimeFrame\": {\n        \"startTime\": \"2025-01-01 00:00:00+00:00\",\n        \"endTime\": \"2025-01-31 23:59:59+00:00\"\n      },\n      \"dimensions\": {\n        \"resourceId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"cloudProvider\": \"AWS\",\n        \"sourceAccountProviderId\": \"123456789012\",\n        \"resourceType\": \"AWS_EC2\"\n      }\n    },\n    {\n      \"costs\": [\n        {\n          \"cost\": {\n            \"amount\": 150.75,\n            \"unit\": \"CREDITS\"\n          },\n          \"usage\": {\n            \"amount\": 1073741824,\n            \"unit\": \"BYTES\"\n          },\n          \"meteringDimension\": \"AWS_EC2_METERING_DIMENSION\"\n        },\n        {\n          \"cost\": {\n            \"amount\": 150.75,\n            \"unit\": \"CREDITS\"\n          },\n          \"usage\": {\n            \"amount\": 1073741824,\n            \"unit\": \"BYTES\"\n          },\n          \"meteringDimension\": \"AWS_EC2_METERING_DIMENSION\"\n        }\n      ],\n      \"resourceCount\": 10,\n      \"recordTimeFrame\": {\n        \"startTime\": \"2025-01-01 00:00:00+00:00\",\n        \"endTime\": \"2025-01-31 23:59:59+00:00\"\n      },\n      \"dimensions\": {\n        \"resourceId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"cloudProvider\": \"AWS\",\n        \"sourceAccountProviderId\": \"123456789012\",\n        \"resourceType\": \"AWS_EC2\"\n      }\n    }\n  ],\n  \"resourceCount\": 2000,\n  \"totalCount\": 1543,\n  \"nextToken\": \"eyJvZmZzZXQiOjEwMCwic29ydCI6InRpbWVGcmFtZSJ9\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "61fd2a8e-01f9-4ff4-8870-ebc26287bb0e",
+              "name": "Invalid request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "cost-data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timeFrame\": {\n    \"startTime\": \"2025-01-01 00:00:00+00:00\",\n    \"endTime\": \"2025-01-31 23:59:59+00:00\"\n  },\n  \"costUnit\": \"CREDITS\",\n  \"usageUnit\": \"BYTES\",\n  \"granularity\": \"MONTHLY\",\n  \"filters\": {\n    \"sourceAccountProviderId\": {\n      \"in\": [\n        \"123456789012\",\n        \"ce865f0b-3e4a-5455-8dae-826803bd5ca7\"\n      ],\n      \"notIn\": [\n        \"111222333444\",\n        \"9b28c6e9-2423-52f8-af66-3c2a0ec3e536\"\n      ]\n    },\n    \"cloudProvider\": {\n      \"in\": [\n        \"AWS\",\n        \"AZURE\"\n      ],\n      \"notIn\": [\n        \"GCP\"\n      ]\n    },\n    \"resourceType\": {\n      \"in\": [\n        \"AWS_EC2\"\n      ],\n      \"notIn\": [\n        \"AWS_RDS\"\n      ]\n    },\n    \"resourceId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"2ff45ed6-1b8d-5f67-b931-028482f16e0e\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"tagKeys\": {\n      \"containsAllOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsNoneOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsAnyOf\": [\n        \"environment\",\n        \"app\"\n      ]\n    },\n    \"tagKeyValues\": {\n      \"containsAllOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsNoneOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsAnyOf\": [\n        \"environment=production\",\n        \"app=web\"\n      ]\n    }\n  },\n  \"groupBy\": \"SOURCE_ACCOUNT\",\n  \"topN\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"start time should be at least 24 hours before end time\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1ed0ff4-a332-4b4e-983c-efcf35ae35d0",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "cost-data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timeFrame\": {\n    \"startTime\": \"2025-01-01 00:00:00+00:00\",\n    \"endTime\": \"2025-01-31 23:59:59+00:00\"\n  },\n  \"costUnit\": \"CREDITS\",\n  \"usageUnit\": \"BYTES\",\n  \"granularity\": \"MONTHLY\",\n  \"filters\": {\n    \"sourceAccountProviderId\": {\n      \"in\": [\n        \"123456789012\",\n        \"ce865f0b-3e4a-5455-8dae-826803bd5ca7\"\n      ],\n      \"notIn\": [\n        \"111222333444\",\n        \"9b28c6e9-2423-52f8-af66-3c2a0ec3e536\"\n      ]\n    },\n    \"cloudProvider\": {\n      \"in\": [\n        \"AWS\",\n        \"AZURE\"\n      ],\n      \"notIn\": [\n        \"GCP\"\n      ]\n    },\n    \"resourceType\": {\n      \"in\": [\n        \"AWS_EC2\"\n      ],\n      \"notIn\": [\n        \"AWS_RDS\"\n      ]\n    },\n    \"resourceId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"2ff45ed6-1b8d-5f67-b931-028482f16e0e\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"tagKeys\": {\n      \"containsAllOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsNoneOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsAnyOf\": [\n        \"environment\",\n        \"app\"\n      ]\n    },\n    \"tagKeyValues\": {\n      \"containsAllOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsNoneOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsAnyOf\": [\n        \"environment=production\",\n        \"app=web\"\n      ]\n    }\n  },\n  \"groupBy\": \"SOURCE_ACCOUNT\",\n  \"topN\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "162ca3cb-9a61-4c75-b585-485779642788",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "cost-data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timeFrame\": {\n    \"startTime\": \"2025-01-01 00:00:00+00:00\",\n    \"endTime\": \"2025-01-31 23:59:59+00:00\"\n  },\n  \"costUnit\": \"CREDITS\",\n  \"usageUnit\": \"BYTES\",\n  \"granularity\": \"MONTHLY\",\n  \"filters\": {\n    \"sourceAccountProviderId\": {\n      \"in\": [\n        \"123456789012\",\n        \"ce865f0b-3e4a-5455-8dae-826803bd5ca7\"\n      ],\n      \"notIn\": [\n        \"111222333444\",\n        \"9b28c6e9-2423-52f8-af66-3c2a0ec3e536\"\n      ]\n    },\n    \"cloudProvider\": {\n      \"in\": [\n        \"AWS\",\n        \"AZURE\"\n      ],\n      \"notIn\": [\n        \"GCP\"\n      ]\n    },\n    \"resourceType\": {\n      \"in\": [\n        \"AWS_EC2\"\n      ],\n      \"notIn\": [\n        \"AWS_RDS\"\n      ]\n    },\n    \"resourceId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"2ff45ed6-1b8d-5f67-b931-028482f16e0e\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"tagKeys\": {\n      \"containsAllOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsNoneOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsAnyOf\": [\n        \"environment\",\n        \"app\"\n      ]\n    },\n    \"tagKeyValues\": {\n      \"containsAllOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsNoneOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsAnyOf\": [\n        \"environment=production\",\n        \"app=web\"\n      ]\n    }\n  },\n  \"groupBy\": \"SOURCE_ACCOUNT\",\n  \"topN\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d670380e-1a50-48ae-9edb-367bb340fe0f",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "cost-data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timeFrame\": {\n    \"startTime\": \"2025-01-01 00:00:00+00:00\",\n    \"endTime\": \"2025-01-31 23:59:59+00:00\"\n  },\n  \"costUnit\": \"CREDITS\",\n  \"usageUnit\": \"BYTES\",\n  \"granularity\": \"MONTHLY\",\n  \"filters\": {\n    \"sourceAccountProviderId\": {\n      \"in\": [\n        \"123456789012\",\n        \"ce865f0b-3e4a-5455-8dae-826803bd5ca7\"\n      ],\n      \"notIn\": [\n        \"111222333444\",\n        \"9b28c6e9-2423-52f8-af66-3c2a0ec3e536\"\n      ]\n    },\n    \"cloudProvider\": {\n      \"in\": [\n        \"AWS\",\n        \"AZURE\"\n      ],\n      \"notIn\": [\n        \"GCP\"\n      ]\n    },\n    \"resourceType\": {\n      \"in\": [\n        \"AWS_EC2\"\n      ],\n      \"notIn\": [\n        \"AWS_RDS\"\n      ]\n    },\n    \"resourceId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"2ff45ed6-1b8d-5f67-b931-028482f16e0e\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"tagKeys\": {\n      \"containsAllOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsNoneOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsAnyOf\": [\n        \"environment\",\n        \"app\"\n      ]\n    },\n    \"tagKeyValues\": {\n      \"containsAllOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsNoneOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsAnyOf\": [\n        \"environment=production\",\n        \"app=web\"\n      ]\n    }\n  },\n  \"groupBy\": \"SOURCE_ACCOUNT\",\n  \"topN\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9d871ab-9061-44ac-b42e-8cb134438b00",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "cost-data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timeFrame\": {\n    \"startTime\": \"2025-01-01 00:00:00+00:00\",\n    \"endTime\": \"2025-01-31 23:59:59+00:00\"\n  },\n  \"costUnit\": \"CREDITS\",\n  \"usageUnit\": \"BYTES\",\n  \"granularity\": \"MONTHLY\",\n  \"filters\": {\n    \"sourceAccountProviderId\": {\n      \"in\": [\n        \"123456789012\",\n        \"ce865f0b-3e4a-5455-8dae-826803bd5ca7\"\n      ],\n      \"notIn\": [\n        \"111222333444\",\n        \"9b28c6e9-2423-52f8-af66-3c2a0ec3e536\"\n      ]\n    },\n    \"cloudProvider\": {\n      \"in\": [\n        \"AWS\",\n        \"AZURE\"\n      ],\n      \"notIn\": [\n        \"GCP\"\n      ]\n    },\n    \"resourceType\": {\n      \"in\": [\n        \"AWS_EC2\"\n      ],\n      \"notIn\": [\n        \"AWS_RDS\"\n      ]\n    },\n    \"resourceId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"2ff45ed6-1b8d-5f67-b931-028482f16e0e\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"tagKeys\": {\n      \"containsAllOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsNoneOf\": [\n        \"environment\",\n        \"app\"\n      ],\n      \"containsAnyOf\": [\n        \"environment\",\n        \"app\"\n      ]\n    },\n    \"tagKeyValues\": {\n      \"containsAllOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsNoneOf\": [\n        \"environment=staging\",\n        \"app=web\"\n      ],\n      \"containsAnyOf\": [\n        \"environment=production\",\n        \"app=web\"\n      ]\n    }\n  },\n  \"groupBy\": \"SOURCE_ACCOUNT\",\n  \"topN\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7dc01e74-8e2d-43cd-ac5d-1764a8b41b7d",
+    "name": "Eon accounts billing API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Eon.io REST API",
+      "type": "text/plain"
+    }
+  }
+}

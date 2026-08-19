@@ -1,0 +1,262 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Eon accounts iam API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "iam",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/permissions"
+          },
+          "docs": "Description: Retrieves a list of user permissions."
+        },
+        {
+          "info": {
+            "name": "Create Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/roles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Creates a custom role.<br/>\n\nWhen creating a role, you'll specify a list of permissions and, optionally, data access conditions.\nData access conditions let you restrict the resources a permission is granted for.\nFor example, for a particular role, you can set data access conditions to allow access only to resources without PII.\n"
+        },
+        {
+          "info": {
+            "name": "List Roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/roles/list",
+            "params": [
+              {
+                "name": "pageToken",
+                "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=",
+                "type": "query",
+                "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.\n"
+              },
+              {
+                "name": "pageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of items to return in the response."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a list of user roles."
+        },
+        {
+          "info": {
+            "name": "Get Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/roles/:roleId",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "daa42222-6ad2-5d37-bb26-4f2a9cba73da",
+                "type": "path",
+                "description": "Role ID."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a role."
+        },
+        {
+          "info": {
+            "name": "Update Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/v1/roles/:roleId",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the role"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: This API operation updates the details of a role using its unique ID. The request body must contain the updated role details."
+        },
+        {
+          "info": {
+            "name": "Delete Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/roles/:roleId",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "ceaf2281-bf04-542d-a801-a6a4865373ad",
+                "type": "path",
+                "description": "Role ID."
+              }
+            ]
+          },
+          "docs": "Description: Deletes a role."
+        },
+        {
+          "info": {
+            "name": "List Identity Providers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/idps/list",
+            "params": [
+              {
+                "name": "pageToken",
+                "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=",
+                "type": "query",
+                "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.\n"
+              },
+              {
+                "name": "pageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of items to return in the response."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a list of identity providers for the account."
+        },
+        {
+          "info": {
+            "name": "Create IdP Group Role Assignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/idp-groups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Maps an identity provider group to one or more Eon roles.<br/>\n\nWhen users authenticate via SAML and belong to the specified group, they're granted the assigned roles.\n"
+        },
+        {
+          "info": {
+            "name": "List IdP Group Role Assignments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/idp-groups/list",
+            "params": [
+              {
+                "name": "pageToken",
+                "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=",
+                "type": "query",
+                "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.\n"
+              },
+              {
+                "name": "pageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of items to return in the response."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a list of IdP group role assignments mapped in your Eon account."
+        },
+        {
+          "info": {
+            "name": "Get IdP Group Role Assignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/idp-groups/:groupId",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "daa42222-6ad2-5d37-bb26-4f2a9cba73da",
+                "type": "path",
+                "description": "Eon-assigned IdP group role assignment ID."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves an IdP group role assignment by ID."
+        },
+        {
+          "info": {
+            "name": "Update IdP Group Role Assignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/v1/idp-groups/:groupId",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "Eon-assigned IdP group role assignment ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Updates the roles assigned to an IdP group.<br/>\n\nThis operation replaces all existing role assignments with the provided list.\nTo add a role, include all existing roles plus the new one.\nTo remove a role, include all roles except the one to remove.\n"
+        },
+        {
+          "info": {
+            "name": "Delete IdP Group Role Assignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/idp-groups/:groupId",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "ceaf2281-bf04-542d-a801-a6a4865373ad",
+                "type": "path",
+                "description": "Eon-assigned IdP group role assignment ID."
+              }
+            ]
+          },
+          "docs": "Description: Deletes an IdP group role assignment.<br/>\n\nAfter deletion, users are no longer assigned roles from their membership in the specified group.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1524 @@
+{
+  "item": [
+    {
+      "id": "9311922d-3f94-4478-8a48-eb461bc6dd73",
+      "name": "auth",
+      "description": {
+        "content": "Authentication and access token management.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4a2623e5-e0a2-44c6-b40b-30dcc31937d2",
+          "name": "Rotate API Client Secret",
+          "request": {
+            "name": "Rotate API Client Secret",
+            "description": {
+              "content": "Description: Replaces the client secret for the specified API client credentials.\n\nThis method can be used to rotate a secret for the API credentials specified in the request body.\nTo replace the client secret for the access key passed in the `Authorization` header, you can also use [Rotate Current API Client Secret].\n\nOnce replaced, the old client secret can't be used to authenticate or obtain new tokens.\nHowever, access tokens that were issued before the rotation remain valid until they expire.\nThis means there is an effective grace period of up to 12 hours where previously issued access tokens continue to work, even though the client secret used to obtain them has been rotated.\n\n[Rotate Current API Client Secret]: ./rotate-current-api-client-secret\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "api-credentials",
+                ":clientId",
+                "rotate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<tobedefined>",
+                  "key": "clientId",
+                  "description": "(Required) API client ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c20b8f5b-c98b-4e2d-a91a-52dd469ba6ca",
+              "name": "Client secret rotated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    ":clientId",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "clientId",
+                      "description": "(Required) API client ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientId\": \"yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta\",\n  \"clientSecret\": \"eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25056060-963d-431e-95ca-3560c0475cdc",
+              "name": "API credentials weren't found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    ":clientId",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "clientId",
+                      "description": "(Required) API client ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "057fe27b-35a9-43ea-bb6f-9e3044b5f059",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    ":clientId",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "clientId",
+                      "description": "(Required) API client ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8513e0da-9b2b-486b-b398-49d9072f1e29",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    ":clientId",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "clientId",
+                      "description": "(Required) API client ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dde0a6f9-a589-46c5-a07f-d5809e325461",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    ":clientId",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "clientId",
+                      "description": "(Required) API client ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5438695-0e87-4a86-8d1c-d0a2eebc9c3a",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    ":clientId",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "clientId",
+                      "description": "(Required) API client ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "71bbcc41-6208-498f-952d-482b425a4ed9",
+          "name": "Rotate Current API Client Secret",
+          "request": {
+            "name": "Rotate Current API Client Secret",
+            "description": {
+              "content": "Description: Replaces the client secret for the currently used set of API credentials.\n\nThis method can be used to rotate a secret only for the access key passed in the `Authorization` header.\nTo replace client secrets for other sets of API credentials, use [Rotate API Client Secret].\n\nOnce replaced, the old client secret can't be used to authenticate or obtain new tokens.\nHowever, access tokens that were issued before the rotation remain valid until they expire.\nThis means there is an effective grace period of up to 12 hours where previously issued access tokens continue to work, even though the client secret used to obtain them has been rotated.\n\n[Rotate API Client Secret]: ./rotate-api-client-secret\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "api-credentials",
+                "current",
+                "rotate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ebff2dd0-3e83-4888-89a4-20367e01fbe8",
+              "name": "Client secret rotated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    "current",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientId\": \"yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta\",\n  \"clientSecret\": \"eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c2d3015-c009-4b34-9703-ac29e4270870",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    "current",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e8f9fb97-8857-45bd-b293-747419069342",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    "current",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a4c60ec5-c047-4ad4-b30b-527b8ff61764",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    "current",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "17a76243-01f4-460e-a757-8a7c9727c253",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "api-credentials",
+                    "current",
+                    "rotate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fad4454b-bb33-40b2-8964-2078f1c2e970",
+          "name": "Get Access Token",
+          "request": {
+            "name": "Get Access Token",
+            "description": {
+              "content": "Description: Retrieves an access token, which you then pass in the `Authorization` header when calling API methods.\n\nThe client ID and secret you provide when calling this method must be from a set of API credentials from your Eon account.\nTo learn more about creating API credentials and completing the authentication flow, see [Authentication](/api/using-the-api/authentication).\n\nThe returned access token has the permissions included in the role you assigned to the API credentials.\nAlways make sure the API credentials have the permissions needed for the API methods you want to use it for.\n\nThe access token is valid for 12 hours.\nAfter that, you must call this method again to get a new token.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"<string>\",\n  \"clientSecret\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "32647155-318f-4bb4-beb1-d4235aa8c46f",
+              "name": "Authenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta\",\n  \"clientSecret\": \"eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"expirationSeconds\": 43200,\n  \"accessToken\": \"accessToken\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c2834b9-6ecc-4785-82fa-471bac4023ab",
+              "name": "API credentials not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta\",\n  \"clientSecret\": \"eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1295dfd7-40c3-4d91-bb63-5b33d340c358",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta\",\n  \"clientSecret\": \"eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "79963959-0b89-4172-8d66-0d766ca15cdf",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta\",\n  \"clientSecret\": \"eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d70c9605-b9be-4428-a4ff-4da42c3516bb",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta\",\n  \"clientSecret\": \"eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b373166b-362a-4a46-b10b-b04ab3473ba4",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta\",\n  \"clientSecret\": \"eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8872f7f9-34ca-4b05-a73a-bc3969c7f663",
+          "name": "Get Access Token (OAuth 2)",
+          "request": {
+            "name": "Get Access Token (OAuth 2)",
+            "description": {
+              "content": "Description: Retrieves an access token using an OAuth-2.0-compliant flow.\nAccepts form-encoded credentials using standard `client_id` and `client_secret` field names.\n\nThis method is specifically designed for OAuth 2.0 clients like Grafana that send credentials as form-encoded data.\nFor JSON-based API calls, use [Get Access Token].\n\nThe client ID and secret you provide when calling this method must be from a set of API credentials from your Eon account.\nTo learn more about creating API credentials and completing the authentication flow, see [Authentication](/api/using-the-api/authentication).\n\nThe returned access token has the permissions included in the role you assigned to the API credentials.\nAlways make sure the API credentials have the permissions needed for the API methods you want to use it for.\n\nThe access token is valid for 12 hours.\nAfter that, you must call this method again to get a new token.\n\n[Get Access Token]: ./get-access-token\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "oauth2",
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "client_id",
+                  "value": "<string>",
+                  "description": "(Required) API client ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "client_secret",
+                  "value": "<string>",
+                  "description": "(Required) API client secret."
+                },
+                {
+                  "disabled": false,
+                  "key": "grant_type",
+                  "value": "<string>",
+                  "description": "(Required) The OAuth 2.0 grant type you're using.\nMust be `client_credentials`.\n"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bff79adc-e343-40ea-813c-03d438535229",
+              "name": "Authenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "rachelyaf5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client secret.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "eon_sample008789765400caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The OAuth 2.0 grant type you're using.\nMust be `client_credentials`.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "client_credentials"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"access_token\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 43200\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ae02080-7671-484c-860d-222d22232e31",
+              "name": "API credentials not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "rachelyaf5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client secret.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "eon_sample008789765400caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The OAuth 2.0 grant type you're using.\nMust be `client_credentials`.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "client_credentials"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "766538fb-d30a-4338-9e9a-85d490ba6967",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "rachelyaf5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client secret.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "eon_sample008789765400caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The OAuth 2.0 grant type you're using.\nMust be `client_credentials`.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "client_credentials"
+                    }
+                  ]
+                }
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9c98397b-9647-4a4d-a86a-faaf0a5b712f",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "rachelyaf5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client secret.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "eon_sample008789765400caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The OAuth 2.0 grant type you're using.\nMust be `client_credentials`.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "client_credentials"
+                    }
+                  ]
+                }
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "959abc26-c211-4b1c-8d2e-e6b84f8a4fab",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "rachelyaf5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client secret.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "eon_sample008789765400caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The OAuth 2.0 grant type you're using.\nMust be `client_credentials`.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "client_credentials"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "35a17e9a-0e54-460c-b13a-7cdd15cf4085",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "rachelyaf5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) API client secret.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "eon_sample008789765400caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The OAuth 2.0 grant type you're using.\nMust be `client_credentials`.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "client_credentials"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4cedf6b2-8737-4eae-b55d-510a835f36b2",
+    "name": "Eon accounts auth API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Eon.io REST API",
+      "type": "text/plain"
+    }
+  }
+}

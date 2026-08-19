@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Eon accounts vaults API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "vaults",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/projects/:projectId/vaults",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "ID of the project the vault is created in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Creates a vault in the specified project.\n\nBy default, vaults are encrypted using an Eon-managed KMS key.\nHowever, if your requirements mandate control over encryption keys, you can use a customer-managed KMS key.\nFor more information, see [About Self-Managed Vault Keys].\n\n<Error>\nIf you use self-managed vault keys, you assume responsibility for securing them from unauthorized access and deletion.\n</Error>\n\n[About Self-Managed Vault Keys]: /user-guide/backing-up/vaults/about-self-ma"
+        },
+        {
+          "info": {
+            "name": "Get Vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/projects/:projectId/vaults/:vaultId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "ID of the project the vault is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "vaultId",
+                "value": "36388572-9c69-5309-b362-04e7d85ae503",
+                "type": "path",
+                "description": "ID of the vault to retrieve."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a vault."
+        },
+        {
+          "info": {
+            "name": "Update Vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "/v1/projects/:projectId/vaults/:vaultId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "ID of the project the vault is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "vaultId",
+                "value": "36388572-9c69-5309-b362-04e7d85ae503",
+                "type": "path",
+                "description": "ID of the vault to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Updates a vault's display name."
+        },
+        {
+          "info": {
+            "name": "List Vaults",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/projects/:projectId/vaults/list",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "1ee34dc5-0a7c-4e56-a820-917371e05c8d",
+                "type": "path",
+                "description": "ID of the project whose vaults you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "pageToken",
+                "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=",
+                "type": "query",
+                "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.\n"
+              },
+              {
+                "name": "pageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of items to return in the response."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a list of vaults in the specified project."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

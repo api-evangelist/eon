@@ -1,0 +1,169 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Eon accounts backupPolicies API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "backupPolicies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Backup Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/projects/:projectId/backup-policies",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "733888d8-2573-5f9a-b81d-21f051d24fda",
+                "type": "path",
+                "description": "ID of the project you want to create a backup policy in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Creates a backup policy."
+        },
+        {
+          "info": {
+            "name": "List Backup Policies",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/projects/:projectId/backup-policies/list",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "6b3ea428-f6a4-5bb5-8fb2-e4d5d2d920ce",
+                "type": "path",
+                "description": "ID of the project whose backup policies you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "pageToken",
+                "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=",
+                "type": "query",
+                "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.\n"
+              },
+              {
+                "name": "pageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of items to return in the response."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a list of backup policies in the specified project.\n"
+        },
+        {
+          "info": {
+            "name": "Get Backup Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/projects/:projectId/backup-policies/:backupPolicyId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "6b3ea428-f6a4-5bb5-8fb2-e4d5d2d920ce",
+                "type": "path",
+                "description": "ID of the project whose backup policy you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "backupPolicyId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the backup policy to retrieve."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a backup policy."
+        },
+        {
+          "info": {
+            "name": "Update Backup Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/v1/projects/:projectId/backup-policies/:backupPolicyId",
+            "headers": [
+              {
+                "name": "X-Action-Approval-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "6b3ea428-f6a4-5bb5-8fb2-e4d5d2d920ce",
+                "type": "path",
+                "description": "ID of the project whose backup policy you want to update.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "backupPolicyId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the backup policy to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Updates a backup policy."
+        },
+        {
+          "info": {
+            "name": "Delete Backup Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/projects/:projectId/backup-policies/:backupPolicyId",
+            "headers": [
+              {
+                "name": "X-Action-Approval-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "6b3ea428-f6a4-5bb5-8fb2-e4d5d2d920ce",
+                "type": "path",
+                "description": "ID of the project whose backup policy you want to delete.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+              },
+              {
+                "name": "backupPolicyId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the backup policy to delete."
+              }
+            ]
+          },
+          "docs": "Description: Deletes a backup policy."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

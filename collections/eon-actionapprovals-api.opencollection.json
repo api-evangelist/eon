@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Eon accounts actionApprovals API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "actionApprovals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get My Action Approval Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/projects/:projectId/action-approvals/my-requests/:requestId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project ID"
+              },
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path",
+                "description": "The action approval request ID"
+              }
+            ]
+          },
+          "docs": "Description: Retrieves details of a specific action approval request submitted by the current user."
+        },
+        {
+          "info": {
+            "name": "Cancel Action Approval Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/projects/:projectId/action-approvals/my-requests/:requestId/cancel",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project ID"
+              },
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path",
+                "description": "Action approval request ID."
+              }
+            ]
+          },
+          "docs": "Description: Cancel an action approval request created by the current user. Only allowed while the request is in PENDING_APPROVAL or APPROVED status."
+        },
+        {
+          "info": {
+            "name": "Create Action Approval Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/projects/:projectId/action-approvals/my-requests/:requestId/submit",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project ID"
+              },
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path",
+                "description": "Action approval request ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Confirm or discard a CREATED action approval request. CONFIRM transitions to PENDING_APPROVAL and starts the approval timer. DISCARD transitions to DISCARDED."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

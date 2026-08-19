@@ -1,0 +1,1371 @@
+{
+  "item": [
+    {
+      "id": "cfc08cc1-2d05-465f-9dc0-e5eceaa876d4",
+      "name": "databaseSnapshots",
+      "description": {
+        "content": "Manage database snapshots and their recovery points.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0e14c195-fbd8-4a35-a260-56ae4194e63d",
+          "name": "Run Query",
+          "request": {
+            "name": "Run Query",
+            "description": {
+              "content": "Description: Runs a SQL query against a database snapshot.\n\nThis method is asynchronous.\nIt returns a query ID that you can use to check the status of the query.\nYou can then use the query ID to call [Get Query Status] and [Get Query Result].\n\nWhen the query is complete, the results are saved as a CSV to the location you specify in your restore account.\n\nIf the request fails, see [Troubleshooting Queries] for possible errors and how to resolve them.\n\n[Troubleshooting Queries]: /user-guide/searching-exploring-and-querying/query/troubleshooting-queries\n[Get Query Status]: ./get-query-status\n[Get Query Result]: ./get-query-result\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "snapshots",
+                ":snapshotId",
+                "databases",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) ID of the project that contains the database snapshot you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "snapshotId",
+                  "description": "(Required) ID of the database [snapshot](/api/api-reference/backups/snapshots/list-resource-snapshots) you want to query.\nSnapshot must belong to an RDS resource.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"databaseName\": \"<string>\",\n  \"destination\": {\n    \"s3Bucket\": {\n      \"bucketName\": \"<string>\",\n      \"prefix\": \"<string>\"\n    }\n  },\n  \"query\": \"<string>\",\n  \"restoreAccountId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7c7ea43f-1b51-4837-aa01-8662459974c6",
+              "name": "Querying database.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "snapshots",
+                    ":snapshotId",
+                    "databases",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the database snapshot you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "snapshotId",
+                      "description": "(Required) ID of the database [snapshot](/api/api-reference/backups/snapshots/list-resource-snapshots) you want to query.\nSnapshot must belong to an RDS resource.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"restoreAccountId\": \"1e0b9aa3-a942-5e86-afe6-57606e952622\",\n  \"databaseName\": \"postgres\",\n  \"query\": \"SELECT * FROM customers LIMIT 50;\",\n  \"destination\": {\n    \"s3Bucket\": {\n      \"bucketName\": \"my-restore-bucket\",\n      \"prefix\": \"restored_records/\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"queryId\": \"330e9e09-6cb8-52af-b532-a476f598cf94\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "808bc1dd-7c36-40fa-99ef-faa811ef8831",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "snapshots",
+                    ":snapshotId",
+                    "databases",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the database snapshot you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "snapshotId",
+                      "description": "(Required) ID of the database [snapshot](/api/api-reference/backups/snapshots/list-resource-snapshots) you want to query.\nSnapshot must belong to an RDS resource.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"restoreAccountId\": \"1e0b9aa3-a942-5e86-afe6-57606e952622\",\n  \"databaseName\": \"postgres\",\n  \"query\": \"SELECT * FROM customers LIMIT 50;\",\n  \"destination\": {\n    \"s3Bucket\": {\n      \"bucketName\": \"my-restore-bucket\",\n      \"prefix\": \"restored_records/\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f7aa05c3-300c-4e9b-ad7e-e0c24fd7fd75",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "snapshots",
+                    ":snapshotId",
+                    "databases",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the database snapshot you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "snapshotId",
+                      "description": "(Required) ID of the database [snapshot](/api/api-reference/backups/snapshots/list-resource-snapshots) you want to query.\nSnapshot must belong to an RDS resource.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"restoreAccountId\": \"1e0b9aa3-a942-5e86-afe6-57606e952622\",\n  \"databaseName\": \"postgres\",\n  \"query\": \"SELECT * FROM customers LIMIT 50;\",\n  \"destination\": {\n    \"s3Bucket\": {\n      \"bucketName\": \"my-restore-bucket\",\n      \"prefix\": \"restored_records/\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1bb5ff44-32a2-4f70-9605-7574981a90e0",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "snapshots",
+                    ":snapshotId",
+                    "databases",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the database snapshot you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "snapshotId",
+                      "description": "(Required) ID of the database [snapshot](/api/api-reference/backups/snapshots/list-resource-snapshots) you want to query.\nSnapshot must belong to an RDS resource.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"restoreAccountId\": \"1e0b9aa3-a942-5e86-afe6-57606e952622\",\n  \"databaseName\": \"postgres\",\n  \"query\": \"SELECT * FROM customers LIMIT 50;\",\n  \"destination\": {\n    \"s3Bucket\": {\n      \"bucketName\": \"my-restore-bucket\",\n      \"prefix\": \"restored_records/\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97105d86-93da-425c-a5ff-7b6a74f5ce1d",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "snapshots",
+                    ":snapshotId",
+                    "databases",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the database snapshot you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "snapshotId",
+                      "description": "(Required) ID of the database [snapshot](/api/api-reference/backups/snapshots/list-resource-snapshots) you want to query.\nSnapshot must belong to an RDS resource.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"restoreAccountId\": \"1e0b9aa3-a942-5e86-afe6-57606e952622\",\n  \"databaseName\": \"postgres\",\n  \"query\": \"SELECT * FROM customers LIMIT 50;\",\n  \"destination\": {\n    \"s3Bucket\": {\n      \"bucketName\": \"my-restore-bucket\",\n      \"prefix\": \"restored_records/\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ccc9d108-49db-4636-9421-33206cd8c5f7",
+          "name": "Get Query Status",
+          "request": {
+            "name": "Get Query Status",
+            "description": {
+              "content": "Description: Retrieves a query's status.\n\nThis method requires a query ID, which you can get only from the [Run Query](./run-query) response.\n\nWhen a query is completed, you can retrieve the query results in one of these ways:\n\n- Following the `outputLocation` URI in this method's response object.\n  The URI points to where the results are stored as a CSV file.\n- Calling [Get Query Result](./get-query-result).\n  Get Query Result returns a paginated array of results as JSON for additional processing or handling.\n\nIf the query failed, see [Troubleshooting Queries] for possible errors and how to resolve them.\n\n[Troubleshooting Queries]: /user-guide/searching-exploring-and-querying/query/troubleshooting-queries\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "queries",
+                ":queryId",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) ID of the project that contains the query status you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<tobedefined>",
+                  "key": "queryId",
+                  "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "033acdd9-88b9-4f6d-944e-82c179e85445",
+              "name": "Query status retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query status you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"runningTimeMs\": 5000,\n  \"outputLocations\": [\n    \"s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv\"\n  ],\n  \"errorMessage\": \"errorMessage\",\n  \"status\": \"IN_PROGRESS\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "576603fc-e6c1-4414-a78b-4a77138feb0a",
+              "name": "Query wasn't found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query status you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "93e8e65a-91ab-4ba6-86c6-4ba4debd15c8",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query status you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "419fc76c-ca20-41c9-9119-d9560d3b31f2",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query status you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "810d2931-9dd1-4a0c-ba61-82434b9dbe4c",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query status you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "75b860c7-6970-49b8-8205-d8596060b9a9",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query status you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c73b06d3-2400-40f3-a44b-ace1e03a4b5b",
+          "name": "Get Query Result",
+          "request": {
+            "name": "Get Query Result",
+            "description": {
+              "content": "Description: Retrieves the results of a query.\n\nThis method requires a query ID, which you can get only from the [Run Query](./run-query) response.\n\nThis method can be used only when a query has completed.\nYou can check a query's status by calling [Get Query Status](./get-query-status).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "queries",
+                ":queryId",
+                "results"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "500",
+                  "description": "Maximum number of items to return in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageToken",
+                  "value": "<tobedefined>",
+                  "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) ID of the project that contains the query you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<tobedefined>",
+                  "key": "queryId",
+                  "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0aa9aad7-8506-4be7-99de-66d5178baa15",
+              "name": "Query results retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"columns\": [\n    \"id\",\n    \"name\",\n    \"age\"\n  ],\n  \"nextToken\": \"string\",\n  \"records\": [\n    [\n      \"string\",\n      \"string\"\n    ],\n    [\n      \"string\",\n      \"string\"\n    ]\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2121d6e-e559-4c59-b8fc-058c3d2377d3",
+              "name": "Query wasn't found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bc95a66a-8963-4692-90c8-6bdca343a109",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8a366ef1-d587-4660-a2ab-972ad3c4aee0",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2a5e2c5c-45cc-4f99-aab4-c2ff6d398b1e",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "621038e7-05a5-4b3e-b529-4ebbe3392daa",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "queries",
+                    ":queryId",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageToken",
+                      "value": "<tobedefined>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project that contains the query you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<tobedefined>",
+                      "key": "queryId",
+                      "description": "(Required) Query ID returned by [Run Query](./run-query)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3b7fa5b9-f4c5-4c66-b340-9c41713cd751",
+    "name": "Eon accounts databaseSnapshots API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Eon.io REST API",
+      "type": "text/plain"
+    }
+  }
+}

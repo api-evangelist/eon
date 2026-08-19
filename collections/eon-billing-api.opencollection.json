@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Eon accounts billing API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query Cost Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/cost-data",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "100",
+                "type": "query",
+                "description": "Maximum number of cost records to return in a single response."
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query",
+                "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same time frame, grouping, and filters in the first request as all subsequent requests.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Retrieves cost and usage data for the given time frame.\n\nUse Query Cost Data to analyze backup costs by cloud provider, resource type, and resource.\nFor details on exploring your costs visually in the Eon console, see [About Cost Explorer](/user-guide/administration/cost-explorer/about-the-cost-explorer).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

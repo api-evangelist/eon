@@ -2,11 +2,10 @@ generated: '2026-07-19'
 method: derived
 status: candidate
 source: openapi/eon-openapi-original.yml
-notes: >-
-  No official hosted MCP server URL was found. The Eon GitHub org publishes agent/editor plugins
-  (claude-code-eon-plugin, cursor-eon-plugin, codex-eon-plugin) and the homepage advertises "MCP and
-  A2A connectors", but no public MCP endpoint/manifest is documented. Tools below are candidate
-  one-per-operation mappings derived from the OpenAPI for a would-be server.
+notes: No official hosted MCP server URL was found. The Eon GitHub org publishes agent/editor plugins
+  (claude-code-eon-plugin, cursor-eon-plugin, codex-eon-plugin) and the homepage advertises "MCP and A2A
+  connectors", but no public MCP endpoint/manifest is documented. Tools below are candidate one-per-operation
+  mappings derived from the OpenAPI for a would-be server.
 server:
   name: eon
   transport: http
@@ -312,3 +311,9 @@ tools:
 - name: createActionApprovalRequest
   description: Create Action Approval Request
   source_operation: openapi/eon-openapi-original.yml#createActionApprovalRequest
+deployment:
+  mode: none
+  verified: derived
+  tools: 99
+  checked: '2026-08-12'
+  source: catalog MCP census

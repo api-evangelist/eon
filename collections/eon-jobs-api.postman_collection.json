@@ -1,0 +1,1707 @@
+{
+  "item": [
+    {
+      "id": "aa344078-c0e6-4f85-9ca6-d8ed3937c511",
+      "name": "jobs",
+      "description": {
+        "content": "Track backup, restore, and other asynchronous jobs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cf9def98-142e-4960-8f58-6ed8b3cfe120",
+          "name": "List Backup Jobs",
+          "request": {
+            "name": "List Backup Jobs",
+            "description": {
+              "content": "Description: Retrieves a list of backup jobs for the given project.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "backup-jobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageToken",
+                  "value": "<tobedefined>",
+                  "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "50",
+                  "description": "Maximum number of items to return in the response."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"backupType\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"startTime\": {\n      \"startDate\": \"<string>\",\n      \"endDate\": \"<string>\"\n    },\n    \"endTime\": {\n      \"startDate\": \"<string>\",\n      \"endDate\": \"<string>\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"<string>\",\n      \"order\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"order\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bca72a7b-21f9-4102-8268-41c19366a895",
+              "name": "Retrieved backup jobs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"backupType\": {\n      \"in\": [\n        \"AWS_EC2_BACKUP\",\n        \"AWS_RDS_BACKUP\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_BACKUP\",\n        \"AWS_EKS_NAMESPACE_BACKUP\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jobs\": [\n    {\n      \"backupType\": \"AWS_EC2_BACKUP\",\n      \"jobExecutionDetails\": {\n        \"jobId\": \"2cfe604d-1fc3-5db2-9f4c-2044f08e9411\",\n        \"durationSeconds\": 1338,\n        \"expectedStartTime\": \"2025-06-12 20:38:35.073285+00:00\",\n        \"createdTime\": \"2025-06-12 20:18:35.073285+00:00\",\n        \"errorCode\": \"INVALID_RESOURCE_STATE\",\n        \"startTime\": \"2025-06-12 20:28:35.073285+00:00\",\n        \"endTime\": \"2025-06-12 20:50:53.130436+00:00\",\n        \"statusMessage\": \"statusMessage\",\n        \"status\": \"JOB_PENDING\"\n      },\n      \"resourceDetails\": {\n        \"cloudProvider\": \"AWS\",\n        \"id\": \"d38906a7-ef8e-50f5-868e-2109ab881b15\",\n        \"providerAccountId\": \"123456789012\",\n        \"providerResourceId\": \"db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU\",\n        \"region\": \"eu-central-1\",\n        \"resourceName\": \"customers db\",\n        \"resourceType\": \"AWS_EC2\",\n        \"sourceStorageSizeBytes\": 561566973952,\n        \"accountDisplayName\": 7653.13862583529\n      },\n      \"snapshotDetails\": {\n        \"pointInTime\": \"2024-10-29 23:01:30+00:00\",\n        \"expirationTime\": \"2025-01-20 09:40:26+00:00\"\n      },\n      \"vault\": {\n        \"id\": \"37732835-d768-5990-ba93-a7c2d2e6d754\",\n        \"isManagedByEon\": true,\n        \"name\": \"AWS US East 1\",\n        \"providerAccountId\": \"123412341234\",\n        \"region\": \"us-east-1\",\n        \"vaultAccountId\": \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"vaultAttributes\": {\n          \"cloudProvider\": \"AWS\",\n          \"aws\": {\n            \"encryptionKey\": \"arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62\"\n          }\n        }\n      }\n    },\n    {\n      \"backupType\": \"AWS_EC2_BACKUP\",\n      \"jobExecutionDetails\": {\n        \"jobId\": \"2cfe604d-1fc3-5db2-9f4c-2044f08e9411\",\n        \"durationSeconds\": 1338,\n        \"expectedStartTime\": \"2025-06-12 20:38:35.073285+00:00\",\n        \"createdTime\": \"2025-06-12 20:18:35.073285+00:00\",\n        \"errorCode\": \"INVALID_RESOURCE_STATE\",\n        \"startTime\": \"2025-06-12 20:28:35.073285+00:00\",\n        \"endTime\": \"2025-06-12 20:50:53.130436+00:00\",\n        \"statusMessage\": \"statusMessage\",\n        \"status\": \"JOB_PENDING\"\n      },\n      \"resourceDetails\": {\n        \"cloudProvider\": \"AWS\",\n        \"id\": \"d38906a7-ef8e-50f5-868e-2109ab881b15\",\n        \"providerAccountId\": \"123456789012\",\n        \"providerResourceId\": \"db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU\",\n        \"region\": \"eu-central-1\",\n        \"resourceName\": \"customers db\",\n        \"resourceType\": \"AWS_EC2\",\n        \"sourceStorageSizeBytes\": 561566973952,\n        \"accountDisplayName\": true\n      },\n      \"snapshotDetails\": {\n        \"pointInTime\": \"2024-10-29 23:01:30+00:00\",\n        \"expirationTime\": \"2025-01-20 09:40:26+00:00\"\n      },\n      \"vault\": {\n        \"id\": \"37732835-d768-5990-ba93-a7c2d2e6d754\",\n        \"isManagedByEon\": true,\n        \"name\": \"AWS US East 1\",\n        \"providerAccountId\": \"123412341234\",\n        \"region\": \"us-east-1\",\n        \"vaultAccountId\": \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"vaultAttributes\": {\n          \"cloudProvider\": \"AWS\",\n          \"aws\": {\n            \"encryptionKey\": \"arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62\"\n          }\n        }\n      }\n    }\n  ],\n  \"totalCount\": 2347,\n  \"nextToken\": \"Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "93fe57ba-70e1-4cf1-88bc-323de86a52df",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"backupType\": {\n      \"in\": [\n        \"AWS_EC2_BACKUP\",\n        \"AWS_RDS_BACKUP\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_BACKUP\",\n        \"AWS_EKS_NAMESPACE_BACKUP\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "78dff3e5-ba26-46b6-9111-5622846a771c",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"backupType\": {\n      \"in\": [\n        \"AWS_EC2_BACKUP\",\n        \"AWS_RDS_BACKUP\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_BACKUP\",\n        \"AWS_EKS_NAMESPACE_BACKUP\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "83ef1ae7-870c-4ca7-a8be-3a861e2ef420",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"backupType\": {\n      \"in\": [\n        \"AWS_EC2_BACKUP\",\n        \"AWS_RDS_BACKUP\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_BACKUP\",\n        \"AWS_EKS_NAMESPACE_BACKUP\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "149de439-aa75-40ed-a850-3ee149c6d78e",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"backupType\": {\n      \"in\": [\n        \"AWS_EC2_BACKUP\",\n        \"AWS_RDS_BACKUP\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_BACKUP\",\n        \"AWS_EKS_NAMESPACE_BACKUP\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "47fbf616-4d40-41f4-aa22-2e435b707774",
+          "name": "Get Backup Job",
+          "request": {
+            "name": "Get Backup Job",
+            "description": {
+              "content": "Description: Retrieves a backup job by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "backup-jobs",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "jobId",
+                  "description": "(Required) ID of the job to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8335fe6e-0167-49ed-8879-71848ff5b732",
+              "name": "Job retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"job\": {\n    \"backupType\": \"AWS_EC2_BACKUP\",\n    \"jobExecutionDetails\": {\n      \"jobId\": \"2cfe604d-1fc3-5db2-9f4c-2044f08e9411\",\n      \"durationSeconds\": 1338,\n      \"expectedStartTime\": \"2025-06-12 20:38:35.073285+00:00\",\n      \"createdTime\": \"2025-06-12 20:18:35.073285+00:00\",\n      \"errorCode\": \"INVALID_RESOURCE_STATE\",\n      \"startTime\": \"2025-06-12 20:28:35.073285+00:00\",\n      \"endTime\": \"2025-06-12 20:50:53.130436+00:00\",\n      \"statusMessage\": \"statusMessage\",\n      \"status\": \"JOB_PENDING\"\n    },\n    \"resourceDetails\": {\n      \"cloudProvider\": \"AWS\",\n      \"id\": \"d38906a7-ef8e-50f5-868e-2109ab881b15\",\n      \"providerAccountId\": \"123456789012\",\n      \"providerResourceId\": \"db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU\",\n      \"region\": \"eu-central-1\",\n      \"resourceName\": \"customers db\",\n      \"resourceType\": \"AWS_EC2\",\n      \"sourceStorageSizeBytes\": 561566973952,\n      \"accountDisplayName\": \"string\"\n    },\n    \"snapshotDetails\": {\n      \"pointInTime\": \"2024-10-29 23:01:30+00:00\",\n      \"expirationTime\": \"2025-01-20 09:40:26+00:00\"\n    },\n    \"vault\": {\n      \"id\": \"37732835-d768-5990-ba93-a7c2d2e6d754\",\n      \"isManagedByEon\": true,\n      \"name\": \"AWS US East 1\",\n      \"providerAccountId\": \"123412341234\",\n      \"region\": \"us-east-1\",\n      \"vaultAccountId\": \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n      \"vaultAttributes\": {\n        \"cloudProvider\": \"AWS\",\n        \"aws\": {\n          \"encryptionKey\": \"arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04a7c205-1bad-41c1-9837-cfe6b4389b98",
+              "name": "Job wasn't found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7a797c15-f3db-4655-b28e-5e91728b8f52",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dff19e3a-5e6a-4c0f-9edb-ca9871b34309",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cddd70e3-ec97-4b76-9102-74c1fc1be016",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3055671e-5718-4dcc-b08d-5af80393a707",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "backup-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ebd60946-dbb8-4dd8-830e-3c8ccfd3fa61",
+          "name": "List Restore Jobs",
+          "request": {
+            "name": "List Restore Jobs",
+            "description": {
+              "content": "Description: Retrieves a list of restore jobs for the given project.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "restore-jobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageToken",
+                  "value": "<tobedefined>",
+                  "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\nTo preserve the results in the same order, use the same sorting and filters in the first request as all subsequent requests.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "50",
+                  "description": "Maximum number of items to return in the response."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"restoreType\": {\n      \"in\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"notIn\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"startTime\": {\n      \"startDate\": \"<string>\",\n      \"endDate\": \"<string>\"\n    },\n    \"endTime\": {\n      \"startDate\": \"<string>\",\n      \"endDate\": \"<string>\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"<string>\",\n      \"order\": \"<string>\"\n    },\n    {\n      \"field\": \"<string>\",\n      \"order\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "90a79193-6f5a-4e1b-aad6-bbb9f2132bbb",
+              "name": "Retrieved restore jobs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"restoreType\": {\n      \"in\": [\n        \"AWS_RDS_INSTANCE_RESTORE\",\n        \"AWS_EKS_NAMESPACE_RESTORE\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_OBJECT_RESTORE\",\n        \"AWS_EC2_EBS_VOLUME_RESTORE\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jobs\": [\n    {\n      \"destinationDetails\": {\n        \"cloudProvider\": \"AWS\",\n        \"providerAccountId\": \"836638811603\",\n        \"region\": \"us-east-1\",\n        \"restoreAccountId\": \"146586e8-f69a-5148-9d7b-7c3a6b006048\",\n        \"restoreResult\": {\n          \"awsEc2Instance\": {\n            \"instanceId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"volumeId\": false\n          },\n          \"awsEbsVolume\": {\n            \"volumeId\": \"vol-1234567890abcdef0\"\n          },\n          \"azureDisk\": {\n            \"diskId\": \"i-1234567890abcdef0\"\n          },\n          \"azureVmInstance\": {\n            \"instanceId\": \"instanceId\"\n          },\n          \"gcpVmInstance\": {\n            \"instanceId\": \"instanceId\"\n          },\n          \"gcpBigQuery\": {\n            \"datasetId\": \"my_restored_dataset\"\n          }\n        }\n      },\n      \"jobExecutionDetails\": {\n        \"jobId\": \"2cfe604d-1fc3-5db2-9f4c-2044f08e9411\",\n        \"durationSeconds\": 1338,\n        \"expectedStartTime\": \"2025-06-12 20:38:35.073285+00:00\",\n        \"createdTime\": \"2025-06-12 20:18:35.073285+00:00\",\n        \"errorCode\": \"INVALID_RESOURCE_STATE\",\n        \"startTime\": \"2025-06-12 20:28:35.073285+00:00\",\n        \"endTime\": \"2025-06-12 20:50:53.130436+00:00\",\n        \"statusMessage\": \"statusMessage\",\n        \"status\": \"JOB_PENDING\"\n      },\n      \"restoreType\": \"AWS_EC2_INSTANCE_RESTORE\",\n      \"resourceDetails\": {\n        \"cloudProvider\": \"AWS\",\n        \"id\": \"d38906a7-ef8e-50f5-868e-2109ab881b15\",\n        \"providerAccountId\": \"123456789012\",\n        \"providerResourceId\": \"db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU\",\n        \"region\": \"eu-central-1\",\n        \"resourceName\": \"customers db\",\n        \"resourceType\": \"AWS_EC2\",\n        \"sourceStorageSizeBytes\": 561566973952,\n        \"accountDisplayName\": 2723\n      },\n      \"snapshotDetails\": {\n        \"pointInTime\": \"2024-10-29 23:01:30+00:00\",\n        \"expirationTime\": \"2025-01-20 09:40:26+00:00\"\n      },\n      \"vault\": {\n        \"id\": \"37732835-d768-5990-ba93-a7c2d2e6d754\",\n        \"isManagedByEon\": true,\n        \"name\": \"AWS US East 1\",\n        \"providerAccountId\": \"123412341234\",\n        \"region\": \"us-east-1\",\n        \"vaultAccountId\": \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"vaultAttributes\": {\n          \"cloudProvider\": \"AWS\",\n          \"aws\": {\n            \"encryptionKey\": \"arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62\"\n          }\n        }\n      }\n    },\n    {\n      \"destinationDetails\": {\n        \"cloudProvider\": \"AWS\",\n        \"providerAccountId\": \"836638811603\",\n        \"region\": \"us-east-1\",\n        \"restoreAccountId\": \"146586e8-f69a-5148-9d7b-7c3a6b006048\",\n        \"restoreResult\": {\n          \"awsEc2Instance\": {\n            \"instanceId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"volumeId\": false\n          },\n          \"awsEbsVolume\": {\n            \"volumeId\": \"vol-1234567890abcdef0\"\n          },\n          \"azureDisk\": {\n            \"diskId\": \"i-1234567890abcdef0\"\n          },\n          \"azureVmInstance\": {\n            \"instanceId\": \"instanceId\"\n          },\n          \"gcpVmInstance\": {\n            \"instanceId\": \"instanceId\"\n          },\n          \"gcpBigQuery\": {\n            \"datasetId\": \"my_restored_dataset\"\n          }\n        }\n      },\n      \"jobExecutionDetails\": {\n        \"jobId\": \"2cfe604d-1fc3-5db2-9f4c-2044f08e9411\",\n        \"durationSeconds\": 1338,\n        \"expectedStartTime\": \"2025-06-12 20:38:35.073285+00:00\",\n        \"createdTime\": \"2025-06-12 20:18:35.073285+00:00\",\n        \"errorCode\": \"INVALID_RESOURCE_STATE\",\n        \"startTime\": \"2025-06-12 20:28:35.073285+00:00\",\n        \"endTime\": \"2025-06-12 20:50:53.130436+00:00\",\n        \"statusMessage\": \"statusMessage\",\n        \"status\": \"JOB_PENDING\"\n      },\n      \"restoreType\": \"AWS_EC2_INSTANCE_RESTORE\",\n      \"resourceDetails\": {\n        \"cloudProvider\": \"AWS\",\n        \"id\": \"d38906a7-ef8e-50f5-868e-2109ab881b15\",\n        \"providerAccountId\": \"123456789012\",\n        \"providerResourceId\": \"db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU\",\n        \"region\": \"eu-central-1\",\n        \"resourceName\": \"customers db\",\n        \"resourceType\": \"AWS_EC2\",\n        \"sourceStorageSizeBytes\": 561566973952,\n        \"accountDisplayName\": 1632\n      },\n      \"snapshotDetails\": {\n        \"pointInTime\": \"2024-10-29 23:01:30+00:00\",\n        \"expirationTime\": \"2025-01-20 09:40:26+00:00\"\n      },\n      \"vault\": {\n        \"id\": \"37732835-d768-5990-ba93-a7c2d2e6d754\",\n        \"isManagedByEon\": true,\n        \"name\": \"AWS US East 1\",\n        \"providerAccountId\": \"123412341234\",\n        \"region\": \"us-east-1\",\n        \"vaultAccountId\": \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n        \"vaultAttributes\": {\n          \"cloudProvider\": \"AWS\",\n          \"aws\": {\n            \"encryptionKey\": \"arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62\"\n          }\n        }\n      }\n    }\n  ],\n  \"totalCount\": 188,\n  \"nextToken\": \"Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe89a96c-02d0-4b88-8698-16e23bc8d1dd",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"restoreType\": {\n      \"in\": [\n        \"AWS_RDS_INSTANCE_RESTORE\",\n        \"AWS_EKS_NAMESPACE_RESTORE\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_OBJECT_RESTORE\",\n        \"AWS_EC2_EBS_VOLUME_RESTORE\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0ad360e9-1710-4b83-b8f3-b0a295bad947",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"restoreType\": {\n      \"in\": [\n        \"AWS_RDS_INSTANCE_RESTORE\",\n        \"AWS_EKS_NAMESPACE_RESTORE\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_OBJECT_RESTORE\",\n        \"AWS_EC2_EBS_VOLUME_RESTORE\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "41d05f74-5742-4acd-96ad-6fd8ea2d2ff5",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"restoreType\": {\n      \"in\": [\n        \"AWS_RDS_INSTANCE_RESTORE\",\n        \"AWS_EKS_NAMESPACE_RESTORE\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_OBJECT_RESTORE\",\n        \"AWS_EC2_EBS_VOLUME_RESTORE\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0575b6c3-f8cf-4fda-afcd-5fc73cc41943",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE="
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project whose restore jobs you want to retrieve.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"jobId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"snapshotId\": {\n      \"in\": [\n        \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\"\n      ],\n      \"notIn\": [\n        \"6aecc4b5-9d75-4787-88ab-fa6ab98933e0\"\n      ]\n    },\n    \"status\": {\n      \"in\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ],\n      \"notIn\": [\n        \"JOB_COMPLETED\",\n        \"JOB_FAILED\"\n      ]\n    },\n    \"providerResourceId\": {\n      \"in\": [\n        \"i-0f600a1b15b035105\"\n      ],\n      \"notIn\": [\n        \"i-0dcd0d3e17ca4d350\"\n      ]\n    },\n    \"restoreType\": {\n      \"in\": [\n        \"AWS_RDS_INSTANCE_RESTORE\",\n        \"AWS_EKS_NAMESPACE_RESTORE\"\n      ],\n      \"notIn\": [\n        \"AWS_S3_OBJECT_RESTORE\",\n        \"AWS_EC2_EBS_VOLUME_RESTORE\"\n      ]\n    },\n    \"startTime\": {\n      \"endDate\": \"2025-07-10\",\n      \"startDate\": \"2025-07-01\"\n    },\n    \"endTime\": {\n      \"endDate\": \"2025-12-31\",\n      \"startDate\": \"2025-01-01\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    },\n    {\n      \"field\": \"startTime\",\n      \"order\": \"ASC\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0a2ae664-1d6d-4ffe-a49f-81d706b50fff",
+          "name": "Get Restore Job",
+          "request": {
+            "name": "Get Restore Job",
+            "description": {
+              "content": "Description: Retrieves a restore job by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "restore-jobs",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "jobId",
+                  "description": "(Required) ID of the job to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f90d4d60-05d9-428e-9531-b9a7c1f6b9fe",
+              "name": "Job retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"job\": {\n    \"destinationDetails\": {\n      \"cloudProvider\": \"AWS\",\n      \"providerAccountId\": \"836638811603\",\n      \"region\": \"us-east-1\",\n      \"restoreAccountId\": \"146586e8-f69a-5148-9d7b-7c3a6b006048\",\n      \"restoreResult\": {\n        \"awsEc2Instance\": {\n          \"instanceId\": \"i-1234567890abcdef0\",\n          \"volumeId\": true\n        },\n        \"awsEbsVolume\": {\n          \"volumeId\": \"vol-1234567890abcdef0\"\n        },\n        \"azureDisk\": {\n          \"diskId\": \"i-1234567890abcdef0\"\n        },\n        \"azureVmInstance\": {\n          \"instanceId\": \"instanceId\"\n        },\n        \"gcpVmInstance\": {\n          \"instanceId\": \"instanceId\"\n        },\n        \"gcpBigQuery\": {\n          \"datasetId\": \"my_restored_dataset\"\n        }\n      }\n    },\n    \"jobExecutionDetails\": {\n      \"jobId\": \"2cfe604d-1fc3-5db2-9f4c-2044f08e9411\",\n      \"durationSeconds\": 1338,\n      \"expectedStartTime\": \"2025-06-12 20:38:35.073285+00:00\",\n      \"createdTime\": \"2025-06-12 20:18:35.073285+00:00\",\n      \"errorCode\": \"INVALID_RESOURCE_STATE\",\n      \"startTime\": \"2025-06-12 20:28:35.073285+00:00\",\n      \"endTime\": \"2025-06-12 20:50:53.130436+00:00\",\n      \"statusMessage\": \"statusMessage\",\n      \"status\": \"JOB_PENDING\"\n    },\n    \"restoreType\": \"AWS_EC2_INSTANCE_RESTORE\",\n    \"resourceDetails\": {\n      \"cloudProvider\": \"AWS\",\n      \"id\": \"d38906a7-ef8e-50f5-868e-2109ab881b15\",\n      \"providerAccountId\": \"123456789012\",\n      \"providerResourceId\": \"db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU\",\n      \"region\": \"eu-central-1\",\n      \"resourceName\": \"customers db\",\n      \"resourceType\": \"AWS_EC2\",\n      \"sourceStorageSizeBytes\": 561566973952,\n      \"accountDisplayName\": true\n    },\n    \"snapshotDetails\": {\n      \"pointInTime\": \"2024-10-29 23:01:30+00:00\",\n      \"expirationTime\": \"2025-01-20 09:40:26+00:00\"\n    },\n    \"vault\": {\n      \"id\": \"37732835-d768-5990-ba93-a7c2d2e6d754\",\n      \"isManagedByEon\": true,\n      \"name\": \"AWS US East 1\",\n      \"providerAccountId\": \"123412341234\",\n      \"region\": \"us-east-1\",\n      \"vaultAccountId\": \"1ee34dc5-0a7c-4e56-a820-917371e05c8d\",\n      \"vaultAttributes\": {\n        \"cloudProvider\": \"AWS\",\n        \"aws\": {\n          \"encryptionKey\": \"arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a46ec4f-ccff-49d0-8a29-ae1c42c0ad6a",
+              "name": "Job wasn't found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "eec9def2-4042-4730-ae00-603eb93033c6",
+              "name": "Informational",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Continue",
+              "code": 100,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7ff1a849-c8f9-4edc-afab-cfd77fd72049",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Multiple Choices",
+              "code": 300,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "71f09237-182b-427a-9834-95244c33a2b2",
+              "name": "Client Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5838fd61-58c6-4266-89ce-f1a8fade200b",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "restore-jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) ID of the project the job is in.\nYou can get your project ID from the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) ID of the job to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c5767bfd-8d12-48e2-9ef2-03d77c223863",
+    "name": "Eon accounts jobs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Eon.io REST API",
+      "type": "text/plain"
+    }
+  }
+}

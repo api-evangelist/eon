@@ -1,0 +1,115 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Eon accounts databaseSnapshots API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "databaseSnapshots",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/projects/:projectId/snapshots/:snapshotId/databases/query",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "330e9e09-6cb8-52af-b532-a476f598cf94",
+                "type": "path",
+                "description": "ID of the project that contains the database snapshot you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+              },
+              {
+                "name": "snapshotId",
+                "value": "9888b6d9-8d8c-4c25-bcd9-7c71298eba0f",
+                "type": "path",
+                "description": "ID of the database [snapshot](/api/api-reference/backups/snapshots/list-resource-snapshots) you want to query.\nSnapshot must belong to an RDS resource.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Description: Runs a SQL query against a database snapshot.\n\nThis method is asynchronous.\nIt returns a query ID that you can use to check the status of the query.\nYou can then use the query ID to call [Get Query Status] and [Get Query Result].\n\nWhen the query is complete, the results are saved as a CSV to the location you specify in your restore account.\n\nIf the request fails, see [Troubleshooting Queries] for possible errors and how to resolve them.\n\n[Troubleshooting Queries]: /user-guide/search"
+        },
+        {
+          "info": {
+            "name": "Get Query Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/projects/:projectId/queries/:queryId/status",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "330e9e09-6cb8-52af-b532-a476f598cf94",
+                "type": "path",
+                "description": "ID of the project that contains the query status you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+              },
+              {
+                "name": "queryId",
+                "value": "330e9e09-6cb8-52af-b532-a476f598cf94:3fdf3419-366b-5e58-847d-c4671f79ce8f",
+                "type": "path",
+                "description": "Query ID returned by [Run Query](./run-query)."
+              }
+            ]
+          },
+          "docs": "Description: Retrieves a query's status.\n\nThis method requires a query ID, which you can get only from the [Run Query](./run-query) response.\n\nWhen a query is completed, you can retrieve the query results in one of these ways:\n\n- Following the `outputLocation` URI in this method's response object.\n  The URI points to where the results are stored as a CSV file.\n- Calling [Get Query Result](./get-query-result).\n  Get Query Result returns a paginated array of results as JSON for additional processi"
+        },
+        {
+          "info": {
+            "name": "Get Query Result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/projects/:projectId/queries/:queryId/results",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "330e9e09-6cb8-52af-b532-a476f598cf94",
+                "type": "path",
+                "description": "ID of the project that contains the query you want to retrieve.\nYou can see your project ID in the [API Credentials](https://console.eon.io/global-management/api-credentials) page in your global management console. \n"
+              },
+              {
+                "name": "queryId",
+                "value": "330e9e09-6cb8-52af-b532-a476f598cf94:3fdf3419-366b-5e58-847d-c4671f79ce8f",
+                "type": "path",
+                "description": "Query ID returned by [Run Query](./run-query)."
+              },
+              {
+                "name": "pageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of items to return in the response."
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query",
+                "description": "Cursor that points to the first record of the next page of results.\nGet this value from the previous response.\n"
+              }
+            ]
+          },
+          "docs": "Description: Retrieves the results of a query.\n\nThis method requires a query ID, which you can get only from the [Run Query](./run-query) response.\n\nThis method can be used only when a query has completed.\nYou can check a query's status by calling [Get Query Status](./get-query-status).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
