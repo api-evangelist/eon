@@ -53,6 +53,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Account
+  tags_raw:
   - accounts
   properties:
   - type: OpenAPI
@@ -62,7 +64,8 @@ apis:
   description: The actionApprovals API from Eon — 3 operation(s) for actionapprovals.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
-  tags:
+  tags: []
+  tags_raw:
   - actionApprovals
   properties:
   - type: OpenAPI
@@ -73,6 +76,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -83,6 +88,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - BackupPolicies
+  tags_raw:
   - backupPolicies
   properties:
   - type: OpenAPI
@@ -93,6 +100,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Backups
+  tags_raw:
   - backups
   properties:
   - type: OpenAPI
@@ -103,6 +112,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Billing
+  tags_raw:
   - billing
   properties:
   - type: OpenAPI
@@ -113,6 +124,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Dashboard
+  tags_raw:
   - dashboard
   properties:
   - type: OpenAPI
@@ -123,6 +136,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Database Snapshots
+  tags_raw:
   - databaseSnapshots
   properties:
   - type: OpenAPI
@@ -133,6 +148,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - IAM
+  tags_raw:
   - iam
   properties:
   - type: OpenAPI
@@ -143,6 +160,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Job
+  tags_raw:
   - jobs
   properties:
   - type: OpenAPI
@@ -153,6 +172,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Resources
+  tags_raw:
   - resources
   properties:
   - type: OpenAPI
@@ -163,6 +184,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Snapshots
+  tags_raw:
   - snapshots
   properties:
   - type: OpenAPI
@@ -173,6 +196,8 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
+  - Vault
+  tags_raw:
   - vaults
   properties:
   - type: OpenAPI
