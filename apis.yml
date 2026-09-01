@@ -99,7 +99,8 @@ apis:
   description: Define and manage backup policies and schedules.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
-  tags: []
+  tags:
+  - BackupPolicies
   tags_raw:
   - backupPolicies
   properties:
@@ -111,7 +112,7 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
-  - backups
+  - Backups
   tags_raw:
   - backups
   properties:
@@ -146,7 +147,8 @@ apis:
   description: Manage database snapshots and their recovery points.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
-  tags: []
+  tags:
+  - Database Snapshots
   tags_raw:
   - databaseSnapshots
   properties:
@@ -206,7 +208,7 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
-  - vaults
+  - Vault
   tags_raw:
   - vaults
   properties:
