@@ -95,18 +95,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/eon-auth-api-openapi.yml
-- aid: eon:eon-backuppolicies-api
-  name: Eon backupPolicies API
-  description: Define and manage backup policies and schedules.
-  humanURL: https://docs.eon.io
-  baseURL: https://console.eon.io
-  tags:
-  - BackupPolicies
-  tags_raw:
-  - backupPolicies
-  properties:
-  - type: OpenAPI
-    url: openapi/eon-backuppolicies-api-openapi.yml
 - aid: eon:eon-backups-api
   name: Eon backups API
   description: The backups API from Eon — 1 operation(s) for backups.
@@ -143,18 +131,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/eon-dashboard-api-openapi.yml
-- aid: eon:eon-databasesnapshots-api
-  name: Eon databaseSnapshots API
-  description: Manage database snapshots and their recovery points.
-  humanURL: https://docs.eon.io
-  baseURL: https://console.eon.io
-  tags:
-  - Database Snapshots
-  tags_raw:
-  - databaseSnapshots
-  properties:
-  - type: OpenAPI
-    url: openapi/eon-databasesnapshots-api-openapi.yml
 - aid: eon:eon-iam-api
   name: Eon iam API
   description: The iam API from Eon — 8 operation(s) for iam.
@@ -215,6 +191,26 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/eon-vaults-api-openapi.yml
+- aid: eon:eon-backup-policies-api
+  name: Eon Backup Policies API
+  description: Define and manage backup policies and schedules.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - Backup Policies
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-backup-policies-api-openapi.yml
+- aid: eon:eon-database-snapshots-api
+  name: Eon Database Snapshots API
+  description: Manage database snapshots and their recovery points.
+  humanURL: https://docs.eon.io
+  baseURL: https://console.eon.io
+  tags:
+  - Database Snapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/eon-database-snapshots-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
