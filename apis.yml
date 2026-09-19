@@ -125,7 +125,7 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
-  - Dashboard
+  - Dashboards
   tags_raw:
   - dashboard
   properties:
@@ -137,7 +137,7 @@ apis:
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
   tags:
-  - IAM
+  - Identity and Access Management
   tags_raw:
   - iam
   properties:
