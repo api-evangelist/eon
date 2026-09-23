@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   description: The Eon.io REST API
-  title: Eon accounts billing API
+  title: Eon Billing API
   version: 1.0.0
 servers:
 - url: /
@@ -9,7 +9,7 @@ security:
 - ApiKeyAuth: []
 tags:
 - description: Access billing and usage metering information.
-  name: billing
+  name: Billing
   x-displayName: Billing
 paths:
   /v1/cost-data:
@@ -19,9 +19,7 @@ paths:
 
         Use Query Cost Data to analyze backup costs by cloud provider, resource type, and resource.
 
-        For details on exploring your costs visually in the Eon console, see [About Cost Explorer](/user-guide/administration/cost-explorer/about-the-cost-explorer).
-
-        '
+        For details on exploring your costs visually in the Eon console, see About Cost Explorer.'
       operationId: queryCostData
       parameters:
       - description: Maximum number of cost records to return in a single response.
@@ -87,7 +85,7 @@ paths:
           description: Internal Server Error
       summary: Query Cost Data
       tags:
-      - billing
+      - Billing
       x-mcp: true
       x-internal: false
       x-data-access:
@@ -105,87 +103,6 @@ paths:
           key: filters.projectId
 components:
   schemas:
-    TagKeyValuesFilters:
-      additionalProperties: false
-      example:
-        containsAllOf:
-        - environment=staging
-        - app=web
-        containsNoneOf:
-        - environment=staging
-        - app=web
-        containsAnyOf:
-        - environment=production
-        - app=web
-      properties:
-        containsAllOf:
-          description: Matches if any `{key}={value}` pair in this list is in the `tags` list.
-          example:
-          - environment=staging
-          - app=web
-          items:
-            type: string
-          type: array
-        containsAnyOf:
-          description: Matches if none of the `{key}={value}` pairs in this list are in the `tags` list.
-          example:
-          - environment=production
-          - app=web
-          items:
-            type: string
-          type: array
-        containsNoneOf:
-          description: Matches if all `{key}={value}` pairs in this list are in the `tags` list.
-          example:
-          - environment=staging
-          - app=web
-          items:
-            type: string
-          type: array
-      type: object
-    CostDataRecordCost:
-      description: 'Cost and usage breakdown for a specific billable usage type.
-
-        '
-      example:
-        cost:
-          amount: 150.75
-          unit: CREDITS
-        usage:
-          amount: 1073741824
-          unit: BYTES
-        meteringDimension: AWS_EC2_METERING_DIMENSION
-      properties:
-        meteringDimension:
-          $ref: '#/components/schemas/MeteringDimension'
-        cost:
-          $ref: '#/components/schemas/Cost'
-        usage:
-          $ref: '#/components/schemas/Usage'
-      required:
-      - cost
-      - meteringDimension
-      - usage
-      type: object
-    Provider:
-      description: 'Cloud provider.
-
-        `PROVIDER_UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - AWS
-      - AZURE
-      - GCP
-      - MONGO_ATLAS
-      - GOOGLE_WORKSPACE
-      - MICROSOFT_365
-      - PROVIDER_UNSPECIFIED
-      example: AWS
-      type: string
-      x-docs-internal-enum:
-      - GOOGLE_WORKSPACE
-      - MICROSOFT_365
     CostDataRecordDimensions:
       description: 'Grouping dimensions that categorize this cost record.
 
@@ -215,6 +132,387 @@ components:
             '
           example: '123456789012'
           type: string
+      type: object
+    IdFilters:
+      additionalProperties: false
+      example:
+        in:
+        - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+        notIn:
+        - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+      properties:
+        in:
+          description: Matches if any string in this list equals `id`.
+          example:
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if no string in this list equals `id`.
+          example:
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          items:
+            type: string
+          type: array
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    CostUnit:
+      default: CREDITS
+      description: 'Currency unit for cost amounts.
+
+        Use `CREDITS` for Eon credits and `USD` for U.S. dollars.
+
+        `UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - CREDITS
+      - USD
+      - UNSPECIFIED
+      example: CREDITS
+      type: string
+      x-enum-varnames:
+      - COST_UNIT_CREDITS
+      - COST_UNIT_USD
+      - COST_UNIT_UNSPECIFIED
+    Cost:
+      example:
+        amount: 150.75
+        unit: CREDITS
+      properties:
+        amount:
+          description: 'Cost amount in the specified currency unit.
+
+            1 credit is equivalent to 0.01 USD.
+
+            '
+          example: 150.75
+          format: double
+          minimum: 0
+          type: number
+        unit:
+          $ref: '#/components/schemas/CostUnit'
+      required:
+      - amount
+      - unit
+      type: object
+    CostDataGroupBy:
+      default: SOURCE_ACCOUNT
+      description: 'Dimension to group cost data by in the response.
+
+        '
+      enum:
+      - PRODUCT
+      - USAGE_TYPE
+      - DSG_BUCKET
+      - DSG_ENVIRONMENT
+      - SOURCE_ACCOUNT
+      - CLOUD_PROVIDER
+      - RESOURCE_TYPE
+      - RESOURCE
+      - RESOURCE_AND_VAULT
+      example: SOURCE_ACCOUNT
+      type: string
+      x-docs-internal-enum:
+      - PRODUCT
+      - USAGE_TYPE
+      - DSG_BUCKET
+      - DSG_ENVIRONMENT
+      x-enum-varnames:
+      - COST_GROUP_BY_PRODUCT
+      - COST_GROUP_BY_USAGE_TYPE
+      - COST_GROUP_BY_DSG_BUCKET
+      - COST_GROUP_BY_DSG_ENVIRONMENT
+      - COST_GROUP_BY_SOURCE_ACCOUNT
+      - COST_GROUP_BY_CLOUD_PROVIDER
+      - COST_GROUP_BY_RESOURCE_TYPE
+      - COST_GROUP_BY_RESOURCE
+      - COST_GROUP_BY_RESOURCE_AND_VAULT
+    CostDataRecord:
+      description: Total cost for this metering dimension in the specified currency unit.
+      example:
+        costs:
+        - cost:
+            amount: 150.75
+            unit: CREDITS
+          usage:
+            amount: 1073741824
+            unit: BYTES
+          meteringDimension: AWS_EC2_METERING_DIMENSION
+        - cost:
+            amount: 150.75
+            unit: CREDITS
+          usage:
+            amount: 1073741824
+            unit: BYTES
+          meteringDimension: AWS_EC2_METERING_DIMENSION
+        resourceCount: 10
+        recordTimeFrame:
+          startTime: 2025-01-01 00:00:00+00:00
+          endTime: 2025-01-31 23:59:59+00:00
+        dimensions:
+          resourceId: 123e4567-e89b-12d3-a456-426614174000
+          cloudProvider: AWS
+          sourceAccountProviderId: '123456789012'
+          resourceType: AWS_EC2
+      properties:
+        recordTimeFrame:
+          $ref: '#/components/schemas/TimeFrame'
+        resourceCount:
+          description: 'Number of unique resources that contributed to costs in this record''s time frame.
+
+            '
+          example: 10
+          minimum: 0
+          type: integer
+        dimensions:
+          $ref: '#/components/schemas/CostDataRecordDimensions'
+        costs:
+          description: 'Array of cost breakdowns by metering dimension.
+
+            '
+          items:
+            $ref: '#/components/schemas/CostDataRecordCost'
+          type: array
+      required:
+      - costs
+      - recordTimeFrame
+      type: object
+    QueryCostDataRequest:
+      example:
+        usageUnit: BYTES
+        costUnit: CREDITS
+        granularity: MONTHLY
+        filters:
+          resourceId:
+            in:
+            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+            notIn:
+            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          tagKeyValues:
+            containsAllOf:
+            - environment=staging
+            - app=web
+            containsNoneOf:
+            - environment=staging
+            - app=web
+            containsAnyOf:
+            - environment=production
+            - app=web
+          tagKeys:
+            containsAllOf:
+            - environment
+            - app
+            containsNoneOf:
+            - environment
+            - app
+            containsAnyOf:
+            - environment
+            - app
+          cloudProvider:
+            in:
+            - AWS
+            - AZURE
+            notIn:
+            - GCP
+          sourceAccountProviderId:
+            in:
+            - '123456789012'
+            - ce865f0b-3e4a-5455-8dae-826803bd5ca7
+            notIn:
+            - '111222333444'
+            - 9b28c6e9-2423-52f8-af66-3c2a0ec3e536
+          resourceType:
+            in:
+            - AWS_EC2
+            notIn:
+            - AWS_RDS
+        groupBy: SOURCE_ACCOUNT
+        timeFrame:
+          startTime: 2025-01-01 00:00:00+00:00
+          endTime: 2025-01-31 23:59:59+00:00
+        topN: 1
+      properties:
+        costUnit:
+          $ref: '#/components/schemas/CostUnit'
+        usageUnit:
+          $ref: '#/components/schemas/UsageUnit'
+        timeFrame:
+          $ref: '#/components/schemas/TimeFrame'
+        granularity:
+          $ref: '#/components/schemas/CostGranularity'
+        filters:
+          $ref: '#/components/schemas/CostDataFilters'
+        groupBy:
+          $ref: '#/components/schemas/CostDataGroupBy'
+        topN:
+          description: 'Limits the response to the top _n_ resources by total cost over `timeFrame`, and folds all other matching resources into one aggregated record per time period in `granularity`.
+
+            Use this when a resource-level query would return too many records—for example, to build an efficient top-spenders chart without requesting every resource for every period.
+
+
+            Applies only when grouping by `RESOURCE` or `RESOURCE_AND_VAULT`.
+
+            Otherwise, ignored.
+
+            Omit to return all matching resources.
+
+
+            Aggregated records have no dimensions and typically have `resourceCount` greater than 1.
+
+            '
+          minimum: 1
+          type: integer
+      required:
+      - timeFrame
+      type: object
+    SourceAccountProviderIdFilters:
+      additionalProperties: false
+      example:
+        in:
+        - '123456789012'
+        - ce865f0b-3e4a-5455-8dae-826803bd5ca7
+        notIn:
+        - '111222333444'
+        - 9b28c6e9-2423-52f8-af66-3c2a0ec3e536
+      properties:
+        in:
+          description: Matches if any value in this list equals `sourceAccountProviderId`.
+          example:
+          - '123456789012'
+          - ce865f0b-3e4a-5455-8dae-826803bd5ca7
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if none of the values in this list equal `sourceAccountProviderId`.
+          example:
+          - '111222333444'
+          - 9b28c6e9-2423-52f8-af66-3c2a0ec3e536
+          items:
+            type: string
+          type: array
+      type: object
+    CostDataRecordCost:
+      description: 'Cost and usage breakdown for a specific billable usage type.
+
+        '
+      example:
+        cost:
+          amount: 150.75
+          unit: CREDITS
+        usage:
+          amount: 1073741824
+          unit: BYTES
+        meteringDimension: AWS_EC2_METERING_DIMENSION
+      properties:
+        meteringDimension:
+          $ref: '#/components/schemas/MeteringDimension'
+        cost:
+          $ref: '#/components/schemas/Cost'
+        usage:
+          $ref: '#/components/schemas/Usage'
+      required:
+      - cost
+      - meteringDimension
+      - usage
+      type: object
+    UsageUnit:
+      default: BYTE_MONTHS
+      description: 'Whether usage is returned in byte-months, raw bytes, operations, or object-months for the specified `timeFrame`.
+
+        `UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - BYTE_MONTHS
+      - BYTES
+      - UNSPECIFIED
+      - OPERATIONS
+      - OBJECT_MONTHS
+      example: BYTES
+      type: string
+      x-docs-internal-enum:
+      - OPERATIONS
+      - OBJECT_MONTHS
+      x-enum-varnames:
+      - USAGE_UNIT_BYTE_MONTHS
+      - USAGE_UNIT_BYTES
+      - USAGE_UNIT_UNSPECIFIED
+      - USAGE_UNIT_OPERATIONS
+      - USAGE_UNIT_OBJECT_MONTHS
+    TagKeysFilters:
+      additionalProperties: false
+      example:
+        containsAllOf:
+        - environment
+        - app
+        containsNoneOf:
+        - environment
+        - app
+        containsAnyOf:
+        - environment
+        - app
+      properties:
+        containsAllOf:
+          description: Matches if any key in this list is in the `tags` keys list.
+          example:
+          - environment
+          - app
+          items:
+            type: string
+          type: array
+        containsAnyOf:
+          description: Matches if none of the keys in this list are in the `tags` keys list.
+          example:
+          - environment
+          - app
+          items:
+            type: string
+          type: array
+        containsNoneOf:
+          description: Matches if all keys in this list are in the `tags` keys list.
+          example:
+          - environment
+          - app
+          items:
+            type: string
+          type: array
+      type: object
+    CloudProviderFilters:
+      additionalProperties: false
+      example:
+        in:
+        - AWS
+        - AZURE
+        notIn:
+        - GCP
+      properties:
+        in:
+          description: Matches if any value in this list equals `cloudProvider`.
+          example:
+          - AWS
+          - AZURE
+          items:
+            $ref: '#/components/schemas/Provider'
+          type: array
+        notIn:
+          description: Matches if none of the values in this list equal `cloudProvider`.
+          example:
+          - GCP
+          items:
+            $ref: '#/components/schemas/Provider'
+          type: array
       type: object
     MeteringDimension:
       description: 'Type of resource usage being metered and billed across different cloud providers.
@@ -289,6 +587,54 @@ components:
       - GCP_CLOUD_SQL_POSTGRES_TO_AWS_VAULT_METERING_DIMENSION
       - GCP_CLOUD_SQL_MYSQL_TO_AWS_VAULT_METERING_DIMENSION
       - GCP_CLOUD_SQL_SQL_SERVER_TO_AWS_VAULT_METERING_DIMENSION
+    TimeFrame:
+      example:
+        startTime: 2025-01-01 00:00:00+00:00
+        endTime: 2025-01-31 23:59:59+00:00
+      properties:
+        startTime:
+          description: 'Start time for the cost data query in ISO 8601 format.
+
+            Must be at least 24 hours before end time.
+
+            '
+          example: 2025-01-01 00:00:00+00:00
+          format: date-time
+          type: string
+        endTime:
+          description: 'End time for the cost data query in ISO 8601 format.
+
+            '
+          example: 2025-01-31 23:59:59+00:00
+          format: date-time
+          type: string
+      required:
+      - endTime
+      - startTime
+      type: object
+    ResourceTypeFilters:
+      additionalProperties: false
+      example:
+        in:
+        - AWS_EC2
+        notIn:
+        - AWS_RDS
+      properties:
+        in:
+          description: Matches if any value in this list equals `resourceType`.
+          example:
+          - AWS_EC2
+          items:
+            $ref: '#/components/schemas/ResourceType'
+          type: array
+        notIn:
+          description: Matches if no value in this list equals `resourceType`.
+          example:
+          - AWS_RDS
+          items:
+            $ref: '#/components/schemas/ResourceType'
+          type: array
+      type: object
     CostDataFilters:
       additionalProperties: false
       example:
@@ -349,173 +695,6 @@ components:
           $ref: '#/components/schemas/TagKeysFilters'
         tagKeyValues:
           $ref: '#/components/schemas/TagKeyValuesFilters'
-      type: object
-    CostDataGroupBy:
-      default: SOURCE_ACCOUNT
-      description: 'Dimension to group cost data by in the response.
-
-        '
-      enum:
-      - PRODUCT
-      - USAGE_TYPE
-      - DSG_BUCKET
-      - DSG_ENVIRONMENT
-      - SOURCE_ACCOUNT
-      - CLOUD_PROVIDER
-      - RESOURCE_TYPE
-      - RESOURCE
-      - RESOURCE_AND_VAULT
-      example: SOURCE_ACCOUNT
-      type: string
-      x-docs-internal-enum:
-      - PRODUCT
-      - USAGE_TYPE
-      - DSG_BUCKET
-      - DSG_ENVIRONMENT
-      x-enum-varnames:
-      - COST_GROUP_BY_PRODUCT
-      - COST_GROUP_BY_USAGE_TYPE
-      - COST_GROUP_BY_DSG_BUCKET
-      - COST_GROUP_BY_DSG_ENVIRONMENT
-      - COST_GROUP_BY_SOURCE_ACCOUNT
-      - COST_GROUP_BY_CLOUD_PROVIDER
-      - COST_GROUP_BY_RESOURCE_TYPE
-      - COST_GROUP_BY_RESOURCE
-      - COST_GROUP_BY_RESOURCE_AND_VAULT
-    ResourceTypeFilters:
-      additionalProperties: false
-      example:
-        in:
-        - AWS_EC2
-        notIn:
-        - AWS_RDS
-      properties:
-        in:
-          description: Matches if any value in this list equals `resourceType`.
-          example:
-          - AWS_EC2
-          items:
-            $ref: '#/components/schemas/ResourceType'
-          type: array
-        notIn:
-          description: Matches if no value in this list equals `resourceType`.
-          example:
-          - AWS_RDS
-          items:
-            $ref: '#/components/schemas/ResourceType'
-          type: array
-      type: object
-    CostGranularity:
-      default: MONTHLY
-      description: Time granularity for aggregating cost data.
-      enum:
-      - HOURLY
-      - DAILY
-      - MONTHLY
-      - TOTAL
-      example: MONTHLY
-      type: string
-      x-enum-varnames:
-      - COST_GRANULARITY_HOURLY
-      - COST_GRANULARITY_DAILY
-      - COST_GRANULARITY_MONTHLY
-      - COST_GRANULARITY_TOTAL
-    Error:
-      example:
-        error: error
-      properties:
-        error:
-          type: string
-      type: object
-    TagKeysFilters:
-      additionalProperties: false
-      example:
-        containsAllOf:
-        - environment
-        - app
-        containsNoneOf:
-        - environment
-        - app
-        containsAnyOf:
-        - environment
-        - app
-      properties:
-        containsAllOf:
-          description: Matches if any key in this list is in the `tags` keys list.
-          example:
-          - environment
-          - app
-          items:
-            type: string
-          type: array
-        containsAnyOf:
-          description: Matches if none of the keys in this list are in the `tags` keys list.
-          example:
-          - environment
-          - app
-          items:
-            type: string
-          type: array
-        containsNoneOf:
-          description: Matches if all keys in this list are in the `tags` keys list.
-          example:
-          - environment
-          - app
-          items:
-            type: string
-          type: array
-      type: object
-    CloudProviderFilters:
-      additionalProperties: false
-      example:
-        in:
-        - AWS
-        - AZURE
-        notIn:
-        - GCP
-      properties:
-        in:
-          description: Matches if any value in this list equals `cloudProvider`.
-          example:
-          - AWS
-          - AZURE
-          items:
-            $ref: '#/components/schemas/Provider'
-          type: array
-        notIn:
-          description: Matches if none of the values in this list equal `cloudProvider`.
-          example:
-          - GCP
-          items:
-            $ref: '#/components/schemas/Provider'
-          type: array
-      type: object
-    SourceAccountProviderIdFilters:
-      additionalProperties: false
-      example:
-        in:
-        - '123456789012'
-        - ce865f0b-3e4a-5455-8dae-826803bd5ca7
-        notIn:
-        - '111222333444'
-        - 9b28c6e9-2423-52f8-af66-3c2a0ec3e536
-      properties:
-        in:
-          description: Matches if any value in this list equals `sourceAccountProviderId`.
-          example:
-          - '123456789012'
-          - ce865f0b-3e4a-5455-8dae-826803bd5ca7
-          items:
-            type: string
-          type: array
-        notIn:
-          description: Matches if none of the values in this list equal `sourceAccountProviderId`.
-          example:
-          - '111222333444'
-          - 9b28c6e9-2423-52f8-af66-3c2a0ec3e536
-          items:
-            type: string
-          type: array
       type: object
     QueryCostDataResponse:
       example:
@@ -609,56 +788,107 @@ components:
       - totalCount
       - totalUniqueResources
       type: object
-    TimeFrame:
+    Usage:
+      description: Raw usage amount and unit that generated the associated cost.
       example:
-        startTime: 2025-01-01 00:00:00+00:00
-        endTime: 2025-01-31 23:59:59+00:00
+        amount: 1073741824
+        unit: BYTES
       properties:
-        startTime:
-          description: 'Start time for the cost data query in ISO 8601 format.
-
-            Must be at least 24 hours before end time.
+        amount:
+          description: 'Raw usage quantity that generated the cost.
 
             '
-          example: 2025-01-01 00:00:00+00:00
-          format: date-time
-          type: string
-        endTime:
-          description: 'End time for the cost data query in ISO 8601 format.
-
-            '
-          example: 2025-01-31 23:59:59+00:00
-          format: date-time
-          type: string
+          example: 1073741824
+          format: double
+          minimum: 0
+          type: number
+        unit:
+          $ref: '#/components/schemas/UsageUnit'
       required:
-      - endTime
-      - startTime
+      - amount
+      - unit
       type: object
-    IdFilters:
+    queryCostData_400_response:
+      example:
+        error: start time should be at least 24 hours before end time
+      properties:
+        error:
+          example: start time should be at least 24 hours before end time
+          format: tobedefined
+          type: string
+      type: object
+    CostGranularity:
+      default: MONTHLY
+      description: Time granularity for aggregating cost data.
+      enum:
+      - HOURLY
+      - DAILY
+      - MONTHLY
+      - TOTAL
+      example: MONTHLY
+      type: string
+      x-enum-varnames:
+      - COST_GRANULARITY_HOURLY
+      - COST_GRANULARITY_DAILY
+      - COST_GRANULARITY_MONTHLY
+      - COST_GRANULARITY_TOTAL
+    TagKeyValuesFilters:
       additionalProperties: false
       example:
-        in:
-        - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
-        notIn:
-        - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+        containsAllOf:
+        - environment=staging
+        - app=web
+        containsNoneOf:
+        - environment=staging
+        - app=web
+        containsAnyOf:
+        - environment=production
+        - app=web
       properties:
-        in:
-          description: Matches if any string in this list equals `id`.
+        containsAllOf:
+          description: Matches if any `{key}={value}` pair in this list is in the `tags` list.
           example:
-          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+          - environment=staging
+          - app=web
           items:
             type: string
           type: array
-        notIn:
-          description: Matches if no string in this list equals `id`.
+        containsAnyOf:
+          description: Matches if none of the `{key}={value}` pairs in this list are in the `tags` list.
           example:
-          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          - environment=production
+          - app=web
+          items:
+            type: string
+          type: array
+        containsNoneOf:
+          description: Matches if all `{key}={value}` pairs in this list are in the `tags` list.
+          example:
+          - environment=staging
+          - app=web
           items:
             type: string
           type: array
       type: object
+    Provider:
+      description: 'Cloud provider.
+
+        `PROVIDER_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - AWS
+      - AZURE
+      - GCP
+      - MONGO_ATLAS
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
+      - PROVIDER_UNSPECIFIED
+      example: AWS
+      type: string
+      x-docs-internal-enum:
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
     ResourceType:
       description: 'Resource type identifier combining cloud provider and service type.
 
@@ -724,238 +954,6 @@ components:
       - GCP_SAP_HANA_VM
       - GOOGLE_WORKSPACE_RESOURCE
       - MICROSOFT_365_RESOURCE
-    UsageUnit:
-      default: BYTE_MONTHS
-      description: 'Whether usage is returned in byte-months, raw bytes, operations, or object-months for the specified `timeFrame`.
-
-        `UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - BYTE_MONTHS
-      - BYTES
-      - UNSPECIFIED
-      - OPERATIONS
-      - OBJECT_MONTHS
-      example: BYTES
-      type: string
-      x-docs-internal-enum:
-      - OPERATIONS
-      - OBJECT_MONTHS
-      x-enum-varnames:
-      - USAGE_UNIT_BYTE_MONTHS
-      - USAGE_UNIT_BYTES
-      - USAGE_UNIT_UNSPECIFIED
-      - USAGE_UNIT_OPERATIONS
-      - USAGE_UNIT_OBJECT_MONTHS
-    queryCostData_400_response:
-      example:
-        error: start time should be at least 24 hours before end time
-      properties:
-        error:
-          example: start time should be at least 24 hours before end time
-          format: tobedefined
-          type: string
-      type: object
-    Usage:
-      description: Raw usage amount and unit that generated the associated cost.
-      example:
-        amount: 1073741824
-        unit: BYTES
-      properties:
-        amount:
-          description: 'Raw usage quantity that generated the cost.
-
-            '
-          example: 1073741824
-          format: double
-          minimum: 0
-          type: number
-        unit:
-          $ref: '#/components/schemas/UsageUnit'
-      required:
-      - amount
-      - unit
-      type: object
-    CostUnit:
-      default: CREDITS
-      description: 'Currency unit for cost amounts.
-
-        Use `CREDITS` for Eon credits and `USD` for U.S. dollars.
-
-        `UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - CREDITS
-      - USD
-      - UNSPECIFIED
-      example: CREDITS
-      type: string
-      x-enum-varnames:
-      - COST_UNIT_CREDITS
-      - COST_UNIT_USD
-      - COST_UNIT_UNSPECIFIED
-    Cost:
-      example:
-        amount: 150.75
-        unit: CREDITS
-      properties:
-        amount:
-          description: 'Cost amount in the specified currency unit.
-
-            1 credit is equivalent to 0.01 USD.
-
-            '
-          example: 150.75
-          format: double
-          minimum: 0
-          type: number
-        unit:
-          $ref: '#/components/schemas/CostUnit'
-      required:
-      - amount
-      - unit
-      type: object
-    QueryCostDataRequest:
-      example:
-        usageUnit: BYTES
-        costUnit: CREDITS
-        granularity: MONTHLY
-        filters:
-          resourceId:
-            in:
-            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-            - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
-            notIn:
-            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
-          tagKeyValues:
-            containsAllOf:
-            - environment=staging
-            - app=web
-            containsNoneOf:
-            - environment=staging
-            - app=web
-            containsAnyOf:
-            - environment=production
-            - app=web
-          tagKeys:
-            containsAllOf:
-            - environment
-            - app
-            containsNoneOf:
-            - environment
-            - app
-            containsAnyOf:
-            - environment
-            - app
-          cloudProvider:
-            in:
-            - AWS
-            - AZURE
-            notIn:
-            - GCP
-          sourceAccountProviderId:
-            in:
-            - '123456789012'
-            - ce865f0b-3e4a-5455-8dae-826803bd5ca7
-            notIn:
-            - '111222333444'
-            - 9b28c6e9-2423-52f8-af66-3c2a0ec3e536
-          resourceType:
-            in:
-            - AWS_EC2
-            notIn:
-            - AWS_RDS
-        groupBy: SOURCE_ACCOUNT
-        timeFrame:
-          startTime: 2025-01-01 00:00:00+00:00
-          endTime: 2025-01-31 23:59:59+00:00
-        topN: 1
-      properties:
-        costUnit:
-          $ref: '#/components/schemas/CostUnit'
-        usageUnit:
-          $ref: '#/components/schemas/UsageUnit'
-        timeFrame:
-          $ref: '#/components/schemas/TimeFrame'
-        granularity:
-          $ref: '#/components/schemas/CostGranularity'
-        filters:
-          $ref: '#/components/schemas/CostDataFilters'
-        groupBy:
-          $ref: '#/components/schemas/CostDataGroupBy'
-        topN:
-          description: 'Limits the response to the top _n_ resources by total cost over `timeFrame`, and folds all other matching resources into one aggregated record per time period in `granularity`.
-
-            Use this when a resource-level query would return too many records—for example, to build an efficient top-spenders chart without requesting every resource for every period.
-
-
-            Applies only when grouping by `RESOURCE` or `RESOURCE_AND_VAULT`.
-
-            Otherwise, ignored.
-
-            Omit to return all matching resources.
-
-
-            Aggregated records have no dimensions and typically have `resourceCount` greater than 1.
-
-            '
-          minimum: 1
-          type: integer
-      required:
-      - timeFrame
-      type: object
-    CostDataRecord:
-      description: Total cost for this metering dimension in the specified currency unit.
-      example:
-        costs:
-        - cost:
-            amount: 150.75
-            unit: CREDITS
-          usage:
-            amount: 1073741824
-            unit: BYTES
-          meteringDimension: AWS_EC2_METERING_DIMENSION
-        - cost:
-            amount: 150.75
-            unit: CREDITS
-          usage:
-            amount: 1073741824
-            unit: BYTES
-          meteringDimension: AWS_EC2_METERING_DIMENSION
-        resourceCount: 10
-        recordTimeFrame:
-          startTime: 2025-01-01 00:00:00+00:00
-          endTime: 2025-01-31 23:59:59+00:00
-        dimensions:
-          resourceId: 123e4567-e89b-12d3-a456-426614174000
-          cloudProvider: AWS
-          sourceAccountProviderId: '123456789012'
-          resourceType: AWS_EC2
-      properties:
-        recordTimeFrame:
-          $ref: '#/components/schemas/TimeFrame'
-        resourceCount:
-          description: 'Number of unique resources that contributed to costs in this record''s time frame.
-
-            '
-          example: 10
-          minimum: 0
-          type: integer
-        dimensions:
-          $ref: '#/components/schemas/CostDataRecordDimensions'
-        costs:
-          description: 'Array of cost breakdowns by metering dimension.
-
-            '
-          items:
-            $ref: '#/components/schemas/CostDataRecordCost'
-          type: array
-      required:
-      - costs
-      - recordTimeFrame
-      type: object
   securitySchemes:
     ApiKeyAuth:
       bearerFormat: JWT

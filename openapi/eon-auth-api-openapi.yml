@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   description: The Eon.io REST API
-  title: Eon accounts auth API
+  title: Eon Auth API
   version: 1.0.0
 servers:
 - url: /
@@ -9,7 +9,7 @@ security:
 - ApiKeyAuth: []
 tags:
 - description: Authentication and access token management.
-  name: auth
+  name: Auth
   x-displayName: Auth
 paths:
   /v1/api-credentials/{clientId}/rotate:
@@ -29,9 +29,7 @@ paths:
         This means there is an effective grace period of up to 12 hours where previously issued access tokens continue to work, even though the client secret used to obtain them has been rotated.
 
 
-        [Rotate Current API Client Secret]: ./rotate-current-api-client-secret
-
-        '
+        [Rotate Current API Client Secret]: ./rotate-current-api-client-secret'
       operationId: rotateApiClientSecret
       parameters:
       - description: API client ID.
@@ -71,7 +69,7 @@ paths:
           description: Internal Server Error
       summary: Rotate API Client Secret
       tags:
-      - auth
+      - Auth
       x-internal: false
       x-data-access:
         excluded: true
@@ -100,9 +98,7 @@ paths:
         This means there is an effective grace period of up to 12 hours where previously issued access tokens continue to work, even though the client secret used to obtain them has been rotated.
 
 
-        [Rotate API Client Secret]: ./rotate-api-client-secret
-
-        '
+        [Rotate API Client Secret]: ./rotate-api-client-secret'
       operationId: rotateCurrentApiClientSecret
       responses:
         '200':
@@ -129,7 +125,7 @@ paths:
           description: Internal Server Error
       summary: Rotate Current API Client Secret
       tags:
-      - auth
+      - Auth
       x-internal: false
       x-data-access:
         excluded: true
@@ -148,7 +144,7 @@ paths:
 
         The client ID and secret you provide when calling this method must be from a set of API credentials from your Eon account.
 
-        To learn more about creating API credentials and completing the authentication flow, see [Authentication](/api/using-the-api/authentication).
+        To learn more about creating API credentials and completing the authentication flow, see Authentication.
 
 
         The returned access token has the permissions included in the role you assigned to the API credentials.
@@ -158,9 +154,7 @@ paths:
 
         The access token is valid for 12 hours.
 
-        After that, you must call this method again to get a new token.
-
-        '
+        After that, you must call this method again to get a new token.'
       operationId: getAccessToken
       requestBody:
         content:
@@ -200,7 +194,7 @@ paths:
       security: []
       summary: Get Access Token
       tags:
-      - auth
+      - Auth
       x-permissions: []
       x-internal: false
       x-data-access:
@@ -222,7 +216,7 @@ paths:
 
         The client ID and secret you provide when calling this method must be from a set of API credentials from your Eon account.
 
-        To learn more about creating API credentials and completing the authentication flow, see [Authentication](/api/using-the-api/authentication).
+        To learn more about creating API credentials and completing the authentication flow, see Authentication.
 
 
         The returned access token has the permissions included in the role you assigned to the API credentials.
@@ -235,9 +229,7 @@ paths:
         After that, you must call this method again to get a new token.
 
 
-        [Get Access Token]: ./get-access-token
-
-        '
+        [Get Access Token]: ./get-access-token'
       operationId: getAccessTokenOAuth2
       requestBody:
         content:
@@ -277,7 +269,7 @@ paths:
       security: []
       summary: Get Access Token (OAuth 2)
       tags:
-      - auth
+      - Auth
       x-permissions: []
       x-internal: false
       x-data-access:
@@ -287,70 +279,12 @@ paths:
         action: auth
 components:
   schemas:
-    TokenResponse:
-      example:
-        expirationSeconds: 43200
-        accessToken: accessToken
-      properties:
-        accessToken:
-          description: Access token, which you pass in the `Authorization` header when calling API methods.
-          type: string
-        expirationSeconds:
-          description: 'Length of time until the token expires, in seconds.
-
-
-            Default: `43200` (12 hours).
-
-            '
-          example: 43200
-          type: integer
-      type: object
-    Oauth2TokenResponse:
-      example:
-        access_token: access_token
-        token_type: Bearer
-        expires_in: 43200
-      properties:
-        access_token:
-          description: Access token, which you pass in the `Authorization` header when calling API methods.
-          type: string
-        token_type:
-          description: Type of the token, which is always `Bearer`.
-          example: Bearer
-          type: string
-        expires_in:
-          description: 'Length of time until the token expires, in seconds.
-
-            Default: `43200` (12 hours).
-
-            '
-          example: 43200
-          type: integer
-      type: object
     Error:
       example:
         error: error
       properties:
         error:
           type: string
-      type: object
-    ApiCredentials:
-      additionalProperties: false
-      example:
-        clientId: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
-        clientSecret: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
-      properties:
-        clientId:
-          description: API client ID.
-          example: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
-          type: string
-        clientSecret:
-          description: API client secret.
-          example: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
-          type: string
-      required:
-      - clientId
-      - clientSecret
       type: object
     OAuth2TokenRequest:
       additionalProperties: false
@@ -377,6 +311,64 @@ components:
       - client_id
       - client_secret
       - grant_type
+      type: object
+    Oauth2TokenResponse:
+      example:
+        access_token: access_token
+        token_type: Bearer
+        expires_in: 43200
+      properties:
+        access_token:
+          description: Access token, which you pass in the `Authorization` header when calling API methods.
+          type: string
+        token_type:
+          description: Type of the token, which is always `Bearer`.
+          example: Bearer
+          type: string
+        expires_in:
+          description: 'Length of time until the token expires, in seconds.
+
+            Default: `43200` (12 hours).
+
+            '
+          example: 43200
+          type: integer
+      type: object
+    ApiCredentials:
+      additionalProperties: false
+      example:
+        clientId: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
+        clientSecret: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
+      properties:
+        clientId:
+          description: API client ID.
+          example: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
+          type: string
+        clientSecret:
+          description: API client secret.
+          example: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
+          type: string
+      required:
+      - clientId
+      - clientSecret
+      type: object
+    TokenResponse:
+      example:
+        expirationSeconds: 43200
+        accessToken: accessToken
+      properties:
+        accessToken:
+          description: Access token, which you pass in the `Authorization` header when calling API methods.
+          type: string
+        expirationSeconds:
+          description: 'Length of time until the token expires, in seconds.
+
+
+            Default: `43200` (12 hours).
+
+            '
+          example: 43200
+          type: integer
       type: object
   securitySchemes:
     ApiKeyAuth:

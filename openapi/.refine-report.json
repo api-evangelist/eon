@@ -1,19 +1,7 @@
 {
   "provider": "eon",
   "sources": [
-    "eon-accounts-api-openapi.yml",
-    "eon-actionapprovals-api-openapi.yml",
-    "eon-auth-api-openapi.yml",
-    "eon-backuppolicies-api-openapi.yml",
-    "eon-backups-api-openapi.yml",
-    "eon-billing-api-openapi.yml",
-    "eon-dashboard-api-openapi.yml",
-    "eon-databasesnapshots-api-openapi.yml",
-    "eon-iam-api-openapi.yml",
-    "eon-jobs-api-openapi.yml",
-    "eon-resources-api-openapi.yml",
-    "eon-snapshots-api-openapi.yml",
-    "eon-vaults-api-openapi.yml"
+    "_original/eon-openapi-original.yml"
   ],
   "outputs": [
     "eon-accounts-api-openapi.yml",
@@ -30,9 +18,34 @@
     "eon-snapshots-api-openapi.yml",
     "eon-vaults-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 2 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "eon-openapi-original.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "eon-openapi-original.yml: declared missing tag: actionApprovals",
+    "eon-openapi-original.yml: declared missing tag: backups",
+    "eon-openapi-original.yml: declared missing tag: dashboard",
+    "eon-openapi-original.yml: declared missing tag: iam",
+    "superseded outputs removed: eon-backup-policies-api-openapi.yml, eon-database-snapshots-api-openapi.yml",
+    "apis.yml register: written (+2 apis, 13 total)"
+  ],
+  "skipped": [
+    "eon-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-actionapprovals-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-backup-policies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-backups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-billing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-dashboard-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-database-snapshots-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-iam-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-resources-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-snapshots-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eon-vaults-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

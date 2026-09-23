@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   description: The Eon.io REST API
-  title: Eon accounts resources API
+  title: Eon Resources API
   version: 1.0.0
 servers:
 - url: /
@@ -9,7 +9,7 @@ security:
 - ApiKeyAuth: []
 tags:
 - description: Discover and manage protected cloud resources.
-  name: resources
+  name: Resources
   x-displayName: Resources
 paths:
   /v1/projects/{projectId}/resources/{id}/object-store-scan-method:
@@ -70,7 +70,7 @@ paths:
           description: Internal Server Error
       summary: Get object-store scan method
       tags:
-      - resources
+      - Resources
       x-internal: false
       x-permissions:
       - read:inventory
@@ -148,7 +148,7 @@ paths:
           description: Internal Server Error
       summary: Update object-store scan method
       tags:
-      - resources
+      - Resources
       x-internal: false
       x-permissions:
       - update:inventory
@@ -241,7 +241,7 @@ paths:
           description: Internal Server Error
       summary: List Resources
       tags:
-      - resources
+      - Resources
       x-mcp: true
       x-internal: false
       x-data-access:
@@ -306,7 +306,7 @@ paths:
           description: Internal Server Error
       summary: Get Resource
       tags:
-      - resources
+      - Resources
       x-mcp: true
       x-permissions:
       - read:inventory
@@ -321,9 +321,7 @@ paths:
           key: id
   /v1/projects/{projectId}/resources/{id}/data-classifications:
     delete:
-      description: 'Description: Removes a resource''s data classes override, which re-enables auto-classification for the resource.
-
-        '
+      description: 'Description: Removes a resource''s data classes override, which re-enables auto-classification for the resource.'
       operationId: removeDataClassesOverride
       parameters:
       - description: 'ID of the project the resource is in.
@@ -373,7 +371,7 @@ paths:
           description: Internal Server Error
       summary: Remove Data Classes Override
       tags:
-      - resources
+      - Resources
       x-internal: false
       x-data-access:
         excluded: false
@@ -393,9 +391,7 @@ paths:
       description: 'Description: Manually sets a resource''s data classes, overriding auto-classification.
 
 
-        You can revert to auto-classification of data classes by calling [Remove Data Classes Override](remove-data-classes-override) for the same resource.
-
-        '
+        You can revert to auto-classification of data classes by calling Remove Data Classes Override for the same resource.'
       operationId: overrideDataClasses
       parameters:
       - description: 'ID of the project the resource is in.
@@ -455,7 +451,7 @@ paths:
           description: Internal Server Error
       summary: Override Data Classes
       tags:
-      - resources
+      - Resources
       x-permissions:
       - update:data_classification
       x-audit-log:
@@ -473,9 +469,7 @@ paths:
           key: id
   /v1/projects/{projectId}/resources/{id}/environments:
     delete:
-      description: 'Description: Removes a resource''s environment override, which re-enables auto-classification for the resource.
-
-        '
+      description: 'Description: Removes a resource''s environment override, which re-enables auto-classification for the resource.'
       operationId: removeEnvironmentOverride
       parameters:
       - description: 'ID of the project the resource is in.
@@ -525,7 +519,7 @@ paths:
           description: Internal Server Error
       summary: Remove Environment Override
       tags:
-      - resources
+      - Resources
       x-internal: false
       x-data-access:
         excluded: false
@@ -545,9 +539,7 @@ paths:
       description: 'Description: Manually sets a resource''s environment, overriding auto-classification.
 
 
-        You can revert to auto-classification of environment by calling [Remove Environment Override](remove-environment-override) for the same resource.
-
-        '
+        You can revert to auto-classification of environment by calling Remove Environment Override for the same resource.'
       operationId: overrideEnvironment
       parameters:
       - description: 'ID of the project the resource is in.
@@ -607,7 +599,7 @@ paths:
           description: Internal Server Error
       summary: Override Environment
       tags:
-      - resources
+      - Resources
       x-internal: false
       x-data-access:
         excluded: false
@@ -628,9 +620,7 @@ paths:
       description: 'Description: Prevents a resource from being backed up by Eon and suppresses scanning and violations.
 
 
-        You can cancel this action by calling [Cancel Resource Backup Exclusion](cancel-resource-backup-exclusion) for the same resource.
-
-        '
+        You can cancel this action by calling Cancel Resource Backup Exclusion for the same resource.'
       operationId: excludeResourceFromBackup
       parameters:
       - description: 'ID of the project the resource is in.
@@ -684,7 +674,7 @@ paths:
           description: Internal Server Error
       summary: Exclude Resource from Backup
       tags:
-      - resources
+      - Resources
       x-permissions:
       - update:exclude_resource
       x-audit-log:
@@ -702,9 +692,7 @@ paths:
           key: id
   /v1/projects/{projectId}/resources/{id}/include:
     patch:
-      description: 'Description: Allows a resource to be backed up by Eon, scanned, and checked for violations.
-
-        '
+      description: 'Description: Allows a resource to be backed up by Eon, scanned, and checked for violations.'
       operationId: cancelResourceBackupExclusion
       parameters:
       - description: 'ID of the project the resource is in.
@@ -758,7 +746,7 @@ paths:
           description: Internal Server Error
       summary: Cancel Resource Backup Exclusion
       tags:
-      - resources
+      - Resources
       x-permissions:
       - update:exclude_resource
       x-audit-log:
@@ -779,12 +767,10 @@ paths:
       description: 'Description: Excludes an EC2-attached EBS volume from being backed up by Eon.
 
 
-        You can cancel this action by calling [Cancel Volume Backup Exclusion](cancel-volume-backup-exclusion) for the same volume.
+        You can cancel this action by calling Cancel Volume Backup Exclusion for the same volume.
 
 
-        Root volumes can''t be excluded.
-
-        '
+        Root volumes can''t be excluded.'
       operationId: excludeVolumeFromBackup
       parameters:
       - description: 'ID of the project the resource is in.
@@ -857,7 +843,7 @@ paths:
           description: Internal Server Error
       summary: Exclude Volume from Backup
       tags:
-      - resources
+      - Resources
       x-permissions:
       - update:exclude_resource
       x-audit-log:
@@ -880,9 +866,7 @@ paths:
 
         By default, all EBS volumes are included in backups.
 
-        It''s not necessary to cancel a volume exclusion unless the volume was previously [excluded from backup](exclude-volume-from-backup).
-
-        '
+        It''s not necessary to cancel a volume exclusion unless the volume was previously excluded from backup.'
       operationId: cancelVolumeBackupExclusion
       parameters:
       - description: 'ID of the project the EC2 instance is in.
@@ -955,7 +939,7 @@ paths:
           description: Internal Server Error
       summary: Cancel Volume Backup Exclusion
       tags:
-      - resources
+      - Resources
       x-permissions:
       - update:exclude_resource
       x-audit-log:
@@ -973,737 +957,99 @@ paths:
           key: id
 components:
   schemas:
-    AppsDetails:
-      description: Details about apps installed on the resource.
+    DataClassesDetails:
+      description: Details about the resource's data classes.
       example:
         isOverridden: true
-        apps:
-        - paths:
-          - paths
-          - paths
-          name: Jenkins
-        - paths:
-          - paths
-          - paths
-          name: Jenkins
+        dataClasses:
+        - PII
+        - PHI
       properties:
-        apps:
-          description: List of app details.
+        dataClasses:
+          description: List of data classes.
+          example:
+          - PII
+          - PHI
           items:
-            $ref: '#/components/schemas/App'
+            $ref: '#/components/schemas/DataClass'
           type: array
         isOverridden:
-          description: 'Whether the apps are manually overridden.
+          description: 'Whether the data classes are manually overridden.
 
-            If `true`, the list of apps is user-defined and remains static.
+            If `true`, the list of data classes is user-defined and remains static.
 
-            If `false`, the apps are automatically detected and listed by Eon.
+            If `false`, the data classes are automatically detected and listed by Eon.
 
             '
           type: boolean
       type: object
       x-nullable: true
-    ListInventoryRequest:
+    IdFilters:
       additionalProperties: false
       example:
-        filters:
-          tagKeys:
-            containsAllOf:
-            - environment
-            - app
-            containsNoneOf:
-            - environment
-            - app
-            containsAnyOf:
-            - environment
-            - app
-          resourceName:
-            contains:
-            - app-server-2
-            in:
-            - db-server
-            notContains:
-            - db-workflows-1
-            notIn:
-            - customers
-          dataClasses:
-            containsAllOf:
-            - PHI
-            - PII
-            containsNoneOf:
-            - PHI
-            containsAnyOf:
-            - PII
-            - PHI
-          providerResourceId:
-            in:
-            - i-0f600a1b15b035105
-            notIn:
-            - i-0dcd0d3e17ca4d350
-          accountId:
-            in:
-            - '836638811603'
-            notIn:
-            - '529569125077'
-          environment:
-            in:
-            - PROD
-            - PROD_INTERNAL
-            notIn:
-            - STAGE
-          backupStatus:
-            in:
-            - NOT_BACKED_UP
-            - PROTECTED
-            notIn:
-            - TERMINATED
-            - DISCONNECTED
-          tagKeyValues:
-            containsAllOf:
-            - environment=staging
-            - app=web
-            containsNoneOf:
-            - environment=staging
-            - app=web
-            containsAnyOf:
-            - environment=production
-            - app=web
-          cloudProvider:
-            in:
-            - AWS
-            - AZURE
-            notIn:
-            - GCP
-          subnets:
-            containsAllOf:
-            - subnet-57c92df5
-            - subnet-ef0fd42f
-            containsNoneOf:
-            - subnet-9b5118b1
-            containsAnyOf:
-            - subnet-aa2c166e
-            - subnet-eb71c3a2
-          id:
-            in:
-            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-            - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
-            notIn:
-            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
-          resourceType:
-            in:
-            - AWS_EC2
-            notIn:
-            - AWS_RDS
-          apps:
-            containsAllOf:
-            - Elasticsearch
-            - Logastash
-            - Kibana
-            containsNoneOf:
-            - PostgreSQL
-            - MySQL
-            containsAnyOf:
-            - Trello
-            - Asana
-        sorts:
-        - field: latestSnapshotTime
-          order: ASC
-        - field: latestSnapshotTime
-          order: ASC
+        in:
+        - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+        notIn:
+        - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
       properties:
-        sorts:
-          description: 'List of sorting options.
-
-            Sorting is applied in the order passed in the list.
-
-            '
-          items:
-            $ref: '#/components/schemas/SortResourceBy'
-          type: array
-        filters:
-          $ref: '#/components/schemas/InventoryFilterConditions'
-      type: object
-    TagKeyValuesFilters:
-      additionalProperties: false
-      example:
-        containsAllOf:
-        - environment=staging
-        - app=web
-        containsNoneOf:
-        - environment=staging
-        - app=web
-        containsAnyOf:
-        - environment=production
-        - app=web
-      properties:
-        containsAllOf:
-          description: Matches if any `{key}={value}` pair in this list is in the `tags` list.
+        in:
+          description: Matches if any string in this list equals `id`.
           example:
-          - environment=staging
-          - app=web
+          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
           items:
             type: string
           type: array
-        containsAnyOf:
-          description: Matches if none of the `{key}={value}` pairs in this list are in the `tags` list.
+        notIn:
+          description: Matches if no string in this list equals `id`.
           example:
-          - environment=production
-          - app=web
-          items:
-            type: string
-          type: array
-        containsNoneOf:
-          description: Matches if all `{key}={value}` pairs in this list are in the `tags` list.
-          example:
-          - environment=staging
-          - app=web
+          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
           items:
             type: string
           type: array
       type: object
-    Provider:
-      description: 'Cloud provider.
-
-        `PROVIDER_UNSPECIFIED` is supported only in responses.
-
-        '
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    ResourceSortField:
+      description: Field to sort by.
       enum:
-      - AWS
-      - AZURE
-      - GCP
-      - MONGO_ATLAS
-      - GOOGLE_WORKSPACE
-      - MICROSOFT_365
-      - PROVIDER_UNSPECIFIED
-      example: AWS
+      - id
+      - backupStatus
+      - accountId
+      - resourceName
+      - environment
+      - providerResourceId
+      - sizeBytes
+      - snapshotStorageSizeBytes
+      - eonSnapshotCount
+      - nonEonSnapshotCount
+      - latestSnapshotTime
+      - oldestSnapshotTime
+      - dateDiscovered
+      - createdTime
+      - resourceGroupName
+      - clusterName
+      - globalClusterIdentifier
+      - lastDataClassificationTime
+      example: latestSnapshotTime
       type: string
       x-docs-internal-enum:
-      - GOOGLE_WORKSPACE
-      - MICROSOFT_365
-    GetObjectStoreScanMethodResponse:
-      additionalProperties: false
-      example:
-        objectStoreScanMethod:
-          inventoryBackup:
-            enabled: true
-            systemControlled: false
-          cdcBackup:
-            enabled: true
-            systemControlled: false
-      properties:
-        objectStoreScanMethod:
-          $ref: '#/components/schemas/ObjectStoreScanMethod'
-      required:
-      - objectStoreScanMethod
-      type: object
-    SnapshotStorage:
-      description: Details about backup snapshot storage.
-      example:
-        eonSnapshotCount: 131
-        nonEonSnapshotCount: 26
-        sizeBytes: 1340000000000
-      properties:
-        sizeBytes:
-          description: Total size of the resource's Eon snapshots, in bytes.
-          example: 1340000000000
-          format: int64
-          type: integer
-        eonSnapshotCount:
-          description: Number of Eon snapshots backing up the resource.
-          example: 131
-          type: integer
-        nonEonSnapshotCount:
-          description: 'Number of non-Eon snapshots backing up the resource.
-
-            Only cloud-provider-native snapshots in the source account are included in this count.
-
-            '
-          example: 26
-          type: integer
-      type: object
-    VolumeSettings:
-      description: Provisioned volume settings.
-      example:
-        iops: 3000
-        throughput: 125
-        type: gp3
-        sizeBytes: 10000000000
-      properties:
-        type:
-          description: Volume type.
-          example: gp3
-          type: string
-        sizeBytes:
-          description: Volume size in bytes.
-          example: 10000000000
-          format: int64
-          type: integer
-        iops:
-          description: Volume IOPS.
-          example: 3000
-          type: integer
-        throughput:
-          description: Volume throughput.
-          example: 125
-          type: integer
-      required:
+      - id
+      - backupStatus
+      - accountId
+      - environment
+      - providerResourceId
       - sizeBytes
-      - type
-      type: object
-    OverrideDataClassificationsRequest:
-      example:
-        dataClasses:
-        - PII
-      properties:
-        dataClasses:
-          description: List of data classes to set.
-          example:
-          - PII
-          items:
-            $ref: '#/components/schemas/DataClass'
-          type: array
-      type: object
-    CancelExclusionFromBackupResponse:
-      example:
-        isExclusionCanceled: true
-      properties:
-        isExclusionCanceled:
-          description: 'Whether the call was successful.
-
-            Expected to be `true`.
-
-            '
-          type: boolean
-      required:
-      - isExclusionCanceled
-      type: object
-    OverrideEnvironmentRequest:
-      example:
-        environment: PROD
-      properties:
-        environment:
-          $ref: '#/components/schemas/Environment'
-      type: object
-    GetResourceResponse:
-      example:
-        resource:
-          resourceProperties:
-            awsEc2:
-              volumes:
-              - path: /dev/xvda
-                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-                providerVolumeId: vol-0556d4633af5c430a
-                volumeSettings:
-                  iops: 3000
-                  throughput: 125
-                  type: gp3
-                  sizeBytes: 10000000000
-                isAwsManagedKey: false
-                region: eu-central-1
-                availabilityZone: eu-central-1a
-                tags:
-                  primary: ''
-              - path: /dev/xvda
-                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-                providerVolumeId: vol-0556d4633af5c430a
-                volumeSettings:
-                  iops: 3000
-                  throughput: 125
-                  type: gp3
-                  sizeBytes: 10000000000
-                isAwsManagedKey: false
-                region: eu-central-1
-                availabilityZone: eu-central-1a
-                tags:
-                  primary: ''
-          vpc: vpc-041d4426c201ee954
-          resourceName: customers db
-          oldestSnapshotTime: 2024-09-24 08:21:01+00:00
-          latestSnapshotTime: 2024-11-28 23:01:39+00:00
-          tags:
-            env: prod
-            app: web
-          providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
-          classifications:
-            appsDetails:
-              isOverridden: true
-              apps:
-              - paths:
-                - paths
-                - paths
-                name: Jenkins
-              - paths:
-                - paths
-                - paths
-                name: Jenkins
-            environmentDetails:
-              environment: PROD
-              isOverridden: true
-            dataClassesDetails:
-              isOverridden: true
-              dataClasses:
-              - PII
-              - PHI
-          sourceStorage:
-            sizeBytes: 561566973952
-          discoveredTime: 2024-11-29 11:22:33+00:00
-          backupStatus: VIOLATIONS_DETECTED
-          providerAccountId: '836638811603'
-          cloudProvider: AWS
-          createdTime: 2024-08-29 13:24:03+00:00
-          controlViolationCounts:
-            high: 3
-            low: 1
-            medium: 2
-            muted: 0
-          subnets:
-          - subnet-0ee871cbf003fd112
-          - subnet-04e455b5a740d90c4
-          id: d38906a7-ef8e-50f5-868e-2109ab881b15
-          region: eu-central-1
-          snapshotStorage:
-            eonSnapshotCount: 131
-            nonEonSnapshotCount: 26
-            sizeBytes: 1340000000000
-          resourceType: AWS_EC2
-      properties:
-        resource:
-          $ref: '#/components/schemas/InventoryResource'
-      required:
-      - resource
-      type: object
-    ResourceIdFilters:
-      additionalProperties: false
-      example:
-        in:
-        - i-0f600a1b15b035105
-        notIn:
-        - i-0dcd0d3e17ca4d350
-      properties:
-        in:
-          description: Matches if any string in this list equals `providerResourceId`.
-          example:
-          - i-0f600a1b15b035105
-          items:
-            type: string
-          type: array
-        notIn:
-          description: Matches if no string in this list equals `providerResourceId`.
-          example:
-          - i-0dcd0d3e17ca4d350
-          items:
-            type: string
-          type: array
-      type: object
-    App:
-      example:
-        paths:
-        - paths
-        - paths
-        name: Jenkins
-      properties:
-        name:
-          description: 'App display name.
-
-            For a list of supported apps, see [Apps](/user-guide/monitoring/classifications/resource-classifications#apps).
-
-            '
-          example: Jenkins
-          type: string
-        paths:
-          description: List of paths where the app was found.
-          items:
-            type: string
-          type: array
-      required:
-      - name
-      type: object
-    ExcludeFromBackupResponse:
-      example:
-        isExcluded: true
-      properties:
-        isExcluded:
-          description: 'Whether the resource is excluded from backup.
-
-            Expected to be `true`.
-
-            '
-          type: boolean
-      required:
-      - isExcluded
-      type: object
-    UpdateObjectStoreScanMethodRequest:
-      additionalProperties: false
-      description: Object-store scan method settings to update for an AWS S3 bucket or GCP Cloud Storage bucket.
-      example:
-        inventoryBackup:
-          enabled: true
-          systemControlled: false
-        cdcBackup:
-          enabled: true
-          systemControlled: false
-      properties:
-        cdcBackup:
-          $ref: '#/components/schemas/ObjectStoreScanMethodSetting'
-        inventoryBackup:
-          $ref: '#/components/schemas/ObjectStoreScanMethodSetting'
-      type: object
-    ResourceProperties:
-      description: 'Source resource properties.
-
-        The properties present in this object change depending on the value set in `resourceType`.
-
-        '
-      example:
-        awsEc2:
-          volumes:
-          - path: /dev/xvda
-            encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-            providerVolumeId: vol-0556d4633af5c430a
-            volumeSettings:
-              iops: 3000
-              throughput: 125
-              type: gp3
-              sizeBytes: 10000000000
-            isAwsManagedKey: false
-            region: eu-central-1
-            availabilityZone: eu-central-1a
-            tags:
-              primary: ''
-          - path: /dev/xvda
-            encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-            providerVolumeId: vol-0556d4633af5c430a
-            volumeSettings:
-              iops: 3000
-              throughput: 125
-              type: gp3
-              sizeBytes: 10000000000
-            isAwsManagedKey: false
-            region: eu-central-1
-            availabilityZone: eu-central-1a
-            tags:
-              primary: ''
-      nullable: true
-      properties:
-        awsEc2:
-          $ref: '#/components/schemas/AwsEc2Resource'
-      type: object
-    ObjectStoreScanMethodSetting:
-      additionalProperties: false
-      description: Object-store scan method setting. If systemControlled is true, Eon decides whether the method is enabled. If systemControlled is false, enabled is required.
-      example:
-        enabled: true
-        systemControlled: false
-      properties:
-        enabled:
-          description: Whether the scan method is enabled. Required only when systemControlled is false.
-          example: true
-          nullable: true
-          type: boolean
-        systemControlled:
-          description: Whether Eon should decide when to use this scan method.
-          example: false
-          type: boolean
-      required:
-      - systemControlled
-      type: object
-    OverrideDataClassificationsResponse:
-      example:
-        dataClasses:
-        - PII
-      properties:
-        dataClasses:
-          description: List of data classes that were overridden.
-          example:
-          - PII
-          items:
-            $ref: '#/components/schemas/DataClass'
-          type: array
-      type: object
-    ListResourcesResponse:
-      example:
-        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
-        resources:
-        - resourceProperties:
-            awsEc2:
-              volumes:
-              - path: /dev/xvda
-                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-                providerVolumeId: vol-0556d4633af5c430a
-                volumeSettings:
-                  iops: 3000
-                  throughput: 125
-                  type: gp3
-                  sizeBytes: 10000000000
-                isAwsManagedKey: false
-                region: eu-central-1
-                availabilityZone: eu-central-1a
-                tags:
-                  primary: ''
-              - path: /dev/xvda
-                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-                providerVolumeId: vol-0556d4633af5c430a
-                volumeSettings:
-                  iops: 3000
-                  throughput: 125
-                  type: gp3
-                  sizeBytes: 10000000000
-                isAwsManagedKey: false
-                region: eu-central-1
-                availabilityZone: eu-central-1a
-                tags:
-                  primary: ''
-          vpc: vpc-041d4426c201ee954
-          resourceName: customers db
-          oldestSnapshotTime: 2024-09-24 08:21:01+00:00
-          latestSnapshotTime: 2024-11-28 23:01:39+00:00
-          tags:
-            env: prod
-            app: web
-          providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
-          classifications:
-            appsDetails:
-              isOverridden: true
-              apps:
-              - paths:
-                - paths
-                - paths
-                name: Jenkins
-              - paths:
-                - paths
-                - paths
-                name: Jenkins
-            environmentDetails:
-              environment: PROD
-              isOverridden: true
-            dataClassesDetails:
-              isOverridden: true
-              dataClasses:
-              - PII
-              - PHI
-          sourceStorage:
-            sizeBytes: 561566973952
-          discoveredTime: 2024-11-29 11:22:33+00:00
-          backupStatus: VIOLATIONS_DETECTED
-          providerAccountId: '836638811603'
-          cloudProvider: AWS
-          createdTime: 2024-08-29 13:24:03+00:00
-          controlViolationCounts:
-            high: 3
-            low: 1
-            medium: 2
-            muted: 0
-          subnets:
-          - subnet-0ee871cbf003fd112
-          - subnet-04e455b5a740d90c4
-          id: d38906a7-ef8e-50f5-868e-2109ab881b15
-          region: eu-central-1
-          snapshotStorage:
-            eonSnapshotCount: 131
-            nonEonSnapshotCount: 26
-            sizeBytes: 1340000000000
-          resourceType: AWS_EC2
-        - resourceProperties:
-            awsEc2:
-              volumes:
-              - path: /dev/xvda
-                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-                providerVolumeId: vol-0556d4633af5c430a
-                volumeSettings:
-                  iops: 3000
-                  throughput: 125
-                  type: gp3
-                  sizeBytes: 10000000000
-                isAwsManagedKey: false
-                region: eu-central-1
-                availabilityZone: eu-central-1a
-                tags:
-                  primary: ''
-              - path: /dev/xvda
-                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-                providerVolumeId: vol-0556d4633af5c430a
-                volumeSettings:
-                  iops: 3000
-                  throughput: 125
-                  type: gp3
-                  sizeBytes: 10000000000
-                isAwsManagedKey: false
-                region: eu-central-1
-                availabilityZone: eu-central-1a
-                tags:
-                  primary: ''
-          vpc: vpc-041d4426c201ee954
-          resourceName: customers db
-          oldestSnapshotTime: 2024-09-24 08:21:01+00:00
-          latestSnapshotTime: 2024-11-28 23:01:39+00:00
-          tags:
-            env: prod
-            app: web
-          providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
-          classifications:
-            appsDetails:
-              isOverridden: true
-              apps:
-              - paths:
-                - paths
-                - paths
-                name: Jenkins
-              - paths:
-                - paths
-                - paths
-                name: Jenkins
-            environmentDetails:
-              environment: PROD
-              isOverridden: true
-            dataClassesDetails:
-              isOverridden: true
-              dataClasses:
-              - PII
-              - PHI
-          sourceStorage:
-            sizeBytes: 561566973952
-          discoveredTime: 2024-11-29 11:22:33+00:00
-          backupStatus: VIOLATIONS_DETECTED
-          providerAccountId: '836638811603'
-          cloudProvider: AWS
-          createdTime: 2024-08-29 13:24:03+00:00
-          controlViolationCounts:
-            high: 3
-            low: 1
-            medium: 2
-            muted: 0
-          subnets:
-          - subnet-0ee871cbf003fd112
-          - subnet-04e455b5a740d90c4
-          id: d38906a7-ef8e-50f5-868e-2109ab881b15
-          region: eu-central-1
-          snapshotStorage:
-            eonSnapshotCount: 131
-            nonEonSnapshotCount: 26
-            sizeBytes: 1340000000000
-          resourceType: AWS_EC2
-        totalCount: 0
-      properties:
-        resources:
-          description: List of retrieved resources.
-          items:
-            $ref: '#/components/schemas/InventoryResource'
-          type: array
-        nextToken:
-          description: 'Cursor that points to the first record of the next page of results.
-
-            Pass this value in the next request.
-
-            '
-          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
-          type: string
-        totalCount:
-          description: Total number of resources that matched the filter options.
-          type: integer
-      required:
-      - resources
-      - totalCount
-      type: object
+      - snapshotStorageSizeBytes
+      - eonSnapshotCount
+      - nonEonSnapshotCount
+      - lastDataClassificationTime
     DataClassesFilters:
       additionalProperties: false
       example:
@@ -1740,38 +1086,509 @@ components:
             type: string
           type: array
       type: object
-    EnvironmentDetails:
-      description: Details about the resource's environment.
+    SnapshotStorage:
+      description: Details about backup snapshot storage.
       example:
-        environment: PROD
-        isOverridden: true
+        eonSnapshotCount: 131
+        nonEonSnapshotCount: 26
+        sizeBytes: 1340000000000
       properties:
-        environment:
-          $ref: '#/components/schemas/Environment'
+        sizeBytes:
+          description: Total size of the resource's Eon snapshots, in bytes.
+          example: 1340000000000
+          format: int64
+          type: integer
+        eonSnapshotCount:
+          description: Number of Eon snapshots backing up the resource.
+          example: 131
+          type: integer
+        nonEonSnapshotCount:
+          description: 'Number of non-Eon snapshots backing up the resource.
+
+            Only cloud-provider-native snapshots in the source account are included in this count.
+
+            '
+          example: 26
+          type: integer
+      type: object
+    SortResourceBy:
+      description: 'List of sorting options.
+
+        Sorting is applied in the order passed in the list.
+
+        '
+      example:
+        field: latestSnapshotTime
+        order: ASC
+      properties:
+        field:
+          $ref: '#/components/schemas/ResourceSortField'
+        order:
+          $ref: '#/components/schemas/SortOrder'
+      required:
+      - field
+      - order
+      type: object
+    ResourceProperties:
+      description: 'Source resource properties.
+
+        The properties present in this object change depending on the value set in `resourceType`.
+
+        '
+      example:
+        awsEc2:
+          volumes:
+          - path: /dev/xvda
+            encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            providerVolumeId: vol-0556d4633af5c430a
+            volumeSettings:
+              iops: 3000
+              throughput: 125
+              type: gp3
+              sizeBytes: 10000000000
+            isAwsManagedKey: false
+            region: eu-central-1
+            availabilityZone: eu-central-1a
+            tags:
+              primary: ''
+          - path: /dev/xvda
+            encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            providerVolumeId: vol-0556d4633af5c430a
+            volumeSettings:
+              iops: 3000
+              throughput: 125
+              type: gp3
+              sizeBytes: 10000000000
+            isAwsManagedKey: false
+            region: eu-central-1
+            availabilityZone: eu-central-1a
+            tags:
+              primary: ''
+      properties:
+        awsEc2:
+          $ref: '#/components/schemas/AwsEc2Resource'
+      type:
+      - object
+      - 'null'
+    ResourceNameFilters:
+      additionalProperties: false
+      example:
+        contains:
+        - app-server-2
+        in:
+        - db-server
+        notContains:
+        - db-workflows-1
+        notIn:
+        - customers
+      properties:
+        in:
+          description: Matches if any string in this list equals `resourceName`.
+          example:
+          - db-server
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if no string in this list equals `resourceName`.
+          example:
+          - customers
+          items:
+            type: string
+          type: array
+        contains:
+          description: Matches if any string in this list is a substring of `resourceName`.
+          example:
+          - app-server-2
+          items:
+            type: string
+          type: array
+        notContains:
+          description: Matches if no string in this list is a substring of `resourceName`.
+          example:
+          - db-workflows-1
+          items:
+            type: string
+          type: array
+      type: object
+    ResourceIdFilters:
+      additionalProperties: false
+      example:
+        in:
+        - i-0f600a1b15b035105
+        notIn:
+        - i-0dcd0d3e17ca4d350
+      properties:
+        in:
+          description: Matches if any string in this list equals `providerResourceId`.
+          example:
+          - i-0f600a1b15b035105
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if no string in this list equals `providerResourceId`.
+          example:
+          - i-0dcd0d3e17ca4d350
+          items:
+            type: string
+          type: array
+      type: object
+    ObjectStoreScanMethod:
+      additionalProperties: false
+      description: Object-store scan method settings for an AWS S3 bucket or GCP Cloud Storage bucket.
+      example:
+        inventoryBackup:
+          enabled: true
+          systemControlled: false
+        cdcBackup:
+          enabled: true
+          systemControlled: false
+      properties:
+        cdcBackup:
+          $ref: '#/components/schemas/ObjectStoreScanMethodSetting'
+        inventoryBackup:
+          $ref: '#/components/schemas/ObjectStoreScanMethodSetting'
+      required:
+      - cdcBackup
+      - inventoryBackup
+      type: object
+    ExcludeFromBackupResponse:
+      example:
+        isExcluded: true
+      properties:
+        isExcluded:
+          description: 'Whether the resource is excluded from backup.
+
+            Expected to be `true`.
+
+            '
+          type: boolean
+      required:
+      - isExcluded
+      type: object
+    Classifications:
+      description: Resource classification details.
+      example:
+        appsDetails:
+          isOverridden: true
+          apps:
+          - paths:
+            - paths
+            - paths
+            name: Jenkins
+          - paths:
+            - paths
+            - paths
+            name: Jenkins
+        environmentDetails:
+          environment: PROD
+          isOverridden: true
+        dataClassesDetails:
+          isOverridden: true
+          dataClasses:
+          - PII
+          - PHI
+      properties:
+        dataClassesDetails:
+          $ref: '#/components/schemas/DataClassesDetails'
+        environmentDetails:
+          $ref: '#/components/schemas/EnvironmentDetails'
+        appsDetails:
+          $ref: '#/components/schemas/AppsDetails'
+      type: object
+    GetObjectStoreScanMethodResponse:
+      additionalProperties: false
+      example:
+        objectStoreScanMethod:
+          inventoryBackup:
+            enabled: true
+            systemControlled: false
+          cdcBackup:
+            enabled: true
+            systemControlled: false
+      properties:
+        objectStoreScanMethod:
+          $ref: '#/components/schemas/ObjectStoreScanMethod'
+      required:
+      - objectStoreScanMethod
+      type: object
+    AwsEc2Resource:
+      description: 'Properties of the original AWS EC2 instance.
+
+        Present only when `resourceType` is set to `AWS_EC2`.
+
+        '
+      example:
+        volumes:
+        - path: /dev/xvda
+          encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+          providerVolumeId: vol-0556d4633af5c430a
+          volumeSettings:
+            iops: 3000
+            throughput: 125
+            type: gp3
+            sizeBytes: 10000000000
+          isAwsManagedKey: false
+          region: eu-central-1
+          availabilityZone: eu-central-1a
+          tags:
+            primary: ''
+        - path: /dev/xvda
+          encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+          providerVolumeId: vol-0556d4633af5c430a
+          volumeSettings:
+            iops: 3000
+            throughput: 125
+            type: gp3
+            sizeBytes: 10000000000
+          isAwsManagedKey: false
+          region: eu-central-1
+          availabilityZone: eu-central-1a
+          tags:
+            primary: ''
+      properties:
+        volumes:
+          description: List of volumes attached to the resource.
+          items:
+            $ref: '#/components/schemas/InventoryVolume'
+          type: array
+      type:
+      - object
+      - 'null'
+    AppsDetails:
+      description: Details about apps installed on the resource.
+      example:
+        isOverridden: true
+        apps:
+        - paths:
+          - paths
+          - paths
+          name: Jenkins
+        - paths:
+          - paths
+          - paths
+          name: Jenkins
+      properties:
+        apps:
+          description: List of app details.
+          items:
+            $ref: '#/components/schemas/App'
+          type: array
         isOverridden:
-          description: 'Whether the environment is manually overridden.
+          description: 'Whether the apps are manually overridden.
 
-            If `true`, the environment is user-defined and remains static.
+            If `true`, the list of apps is user-defined and remains static.
 
-            If `false`, the environment is automatically detected and set by Eon.
+            If `false`, the apps are automatically detected and listed by Eon.
 
             '
           type: boolean
       type: object
       x-nullable: true
-    Environment:
-      description: 'The resource''s environment: production, internal production, or staging.
+    OverrideEnvironmentResponse:
+      example:
+        environment: PROD
+      properties:
+        environment:
+          $ref: '#/components/schemas/Environment'
+      type: object
+    ObjectStoreScanMethodSetting:
+      additionalProperties: false
+      description: Object-store scan method setting. If systemControlled is true, Eon decides whether the method is enabled. If systemControlled is false, enabled is required.
+      example:
+        enabled: true
+        systemControlled: false
+      properties:
+        enabled:
+          description: Whether the scan method is enabled. Required only when systemControlled is false.
+          example: true
+          type:
+          - boolean
+          - 'null'
+        systemControlled:
+          description: Whether Eon should decide when to use this scan method.
+          example: false
+          type: boolean
+      required:
+      - systemControlled
+      type: object
+    AccountIdFilters:
+      additionalProperties: false
+      example:
+        in:
+        - '836638811603'
+        notIn:
+        - '529569125077'
+      properties:
+        in:
+          description: Matches if any value in this list equals `accountId`.
+          example:
+          - '836638811603'
+          items:
+            type: string
+          type: array
+        notIn:
+          description: Matches if none of the values in this list equal `accountId`.
+          example:
+          - '529569125077'
+          items:
+            type: string
+          type: array
+      type: object
+    InventoryVolume:
+      example:
+        path: /dev/xvda
+        encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+        providerVolumeId: vol-0556d4633af5c430a
+        volumeSettings:
+          iops: 3000
+          throughput: 125
+          type: gp3
+          sizeBytes: 10000000000
+        isAwsManagedKey: false
+        region: eu-central-1
+        availabilityZone: eu-central-1a
+        tags:
+          primary: ''
+      properties:
+        providerVolumeId:
+          description: The volume's cloud-provider-assigned resource ID.
+          example: vol-0556d4633af5c430a
+          type: string
+        path:
+          description: Path of the volume on the machine it's attached to.
+          example: /dev/xvda
+          type: string
+        region:
+          description: Region the volume is hosted in.
+          example: eu-central-1
+          type: string
+        encryptionKeyId:
+          description: ID of the encryption key used to encrypt the volume.
+          example: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+          type: string
+        isAwsManagedKey:
+          description: 'Whether the encryption key is an AWS-managed KMS key.
 
-        `ENVIRONMENT_UNSPECIFIED` is supported only in responses.
+            If `true`, the key is AWS-managed.
 
-        '
+            If `false`, the key is customer-managed.
+
+            '
+          example: false
+          type: boolean
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Volume tags as key-value pairs.
+
+            Both keys and values are strings.
+
+            If a tag is a key with no value, the value is presented as an empty string.
+
+
+            **Example:** `{"primary": ""}`
+
+            '
+          example:
+            primary: ''
+          type: object
+        availabilityZone:
+          description: Volume availability zone.
+          example: eu-central-1a
+          type: string
+        volumeSettings:
+          $ref: '#/components/schemas/VolumeSettings'
+      required:
+      - availabilityZone
+      - path
+      - providerVolumeId
+      - region
+      - tags
+      - volumeSettings
+      type: object
+    SubnetFilters:
+      additionalProperties: false
+      example:
+        containsAllOf:
+        - subnet-57c92df5
+        - subnet-ef0fd42f
+        containsNoneOf:
+        - subnet-9b5118b1
+        containsAnyOf:
+        - subnet-aa2c166e
+        - subnet-eb71c3a2
+      properties:
+        containsAnyOf:
+          description: Matches if any value in this list is in the `subnets` list.
+          example:
+          - subnet-aa2c166e
+          - subnet-eb71c3a2
+          items:
+            type: string
+          type: array
+        containsNoneOf:
+          description: Matches if none of the values in this list are in the `subnets` list.
+          example:
+          - subnet-9b5118b1
+          items:
+            type: string
+          type: array
+        containsAllOf:
+          description: Matches if all values in this list are in the `subnets` list.
+          example:
+          - subnet-57c92df5
+          - subnet-ef0fd42f
+          items:
+            type: string
+          type: array
+      type: object
+    SortOrder:
+      description: Sort order. Use `ASC` for ascending order and `DESC` for descending order.
       enum:
-      - PROD
-      - PROD_INTERNAL
-      - STAGE
-      - ENVIRONMENT_UNSPECIFIED
-      example: PROD
+      - ASC
+      - DESC
+      example: ASC
       type: string
+    TagKeysFilters:
+      additionalProperties: false
+      example:
+        containsAllOf:
+        - environment
+        - app
+        containsNoneOf:
+        - environment
+        - app
+        containsAnyOf:
+        - environment
+        - app
+      properties:
+        containsAllOf:
+          description: Matches if any key in this list is in the `tags` keys list.
+          example:
+          - environment
+          - app
+          items:
+            type: string
+          type: array
+        containsAnyOf:
+          description: Matches if none of the keys in this list are in the `tags` keys list.
+          example:
+          - environment
+          - app
+          items:
+            type: string
+          type: array
+        containsNoneOf:
+          description: Matches if all keys in this list are in the `tags` keys list.
+          example:
+          - environment
+          - app
+          items:
+            type: string
+          type: array
+      type: object
     InventoryFilterConditions:
       additionalProperties: false
       example:
@@ -1901,39 +1718,98 @@ components:
         tagKeyValues:
           $ref: '#/components/schemas/TagKeyValuesFilters'
       type: object
-    ResourceTypeFilters:
+    EnvironmentFilters:
       additionalProperties: false
       example:
         in:
-        - AWS_EC2
+        - PROD
+        - PROD_INTERNAL
         notIn:
-        - AWS_RDS
+        - STAGE
       properties:
         in:
-          description: Matches if any value in this list equals `resourceType`.
+          description: Matches if any value in this list equals `environment`.
           example:
-          - AWS_EC2
+          - PROD
+          - PROD_INTERNAL
           items:
-            $ref: '#/components/schemas/ResourceType'
+            $ref: '#/components/schemas/Environment'
           type: array
         notIn:
-          description: Matches if no value in this list equals `resourceType`.
+          description: Matches if no value in this list equals `environment`.
           example:
-          - AWS_RDS
+          - STAGE
           items:
-            $ref: '#/components/schemas/ResourceType'
+            $ref: '#/components/schemas/Environment'
           type: array
       type: object
-    Error:
+    OverrideDataClassificationsResponse:
       example:
-        error: error
+        dataClasses:
+        - PII
       properties:
-        error:
+        dataClasses:
+          description: List of data classes that were overridden.
+          example:
+          - PII
+          items:
+            $ref: '#/components/schemas/DataClass'
+          type: array
+      type: object
+    BackupStatus:
+      description: 'Eon backup status.
+
+        For an explanation of statuses, see [Backup Statuses](/user-guide/monitoring/backup-statuses).
+
+        `BACKUP_POSTURE_STATUS_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - BACKUP_POSTURE_STATUS_UNSPECIFIED
+      - NOT_BACKED_UP
+      - VIOLATIONS_DETECTED
+      - GENERIC_BACKUPS
+      - EXCLUDED_FROM_BACKUP
+      - ALL_VIOLATIONS_MUTED
+      - PROTECTED
+      - INITIAL_CLASSIFICATION
+      - TERMINATED
+      - UNSUPPORTED
+      - DISCONNECTED
+      - ACTION_REQUIRED
+      - DLSG
+      - LIMIT_EXCEEDED
+      example: VIOLATIONS_DETECTED
+      type: string
+      x-docs-internal-enum:
+      - DLSG
+      - LIMIT_EXCEEDED
+    App:
+      example:
+        paths:
+        - paths
+        - paths
+        name: Jenkins
+      properties:
+        name:
+          description: 'App display name.
+
+            For a list of supported apps, see [Apps](/user-guide/monitoring/classifications/resource-classifications#apps).
+
+            '
+          example: Jenkins
           type: string
+        paths:
+          description: List of paths where the app was found.
+          items:
+            type: string
+          type: array
+      required:
+      - name
       type: object
-    ObjectStoreScanMethod:
+    UpdateObjectStoreScanMethodRequest:
       additionalProperties: false
-      description: Object-store scan method settings for an AWS S3 bucket or GCP Cloud Storage bucket.
+      description: Object-store scan method settings to update for an AWS S3 bucket or GCP Cloud Storage bucket.
       example:
         inventoryBackup:
           enabled: true
@@ -1946,32 +1822,139 @@ components:
           $ref: '#/components/schemas/ObjectStoreScanMethodSetting'
         inventoryBackup:
           $ref: '#/components/schemas/ObjectStoreScanMethodSetting'
-      required:
-      - cdcBackup
-      - inventoryBackup
       type: object
-    UpdateObjectStoreScanMethodResponse:
+    Environment:
+      description: 'The resource''s environment: production, internal production, or staging.
+
+        `ENVIRONMENT_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - PROD
+      - PROD_INTERNAL
+      - STAGE
+      - ENVIRONMENT_UNSPECIFIED
+      example: PROD
+      type: string
+    ListInventoryRequest:
       additionalProperties: false
       example:
-        objectStoreScanMethod:
-          inventoryBackup:
-            enabled: true
-            systemControlled: false
-          cdcBackup:
-            enabled: true
-            systemControlled: false
+        filters:
+          tagKeys:
+            containsAllOf:
+            - environment
+            - app
+            containsNoneOf:
+            - environment
+            - app
+            containsAnyOf:
+            - environment
+            - app
+          resourceName:
+            contains:
+            - app-server-2
+            in:
+            - db-server
+            notContains:
+            - db-workflows-1
+            notIn:
+            - customers
+          dataClasses:
+            containsAllOf:
+            - PHI
+            - PII
+            containsNoneOf:
+            - PHI
+            containsAnyOf:
+            - PII
+            - PHI
+          providerResourceId:
+            in:
+            - i-0f600a1b15b035105
+            notIn:
+            - i-0dcd0d3e17ca4d350
+          accountId:
+            in:
+            - '836638811603'
+            notIn:
+            - '529569125077'
+          environment:
+            in:
+            - PROD
+            - PROD_INTERNAL
+            notIn:
+            - STAGE
+          backupStatus:
+            in:
+            - NOT_BACKED_UP
+            - PROTECTED
+            notIn:
+            - TERMINATED
+            - DISCONNECTED
+          tagKeyValues:
+            containsAllOf:
+            - environment=staging
+            - app=web
+            containsNoneOf:
+            - environment=staging
+            - app=web
+            containsAnyOf:
+            - environment=production
+            - app=web
+          cloudProvider:
+            in:
+            - AWS
+            - AZURE
+            notIn:
+            - GCP
+          subnets:
+            containsAllOf:
+            - subnet-57c92df5
+            - subnet-ef0fd42f
+            containsNoneOf:
+            - subnet-9b5118b1
+            containsAnyOf:
+            - subnet-aa2c166e
+            - subnet-eb71c3a2
+          id:
+            in:
+            - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+            - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+            notIn:
+            - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          resourceType:
+            in:
+            - AWS_EC2
+            notIn:
+            - AWS_RDS
+          apps:
+            containsAllOf:
+            - Elasticsearch
+            - Logastash
+            - Kibana
+            containsNoneOf:
+            - PostgreSQL
+            - MySQL
+            containsAnyOf:
+            - Trello
+            - Asana
+        sorts:
+        - field: latestSnapshotTime
+          order: ASC
+        - field: latestSnapshotTime
+          order: ASC
       properties:
-        objectStoreScanMethod:
-          $ref: '#/components/schemas/ObjectStoreScanMethod'
-      required:
-      - objectStoreScanMethod
-      type: object
-    OverrideEnvironmentResponse:
-      example:
-        environment: PROD
-      properties:
-        environment:
-          $ref: '#/components/schemas/Environment'
+        sorts:
+          description: 'List of sorting options.
+
+            Sorting is applied in the order passed in the list.
+
+            '
+          items:
+            $ref: '#/components/schemas/SortResourceBy'
+          type: array
+        filters:
+          $ref: '#/components/schemas/InventoryFilterConditions'
       type: object
     CloudProviderFilters:
       additionalProperties: false
@@ -1998,153 +1981,60 @@ components:
             $ref: '#/components/schemas/Provider'
           type: array
       type: object
-    TagKeysFilters:
+    VolumeSettings:
+      description: Provisioned volume settings.
+      example:
+        iops: 3000
+        throughput: 125
+        type: gp3
+        sizeBytes: 10000000000
+      properties:
+        type:
+          description: Volume type.
+          example: gp3
+          type: string
+        sizeBytes:
+          description: Volume size in bytes.
+          example: 10000000000
+          format: int64
+          type: integer
+        iops:
+          description: Volume IOPS.
+          example: 3000
+          type: integer
+        throughput:
+          description: Volume throughput.
+          example: 125
+          type: integer
+      required:
+      - sizeBytes
+      - type
+      type: object
+    UpdateObjectStoreScanMethodResponse:
       additionalProperties: false
       example:
-        containsAllOf:
-        - environment
-        - app
-        containsNoneOf:
-        - environment
-        - app
-        containsAnyOf:
-        - environment
-        - app
+        objectStoreScanMethod:
+          inventoryBackup:
+            enabled: true
+            systemControlled: false
+          cdcBackup:
+            enabled: true
+            systemControlled: false
       properties:
-        containsAllOf:
-          description: Matches if any key in this list is in the `tags` keys list.
-          example:
-          - environment
-          - app
-          items:
-            type: string
-          type: array
-        containsAnyOf:
-          description: Matches if none of the keys in this list are in the `tags` keys list.
-          example:
-          - environment
-          - app
-          items:
-            type: string
-          type: array
-        containsNoneOf:
-          description: Matches if all keys in this list are in the `tags` keys list.
-          example:
-          - environment
-          - app
-          items:
-            type: string
-          type: array
+        objectStoreScanMethod:
+          $ref: '#/components/schemas/ObjectStoreScanMethod'
+      required:
+      - objectStoreScanMethod
       type: object
-    BackupStatusFilters:
-      additionalProperties: false
-      example:
-        in:
-        - NOT_BACKED_UP
-        - PROTECTED
-        notIn:
-        - TERMINATED
-        - DISCONNECTED
-      properties:
-        in:
-          description: Matches if any value in this list equals `backupStatus`.
-          example:
-          - NOT_BACKED_UP
-          - PROTECTED
-          items:
-            $ref: '#/components/schemas/BackupStatus'
-          type: array
-        notIn:
-          description: Matches if no value in this list equals `backupStatus`.
-          example:
-          - TERMINATED
-          - DISCONNECTED
-          items:
-            $ref: '#/components/schemas/BackupStatus'
-          type: array
-      type: object
-    Classifications:
-      description: Resource classification details.
-      example:
-        appsDetails:
-          isOverridden: true
-          apps:
-          - paths:
-            - paths
-            - paths
-            name: Jenkins
-          - paths:
-            - paths
-            - paths
-            name: Jenkins
-        environmentDetails:
-          environment: PROD
-          isOverridden: true
-        dataClassesDetails:
-          isOverridden: true
-          dataClasses:
-          - PII
-          - PHI
-      properties:
-        dataClassesDetails:
-          $ref: '#/components/schemas/DataClassesDetails'
-        environmentDetails:
-          $ref: '#/components/schemas/EnvironmentDetails'
-        appsDetails:
-          $ref: '#/components/schemas/AppsDetails'
-      type: object
-    EnvironmentFilters:
-      additionalProperties: false
-      example:
-        in:
-        - PROD
-        - PROD_INTERNAL
-        notIn:
-        - STAGE
-      properties:
-        in:
-          description: Matches if any value in this list equals `environment`.
-          example:
-          - PROD
-          - PROD_INTERNAL
-          items:
-            $ref: '#/components/schemas/Environment'
-          type: array
-        notIn:
-          description: Matches if no value in this list equals `environment`.
-          example:
-          - STAGE
-          items:
-            $ref: '#/components/schemas/Environment'
-          type: array
-      type: object
-    DataClassesDetails:
-      description: Details about the resource's data classes.
-      example:
-        isOverridden: true
-        dataClasses:
-        - PII
-        - PHI
-      properties:
-        dataClasses:
-          description: List of data classes.
-          example:
-          - PII
-          - PHI
-          items:
-            $ref: '#/components/schemas/DataClass'
-          type: array
-        isOverridden:
-          description: 'Whether the data classes are manually overridden.
+    DataClass:
+      description: 'Data classes.
 
-            If `true`, the list of data classes is user-defined and remains static.
 
-            If `false`, the data classes are automatically detected and listed by Eon.
+        Allowed values: `FI`, `PHI`, `PII`
 
-            '
-          type: boolean
-      type: object
-      x-nullable: true
+        '
+      example: PII
+      type: string
     AppFilters:
       additionalProperties: false
       example:
@@ -2185,217 +2075,148 @@ components:
             type: string
           type: array
       type: object
-    IdFilters:
+    GetResourceResponse:
+      example:
+        resource:
+          resourceProperties:
+            awsEc2:
+              volumes:
+              - path: /dev/xvda
+                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                providerVolumeId: vol-0556d4633af5c430a
+                volumeSettings:
+                  iops: 3000
+                  throughput: 125
+                  type: gp3
+                  sizeBytes: 10000000000
+                isAwsManagedKey: false
+                region: eu-central-1
+                availabilityZone: eu-central-1a
+                tags:
+                  primary: ''
+              - path: /dev/xvda
+                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                providerVolumeId: vol-0556d4633af5c430a
+                volumeSettings:
+                  iops: 3000
+                  throughput: 125
+                  type: gp3
+                  sizeBytes: 10000000000
+                isAwsManagedKey: false
+                region: eu-central-1
+                availabilityZone: eu-central-1a
+                tags:
+                  primary: ''
+          vpc: vpc-041d4426c201ee954
+          resourceName: customers db
+          oldestSnapshotTime: 2024-09-24 08:21:01+00:00
+          latestSnapshotTime: 2024-11-28 23:01:39+00:00
+          tags:
+            env: prod
+            app: web
+          providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+          classifications:
+            appsDetails:
+              isOverridden: true
+              apps:
+              - paths:
+                - paths
+                - paths
+                name: Jenkins
+              - paths:
+                - paths
+                - paths
+                name: Jenkins
+            environmentDetails:
+              environment: PROD
+              isOverridden: true
+            dataClassesDetails:
+              isOverridden: true
+              dataClasses:
+              - PII
+              - PHI
+          sourceStorage:
+            sizeBytes: 561566973952
+          discoveredTime: 2024-11-29 11:22:33+00:00
+          backupStatus: VIOLATIONS_DETECTED
+          providerAccountId: '836638811603'
+          cloudProvider: AWS
+          createdTime: 2024-08-29 13:24:03+00:00
+          controlViolationCounts:
+            high: 3
+            low: 1
+            medium: 2
+            muted: 0
+          subnets:
+          - subnet-0ee871cbf003fd112
+          - subnet-04e455b5a740d90c4
+          id: d38906a7-ef8e-50f5-868e-2109ab881b15
+          region: eu-central-1
+          snapshotStorage:
+            eonSnapshotCount: 131
+            nonEonSnapshotCount: 26
+            sizeBytes: 1340000000000
+          resourceType: AWS_EC2
+      properties:
+        resource:
+          $ref: '#/components/schemas/InventoryResource'
+      required:
+      - resource
+      type: object
+    ResourceTypeFilters:
       additionalProperties: false
       example:
         in:
-        - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+        - AWS_EC2
         notIn:
-        - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+        - AWS_RDS
       properties:
         in:
-          description: Matches if any string in this list equals `id`.
+          description: Matches if any value in this list equals `resourceType`.
           example:
-          - 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          - 2ff45ed6-1b8d-5f67-b931-028482f16e0e
+          - AWS_EC2
           items:
-            type: string
+            $ref: '#/components/schemas/ResourceType'
           type: array
         notIn:
-          description: Matches if no string in this list equals `id`.
+          description: Matches if no value in this list equals `resourceType`.
           example:
-          - 6aecc4b5-9d75-4787-88ab-fa6ab98933e0
+          - AWS_RDS
           items:
-            type: string
+            $ref: '#/components/schemas/ResourceType'
           type: array
       type: object
-    ResourceType:
-      description: 'Resource type identifier combining cloud provider and service type.
-
-        `RESOURCE_TYPE_UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - AWS_EC2
-      - AWS_RDS
-      - AWS_S3
-      - AWS_EFS
-      - AWS_FSX
-      - AWS_EKS_NAMESPACE
-      - AWS_DYNAMO_DB
-      - AWS_EBS_VOLUME
-      - AWS_KEYSPACES_TABLE
-      - AWS_CASSANDRA_CLUSTER
-      - AWS_DOCUMENTDB
-      - AWS_NEPTUNE
-      - AZURE_VIRTUAL_MACHINE
-      - AZURE_FILE_SHARE
-      - AZURE_STORAGE_ACCOUNT
-      - AZURE_DISK
-      - AZURE_SQL_DATABASE
-      - AZURE_SQL_MANAGED_INSTANCE
-      - AZURE_SQL_VIRTUAL_MACHINE
-      - AZURE_SAP_HANA_VM
-      - AZURE_MYSQL
-      - AZURE_POSTGRESQL
-      - AZURE_COSMOSDB_MONGODB
-      - AZURE_COSMOSDB_NOSQL
-      - AZURE_AKS_NAMESPACE
-      - AZURE_CASSANDRA_CLUSTER
-      - ATLAS_MONGODB_CLUSTER
-      - GCP_COMPUTE_ENGINE_INSTANCE
-      - GCP_CLOUD_SQL_INSTANCE
-      - GCP_CLOUD_STORAGE_BUCKET
-      - GCP_GKE_NAMESPACE
-      - GCP_BIG_QUERY
-      - GCP_CLOUD_FIRESTORE
-      - GCP_DISK
-      - GCP_SAP_HANA_VM
-      - GCP_CASSANDRA_CLUSTER
-      - GOOGLE_WORKSPACE_RESOURCE
-      - MICROSOFT_365_RESOURCE
-      - RESOURCE_TYPE_UNSPECIFIED
-      example: AWS_EC2
-      type: string
-      x-docs-internal-enum:
-      - AWS_EBS_VOLUME
-      - AWS_KEYSPACES_TABLE
-      - AWS_CASSANDRA_CLUSTER
-      - GCP_CASSANDRA_CLUSTER
-      - AZURE_CASSANDRA_CLUSTER
-      - AWS_DOCUMENTDB
-      - AWS_NEPTUNE
-      - AZURE_SAP_HANA_VM
-      - AZURE_AKS_NAMESPACE
-      - GCP_GKE_NAMESPACE
-      - GCP_BIG_QUERY
-      - GCP_CLOUD_FIRESTORE
-      - GCP_DISK
-      - GCP_SAP_HANA_VM
-      - GOOGLE_WORKSPACE_RESOURCE
-      - MICROSOFT_365_RESOURCE
-    DataClass:
-      description: 'Data classes.
-
-
-        Allowed values: `FI`, `PHI`, `PII`
-
-        '
-      example: PII
-      type: string
-    AccountIdFilters:
-      additionalProperties: false
+    EnvironmentDetails:
+      description: Details about the resource's environment.
       example:
-        in:
-        - '836638811603'
-        notIn:
-        - '529569125077'
+        environment: PROD
+        isOverridden: true
       properties:
-        in:
-          description: Matches if any value in this list equals `accountId`.
-          example:
-          - '836638811603'
-          items:
-            type: string
-          type: array
-        notIn:
-          description: Matches if none of the values in this list equal `accountId`.
-          example:
-          - '529569125077'
-          items:
-            type: string
-          type: array
-      type: object
-    InventoryVolume:
-      example:
-        path: /dev/xvda
-        encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-        providerVolumeId: vol-0556d4633af5c430a
-        volumeSettings:
-          iops: 3000
-          throughput: 125
-          type: gp3
-          sizeBytes: 10000000000
-        isAwsManagedKey: false
-        region: eu-central-1
-        availabilityZone: eu-central-1a
-        tags:
-          primary: ''
-      properties:
-        providerVolumeId:
-          description: The volume's cloud-provider-assigned resource ID.
-          example: vol-0556d4633af5c430a
-          type: string
-        path:
-          description: Path of the volume on the machine it's attached to.
-          example: /dev/xvda
-          type: string
-        region:
-          description: Region the volume is hosted in.
-          example: eu-central-1
-          type: string
-        encryptionKeyId:
-          description: ID of the encryption key used to encrypt the volume.
-          example: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-          type: string
-        isAwsManagedKey:
-          description: 'Whether the encryption key is an AWS-managed KMS key.
+        environment:
+          $ref: '#/components/schemas/Environment'
+        isOverridden:
+          description: 'Whether the environment is manually overridden.
 
-            If `true`, the key is AWS-managed.
+            If `true`, the environment is user-defined and remains static.
 
-            If `false`, the key is customer-managed.
+            If `false`, the environment is automatically detected and set by Eon.
 
             '
-          example: false
           type: boolean
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Volume tags as key-value pairs.
-
-            Both keys and values are strings.
-
-            If a tag is a key with no value, the value is presented as an empty string.
-
-
-            **Example:** `{"primary": ""}`
-
-            '
-          example:
-            primary: ''
-          type: object
-        availabilityZone:
-          description: Volume availability zone.
-          example: eu-central-1a
-          type: string
-        volumeSettings:
-          $ref: '#/components/schemas/VolumeSettings'
-      required:
-      - availabilityZone
-      - path
-      - providerVolumeId
-      - region
-      - tags
-      - volumeSettings
       type: object
-    SortResourceBy:
-      description: 'List of sorting options.
-
-        Sorting is applied in the order passed in the list.
-
-        '
+      x-nullable: true
+    OverrideDataClassificationsRequest:
       example:
-        field: latestSnapshotTime
-        order: ASC
+        dataClasses:
+        - PII
       properties:
-        field:
-          $ref: '#/components/schemas/ResourceSortField'
-        order:
-          $ref: '#/components/schemas/SortOrder'
-      required:
-      - field
-      - order
+        dataClasses:
+          description: List of data classes to set.
+          example:
+          - PII
+          items:
+            $ref: '#/components/schemas/DataClass'
+          type: array
       type: object
     InventoryResource:
       example:
@@ -2581,88 +2402,293 @@ components:
       - threatDetection
       - vaults
       type: object
-    ResourceNameFilters:
+    OverrideEnvironmentRequest:
+      example:
+        environment: PROD
+      properties:
+        environment:
+          $ref: '#/components/schemas/Environment'
+      type: object
+    ListResourcesResponse:
+      example:
+        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+        resources:
+        - resourceProperties:
+            awsEc2:
+              volumes:
+              - path: /dev/xvda
+                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                providerVolumeId: vol-0556d4633af5c430a
+                volumeSettings:
+                  iops: 3000
+                  throughput: 125
+                  type: gp3
+                  sizeBytes: 10000000000
+                isAwsManagedKey: false
+                region: eu-central-1
+                availabilityZone: eu-central-1a
+                tags:
+                  primary: ''
+              - path: /dev/xvda
+                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                providerVolumeId: vol-0556d4633af5c430a
+                volumeSettings:
+                  iops: 3000
+                  throughput: 125
+                  type: gp3
+                  sizeBytes: 10000000000
+                isAwsManagedKey: false
+                region: eu-central-1
+                availabilityZone: eu-central-1a
+                tags:
+                  primary: ''
+          vpc: vpc-041d4426c201ee954
+          resourceName: customers db
+          oldestSnapshotTime: 2024-09-24 08:21:01+00:00
+          latestSnapshotTime: 2024-11-28 23:01:39+00:00
+          tags:
+            env: prod
+            app: web
+          providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+          classifications:
+            appsDetails:
+              isOverridden: true
+              apps:
+              - paths:
+                - paths
+                - paths
+                name: Jenkins
+              - paths:
+                - paths
+                - paths
+                name: Jenkins
+            environmentDetails:
+              environment: PROD
+              isOverridden: true
+            dataClassesDetails:
+              isOverridden: true
+              dataClasses:
+              - PII
+              - PHI
+          sourceStorage:
+            sizeBytes: 561566973952
+          discoveredTime: 2024-11-29 11:22:33+00:00
+          backupStatus: VIOLATIONS_DETECTED
+          providerAccountId: '836638811603'
+          cloudProvider: AWS
+          createdTime: 2024-08-29 13:24:03+00:00
+          controlViolationCounts:
+            high: 3
+            low: 1
+            medium: 2
+            muted: 0
+          subnets:
+          - subnet-0ee871cbf003fd112
+          - subnet-04e455b5a740d90c4
+          id: d38906a7-ef8e-50f5-868e-2109ab881b15
+          region: eu-central-1
+          snapshotStorage:
+            eonSnapshotCount: 131
+            nonEonSnapshotCount: 26
+            sizeBytes: 1340000000000
+          resourceType: AWS_EC2
+        - resourceProperties:
+            awsEc2:
+              volumes:
+              - path: /dev/xvda
+                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                providerVolumeId: vol-0556d4633af5c430a
+                volumeSettings:
+                  iops: 3000
+                  throughput: 125
+                  type: gp3
+                  sizeBytes: 10000000000
+                isAwsManagedKey: false
+                region: eu-central-1
+                availabilityZone: eu-central-1a
+                tags:
+                  primary: ''
+              - path: /dev/xvda
+                encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                providerVolumeId: vol-0556d4633af5c430a
+                volumeSettings:
+                  iops: 3000
+                  throughput: 125
+                  type: gp3
+                  sizeBytes: 10000000000
+                isAwsManagedKey: false
+                region: eu-central-1
+                availabilityZone: eu-central-1a
+                tags:
+                  primary: ''
+          vpc: vpc-041d4426c201ee954
+          resourceName: customers db
+          oldestSnapshotTime: 2024-09-24 08:21:01+00:00
+          latestSnapshotTime: 2024-11-28 23:01:39+00:00
+          tags:
+            env: prod
+            app: web
+          providerResourceId: db-IPQ7PQ3Q7UMA2LIGOOSUV3B5XU
+          classifications:
+            appsDetails:
+              isOverridden: true
+              apps:
+              - paths:
+                - paths
+                - paths
+                name: Jenkins
+              - paths:
+                - paths
+                - paths
+                name: Jenkins
+            environmentDetails:
+              environment: PROD
+              isOverridden: true
+            dataClassesDetails:
+              isOverridden: true
+              dataClasses:
+              - PII
+              - PHI
+          sourceStorage:
+            sizeBytes: 561566973952
+          discoveredTime: 2024-11-29 11:22:33+00:00
+          backupStatus: VIOLATIONS_DETECTED
+          providerAccountId: '836638811603'
+          cloudProvider: AWS
+          createdTime: 2024-08-29 13:24:03+00:00
+          controlViolationCounts:
+            high: 3
+            low: 1
+            medium: 2
+            muted: 0
+          subnets:
+          - subnet-0ee871cbf003fd112
+          - subnet-04e455b5a740d90c4
+          id: d38906a7-ef8e-50f5-868e-2109ab881b15
+          region: eu-central-1
+          snapshotStorage:
+            eonSnapshotCount: 131
+            nonEonSnapshotCount: 26
+            sizeBytes: 1340000000000
+          resourceType: AWS_EC2
+        totalCount: 0
+      properties:
+        resources:
+          description: List of retrieved resources.
+          items:
+            $ref: '#/components/schemas/InventoryResource'
+          type: array
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+          type: string
+        totalCount:
+          description: Total number of resources that matched the filter options.
+          type: integer
+      required:
+      - resources
+      - totalCount
+      type: object
+    CancelExclusionFromBackupResponse:
+      example:
+        isExclusionCanceled: true
+      properties:
+        isExclusionCanceled:
+          description: 'Whether the call was successful.
+
+            Expected to be `true`.
+
+            '
+          type: boolean
+      required:
+      - isExclusionCanceled
+      type: object
+    SourceStorage:
+      description: Details about storage at the source.
+      example:
+        sizeBytes: 561566973952
+      properties:
+        sizeBytes:
+          description: Total storage size at the source, in bytes.
+          example: 561566973952
+          format: int64
+          type: integer
+      type: object
+    BackupStatusFilters:
       additionalProperties: false
       example:
-        contains:
-        - app-server-2
         in:
-        - db-server
-        notContains:
-        - db-workflows-1
+        - NOT_BACKED_UP
+        - PROTECTED
         notIn:
-        - customers
+        - TERMINATED
+        - DISCONNECTED
       properties:
         in:
-          description: Matches if any string in this list equals `resourceName`.
+          description: Matches if any value in this list equals `backupStatus`.
           example:
-          - db-server
+          - NOT_BACKED_UP
+          - PROTECTED
           items:
-            type: string
+            $ref: '#/components/schemas/BackupStatus'
           type: array
         notIn:
-          description: Matches if no string in this list equals `resourceName`.
+          description: Matches if no value in this list equals `backupStatus`.
           example:
-          - customers
+          - TERMINATED
+          - DISCONNECTED
+          items:
+            $ref: '#/components/schemas/BackupStatus'
+          type: array
+      type: object
+    TagKeyValuesFilters:
+      additionalProperties: false
+      example:
+        containsAllOf:
+        - environment=staging
+        - app=web
+        containsNoneOf:
+        - environment=staging
+        - app=web
+        containsAnyOf:
+        - environment=production
+        - app=web
+      properties:
+        containsAllOf:
+          description: Matches if any `{key}={value}` pair in this list is in the `tags` list.
+          example:
+          - environment=staging
+          - app=web
           items:
             type: string
           type: array
-        contains:
-          description: Matches if any string in this list is a substring of `resourceName`.
+        containsAnyOf:
+          description: Matches if none of the `{key}={value}` pairs in this list are in the `tags` list.
           example:
-          - app-server-2
+          - environment=production
+          - app=web
           items:
             type: string
           type: array
-        notContains:
-          description: Matches if no string in this list is a substring of `resourceName`.
+        containsNoneOf:
+          description: Matches if all `{key}={value}` pairs in this list are in the `tags` list.
           example:
-          - db-workflows-1
+          - environment=staging
+          - app=web
           items:
             type: string
           type: array
       type: object
-    ResourceSortField:
-      description: Field to sort by.
-      enum:
-      - id
-      - backupStatus
-      - accountId
-      - resourceName
-      - environment
-      - providerResourceId
-      - sizeBytes
-      - snapshotStorageSizeBytes
-      - eonSnapshotCount
-      - nonEonSnapshotCount
-      - latestSnapshotTime
-      - oldestSnapshotTime
-      - dateDiscovered
-      - createdTime
-      - resourceGroupName
-      - clusterName
-      - globalClusterIdentifier
-      - lastDataClassificationTime
-      example: latestSnapshotTime
-      type: string
-      x-docs-internal-enum:
-      - id
-      - backupStatus
-      - accountId
-      - environment
-      - providerResourceId
-      - sizeBytes
-      - snapshotStorageSizeBytes
-      - eonSnapshotCount
-      - nonEonSnapshotCount
-      - lastDataClassificationTime
     ControlViolations:
       example:
         high: 3
         low: 1
         medium: 2
         muted: 0
-      nullable: true
       properties:
         high:
           description: Number of high-severity control violations.
@@ -2685,131 +2711,93 @@ components:
       - low
       - medium
       - muted
-      type: object
-    BackupStatus:
-      description: 'Eon backup status.
+      type:
+      - object
+      - 'null'
+    Provider:
+      description: 'Cloud provider.
 
-        For an explanation of statuses, see [Backup Statuses](/user-guide/monitoring/backup-statuses).
-
-        `BACKUP_POSTURE_STATUS_UNSPECIFIED` is supported only in responses.
+        `PROVIDER_UNSPECIFIED` is supported only in responses.
 
         '
       enum:
-      - BACKUP_POSTURE_STATUS_UNSPECIFIED
-      - NOT_BACKED_UP
-      - VIOLATIONS_DETECTED
-      - GENERIC_BACKUPS
-      - EXCLUDED_FROM_BACKUP
-      - ALL_VIOLATIONS_MUTED
-      - PROTECTED
-      - INITIAL_CLASSIFICATION
-      - TERMINATED
-      - UNSUPPORTED
-      - DISCONNECTED
-      - ACTION_REQUIRED
-      - DLSG
-      - LIMIT_EXCEEDED
-      example: VIOLATIONS_DETECTED
+      - AWS
+      - AZURE
+      - GCP
+      - MONGO_ATLAS
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
+      - PROVIDER_UNSPECIFIED
+      example: AWS
       type: string
       x-docs-internal-enum:
-      - DLSG
-      - LIMIT_EXCEEDED
-    SubnetFilters:
-      additionalProperties: false
-      example:
-        containsAllOf:
-        - subnet-57c92df5
-        - subnet-ef0fd42f
-        containsNoneOf:
-        - subnet-9b5118b1
-        containsAnyOf:
-        - subnet-aa2c166e
-        - subnet-eb71c3a2
-      properties:
-        containsAnyOf:
-          description: Matches if any value in this list is in the `subnets` list.
-          example:
-          - subnet-aa2c166e
-          - subnet-eb71c3a2
-          items:
-            type: string
-          type: array
-        containsNoneOf:
-          description: Matches if none of the values in this list are in the `subnets` list.
-          example:
-          - subnet-9b5118b1
-          items:
-            type: string
-          type: array
-        containsAllOf:
-          description: Matches if all values in this list are in the `subnets` list.
-          example:
-          - subnet-57c92df5
-          - subnet-ef0fd42f
-          items:
-            type: string
-          type: array
-      type: object
-    SortOrder:
-      description: Sort order. Use `ASC` for ascending order and `DESC` for descending order.
-      enum:
-      - ASC
-      - DESC
-      example: ASC
-      type: string
-    SourceStorage:
-      description: Details about storage at the source.
-      example:
-        sizeBytes: 561566973952
-      properties:
-        sizeBytes:
-          description: Total storage size at the source, in bytes.
-          example: 561566973952
-          format: int64
-          type: integer
-      type: object
-    AwsEc2Resource:
-      description: 'Properties of the original AWS EC2 instance.
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
+    ResourceType:
+      description: 'Resource type identifier combining cloud provider and service type.
 
-        Present only when `resourceType` is set to `AWS_EC2`.
+        `RESOURCE_TYPE_UNSPECIFIED` is supported only in responses.
 
         '
-      example:
-        volumes:
-        - path: /dev/xvda
-          encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-          providerVolumeId: vol-0556d4633af5c430a
-          volumeSettings:
-            iops: 3000
-            throughput: 125
-            type: gp3
-            sizeBytes: 10000000000
-          isAwsManagedKey: false
-          region: eu-central-1
-          availabilityZone: eu-central-1a
-          tags:
-            primary: ''
-        - path: /dev/xvda
-          encryptionKeyId: arn:aws:kms:eu-central-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab
-          providerVolumeId: vol-0556d4633af5c430a
-          volumeSettings:
-            iops: 3000
-            throughput: 125
-            type: gp3
-            sizeBytes: 10000000000
-          isAwsManagedKey: false
-          region: eu-central-1
-          availabilityZone: eu-central-1a
-          tags:
-            primary: ''
-      nullable: true
-      properties:
-        volumes:
-          description: List of volumes attached to the resource.
-          items:
-            $ref: '#/components/schemas/InventoryVolume'
-          type: array
-      type: object
+      enum:
+      - AWS_EC2
+      - AWS_RDS
+      - AWS_S3
+      - AWS_EFS
+      - AWS_FSX
+      - AWS_EKS_NAMESPACE
+      - AWS_DYNAMO_DB
+      - AWS_EBS_VOLUME
+      - AWS_KEYSPACES_TABLE
+      - AWS_CASSANDRA_CLUSTER
+      - AWS_DOCUMENTDB
+      - AWS_NEPTUNE
+      - AZURE_VIRTUAL_MACHINE
+      - AZURE_FILE_SHARE
+      - AZURE_STORAGE_ACCOUNT
+      - AZURE_DISK
+      - AZURE_SQL_DATABASE
+      - AZURE_SQL_MANAGED_INSTANCE
+      - AZURE_SQL_VIRTUAL_MACHINE
+      - AZURE_SAP_HANA_VM
+      - AZURE_MYSQL
+      - AZURE_POSTGRESQL
+      - AZURE_COSMOSDB_MONGODB
+      - AZURE_COSMOSDB_NOSQL
+      - AZURE_AKS_NAMESPACE
+      - AZURE_CASSANDRA_CLUSTER
+      - ATLAS_MONGODB_CLUSTER
+      - GCP_COMPUTE_ENGINE_INSTANCE
+      - GCP_CLOUD_SQL_INSTANCE
+      - GCP_CLOUD_STORAGE_BUCKET
+      - GCP_GKE_NAMESPACE
+      - GCP_BIG_QUERY
+      - GCP_CLOUD_FIRESTORE
+      - GCP_DISK
+      - GCP_SAP_HANA_VM
+      - GCP_CASSANDRA_CLUSTER
+      - GOOGLE_WORKSPACE_RESOURCE
+      - MICROSOFT_365_RESOURCE
+      - RESOURCE_TYPE_UNSPECIFIED
+      example: AWS_EC2
+      type: string
+      x-docs-internal-enum:
+      - AWS_EBS_VOLUME
+      - AWS_KEYSPACES_TABLE
+      - AWS_CASSANDRA_CLUSTER
+      - GCP_CASSANDRA_CLUSTER
+      - AZURE_CASSANDRA_CLUSTER
+      - AWS_DOCUMENTDB
+      - AWS_NEPTUNE
+      - AZURE_SAP_HANA_VM
+      - AZURE_AKS_NAMESPACE
+      - GCP_GKE_NAMESPACE
+      - GCP_BIG_QUERY
+      - GCP_CLOUD_FIRESTORE
+      - GCP_DISK
+      - GCP_SAP_HANA_VM
+      - GOOGLE_WORKSPACE_RESOURCE
+      - MICROSOFT_365_RESOURCE
   securitySchemes:
     ApiKeyAuth:
       bearerFormat: JWT
