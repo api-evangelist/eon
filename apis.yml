@@ -61,7 +61,7 @@ tags:
 - Google Cloud
 apis:
 - aid: eon:eon-accounts-api
-  name: Eon accounts API
+  name: Eon Accounts API
   description: Manage connected cloud accounts onboarded to Eon.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -73,7 +73,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-accounts-api-openapi.yml
 - aid: eon:eon-actionapprovals-api
-  name: Eon actionApprovals API
+  name: Eon Action Approvals API
   description: The actionApprovals API from Eon — 3 operation(s) for actionapprovals.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -84,7 +84,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-actionapprovals-api-openapi.yml
 - aid: eon:eon-auth-api
-  name: Eon auth API
+  name: Eon Auth API
   description: Authentication and access token management.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -96,7 +96,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-auth-api-openapi.yml
 - aid: eon:eon-backups-api
-  name: Eon backups API
+  name: Eon Backups API
   description: The backups API from Eon — 1 operation(s) for backups.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -108,7 +108,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-backups-api-openapi.yml
 - aid: eon:eon-billing-api
-  name: Eon billing API
+  name: Eon Billing API
   description: Access billing and usage metering information.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -120,7 +120,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-billing-api-openapi.yml
 - aid: eon:eon-dashboard-api
-  name: Eon dashboard API
+  name: Eon Dashboard API
   description: The dashboard API from Eon — 1 operation(s) for dashboard.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -132,7 +132,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-dashboard-api-openapi.yml
 - aid: eon:eon-iam-api
-  name: Eon iam API
+  name: Eon Iam API
   description: The iam API from Eon — 8 operation(s) for iam.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -144,7 +144,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-iam-api-openapi.yml
 - aid: eon:eon-jobs-api
-  name: Eon jobs API
+  name: Eon Jobs API
   description: Track backup, restore, and other asynchronous jobs.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -156,7 +156,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-jobs-api-openapi.yml
 - aid: eon:eon-resources-api
-  name: Eon resources API
+  name: Eon Resources API
   description: Discover and manage protected cloud resources.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -168,7 +168,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-resources-api-openapi.yml
 - aid: eon:eon-snapshots-api
-  name: Eon snapshots API
+  name: Eon Snapshots API
   description: Manage resource snapshots and point-in-time recovery points.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io
@@ -180,7 +180,7 @@ apis:
   - type: OpenAPI
     url: openapi/eon-snapshots-api-openapi.yml
 - aid: eon:eon-vaults-api
-  name: Eon vaults API
+  name: Eon Vaults API
   description: Manage backup vaults that store snapshots.
   humanURL: https://docs.eon.io
   baseURL: https://console.eon.io

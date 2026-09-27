@@ -279,13 +279,6 @@ paths:
         action: auth
 components:
   schemas:
-    Error:
-      example:
-        error: error
-      properties:
-        error:
-          type: string
-      type: object
     OAuth2TokenRequest:
       additionalProperties: false
       properties:
@@ -312,6 +305,31 @@ components:
       - client_secret
       - grant_type
       type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    ApiCredentials:
+      additionalProperties: false
+      example:
+        clientId: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
+        clientSecret: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
+      properties:
+        clientId:
+          description: API client ID.
+          example: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
+          type: string
+        clientSecret:
+          description: API client secret.
+          example: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
+          type: string
+      required:
+      - clientId
+      - clientSecret
+      type: object
     Oauth2TokenResponse:
       example:
         access_token: access_token
@@ -333,24 +351,6 @@ components:
             '
           example: 43200
           type: integer
-      type: object
-    ApiCredentials:
-      additionalProperties: false
-      example:
-        clientId: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
-        clientSecret: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
-      properties:
-        clientId:
-          description: API client ID.
-          example: yaeiq73af5cbxibLiu22yw2t5ezeozxu5itv43uw2tyn3xpqprta
-          type: string
-        clientSecret:
-          description: API client secret.
-          example: eon_sample620a571c00caf772b8e1b69de703792ba12c9eadef689725e0489324a093a64b4459ffecbaaa441c377950628b6b9042af728056d1d060b8f5d5sample
-          type: string
-      required:
-      - clientId
-      - clientSecret
       type: object
     TokenResponse:
       example:

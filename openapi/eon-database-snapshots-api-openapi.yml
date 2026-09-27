@@ -297,43 +297,6 @@ paths:
           key: projectId
 components:
   schemas:
-    QueryDBStatusResponse:
-      example:
-        runningTimeMs: 5000
-        outputLocations:
-        - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
-        errorMessage: errorMessage
-        status: IN_PROGRESS
-      properties:
-        runningTimeMs:
-          description: Time the query took to run, in milliseconds.
-          example: 5000
-          type: integer
-        status:
-          $ref: '#/components/schemas/QueryDBStatus'
-        errorMessage:
-          description: 'Error message.
-
-            Present only if the status is `FAILED`.
-
-            '
-          type:
-          - string
-          - 'null'
-        outputLocations:
-          description: 'Locations where the query results are saved to.
-
-            This is set by `destination` in the [Run Query](./run-query) request body.
-
-            '
-          example:
-          - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
-          items:
-            type: string
-          type: array
-      required:
-      - status
-      type: object
     QueryDBRequest:
       example:
         restoreAccountId: 1e0b9aa3-a942-5e86-afe6-57606e952622
@@ -375,28 +338,6 @@ components:
       - query
       - restoreAccountId
       type: object
-    QueryDBResponse:
-      example:
-        queryId: 330e9e09-6cb8-52af-b532-a476f598cf94
-      properties:
-        queryId:
-          description: 'Query ID.
-
-            Can be used to call [Get Query Status](./get-query-status) and [Get Query Result](./get-query-result).
-
-            '
-          example: 330e9e09-6cb8-52af-b532-a476f598cf94
-          type: string
-      required:
-      - queryId
-      type: object
-    Error:
-      example:
-        error: error
-      properties:
-        error:
-          type: string
-      type: object
     QueryDBRestoreDestination:
       example:
         s3Bucket:
@@ -405,6 +346,13 @@ components:
       properties:
         s3Bucket:
           $ref: '#/components/schemas/S3RestoreDestination'
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
       type: object
     S3RestoreDestination:
       description: S3 bucket.
@@ -434,6 +382,65 @@ components:
       type:
       - object
       - 'null'
+    QueryDBStatusResponse:
+      example:
+        runningTimeMs: 5000
+        outputLocations:
+        - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
+        errorMessage: errorMessage
+        status: IN_PROGRESS
+      properties:
+        runningTimeMs:
+          description: Time the query took to run, in milliseconds.
+          example: 5000
+          type: integer
+        status:
+          $ref: '#/components/schemas/QueryDBStatus'
+        errorMessage:
+          description: 'Error message.
+
+            Present only if the status is `FAILED`.
+
+            '
+          type:
+          - string
+          - 'null'
+        outputLocations:
+          description: 'Locations where the query results are saved to.
+
+            This is set by `destination` in the [Run Query](./run-query) request body.
+
+            '
+          example:
+          - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
+          items:
+            type: string
+          type: array
+      required:
+      - status
+      type: object
+    QueryDBStatus:
+      description: 'Query status.
+
+        If completed, the query results can be retrieved.
+
+        `UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - UNSPECIFIED
+      - IN_PROGRESS
+      - COMPLETED
+      - CANCELED
+      - FAILED
+      example: IN_PROGRESS
+      type: string
+      x-enum-varnames:
+      - QUERY_STATUS_UNSPECIFIED
+      - QUERY_IN_PROGRESS
+      - QUERY_COMPLETED
+      - QUERY_CANCELED
+      - QUERY_FAILED
     QueryDBResultResponse:
       example:
         records:
@@ -490,28 +497,21 @@ components:
       - nextToken
       - records
       type: object
-    QueryDBStatus:
-      description: 'Query status.
+    QueryDBResponse:
+      example:
+        queryId: 330e9e09-6cb8-52af-b532-a476f598cf94
+      properties:
+        queryId:
+          description: 'Query ID.
 
-        If completed, the query results can be retrieved.
+            Can be used to call [Get Query Status](./get-query-status) and [Get Query Result](./get-query-result).
 
-        `UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - UNSPECIFIED
-      - IN_PROGRESS
-      - COMPLETED
-      - CANCELED
-      - FAILED
-      example: IN_PROGRESS
-      type: string
-      x-enum-varnames:
-      - QUERY_STATUS_UNSPECIFIED
-      - QUERY_IN_PROGRESS
-      - QUERY_COMPLETED
-      - QUERY_CANCELED
-      - QUERY_FAILED
+            '
+          example: 330e9e09-6cb8-52af-b532-a476f598cf94
+          type: string
+      required:
+      - queryId
+      type: object
   securitySchemes:
     ApiKeyAuth:
       bearerFormat: JWT
