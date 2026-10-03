@@ -236,6 +236,175 @@ paths:
         excluded: true
 components:
   schemas:
+    MPARequest:
+      example:
+        requesterEmail: requester@example.com
+        resolvedTime: 2026-05-05 02:10:12+00:00
+        requesterName: Riley Chen
+        approvalExpirationTime: 2026-05-05 03:00:05+00:00
+        executionExpirationTime: 2026-05-05 07:00:05+00:00
+        createdTime: 2026-05-04 23:00:05+00:00
+        comment: Removing a backup policy that has been replaced.
+        id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+        policyDetails:
+        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+          requiredApprovals: 2
+          approverProviderGroupId: platform-admins
+          executionWindowHours: 4
+          description: Require approval before deleting backup policies.
+          approvalWindowHours: 24
+          currentApprovals: 1
+        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+          requiredApprovals: 2
+          approverProviderGroupId: platform-admins
+          executionWindowHours: 4
+          description: Require approval before deleting backup policies.
+          approvalWindowHours: 24
+          currentApprovals: 1
+        operation: MPA_OPERATION_DELETE_BACKUP_POLICY
+        status: PENDING_APPROVAL
+      properties:
+        id:
+          description: Unique identifier of the action approval request.
+          example: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+          format: uuid
+          type: string
+        operation:
+          $ref: '#/components/schemas/MPAOperationType'
+        requesterEmail:
+          description: Email address of the requester who created the approval request.
+          example: requester@example.com
+          type: string
+        requesterName:
+          description: Display name of the requester at the time the request was created.
+          example: Riley Chen
+          type: string
+        comment:
+          description: Optional comment from the requester explaining why this operation is needed.
+          example: Removing a backup policy that has been replaced.
+          type: string
+        status:
+          $ref: '#/components/schemas/MPARequestStatus'
+        policyDetails:
+          description: Per-policy configuration and approval progress.
+          items:
+            $ref: '#/components/schemas/MPARequestPolicyDetail'
+          type: array
+        approvalExpirationTime:
+          description: Deadline for gathering approvals. Set when the request is confirmed (submitted). Null for requests in CREATED or DISCARDED status.
+          example: 2026-05-05 03:00:05+00:00
+          format: date-time
+          type:
+          - string
+          - 'null'
+        executionExpirationTime:
+          description: Deadline for executing the approved action. Set when the request is approved.
+          example: 2026-05-05 07:00:05+00:00
+          format: date-time
+          type:
+          - string
+          - 'null'
+        resolvedTime:
+          description: Time when the request reached a terminal state, such as executed, expired, canceled, denied, or discarded. Null while the request is still active.
+          example: 2026-05-05 02:10:12+00:00
+          format: date-time
+          type:
+          - string
+          - 'null'
+        createdTime:
+          description: Time when the approval request was created.
+          example: 2026-05-04 23:00:05+00:00
+          format: date-time
+          type: string
+      required:
+      - createdTime
+      - id
+      - operation
+      - policyDetails
+      - requestMethod
+      - requestPath
+      - requesterEmail
+      - requesterId
+      - status
+      type: object
+      x-nullable: true
+    CancelMyMPARequestResponse:
+      example:
+        actionApprovalRequest:
+          requesterEmail: requester@example.com
+          resolvedTime: 2026-05-05 02:10:12+00:00
+          requesterName: Riley Chen
+          approvalExpirationTime: 2026-05-05 03:00:05+00:00
+          executionExpirationTime: 2026-05-05 07:00:05+00:00
+          createdTime: 2026-05-04 23:00:05+00:00
+          comment: Removing a backup policy that has been replaced.
+          id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+          policyDetails:
+          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+            requiredApprovals: 2
+            approverProviderGroupId: platform-admins
+            executionWindowHours: 4
+            description: Require approval before deleting backup policies.
+            approvalWindowHours: 24
+            currentApprovals: 1
+          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+            requiredApprovals: 2
+            approverProviderGroupId: platform-admins
+            executionWindowHours: 4
+            description: Require approval before deleting backup policies.
+            approvalWindowHours: 24
+            currentApprovals: 1
+          operation: MPA_OPERATION_DELETE_BACKUP_POLICY
+          status: PENDING_APPROVAL
+      properties:
+        actionApprovalRequest:
+          $ref: '#/components/schemas/MPARequest'
+      required:
+      - actionApprovalRequest
+      type: object
+    MPARequestStatus:
+      description: 'Lifecycle state of an action approval request from creation through resolution. DISCARDED means the requester abandoned a draft before it was submitted for approval.
+
+        '
+      enum:
+      - MPA_REQUEST_STATUS_UNSPECIFIED
+      - CREATED
+      - PENDING_APPROVAL
+      - APPROVED
+      - DENIED
+      - EXPIRED_PENDING_APPROVAL
+      - EXPIRED_APPROVED
+      - EXECUTED
+      - CANCELED_PENDING_APPROVAL
+      - CANCELED_APPROVED
+      - DISCARDED
+      example: PENDING_APPROVAL
+      type: string
+      x-enum-varnames:
+      - MPA_REQUEST_STATUS_UNSPECIFIED
+      - MPA_REQUEST_STATUS_CREATED
+      - MPA_REQUEST_STATUS_PENDING_APPROVAL
+      - MPA_REQUEST_STATUS_APPROVED
+      - MPA_REQUEST_STATUS_DENIED
+      - MPA_REQUEST_STATUS_EXPIRED_PENDING_APPROVAL
+      - MPA_REQUEST_STATUS_EXPIRED_APPROVED
+      - MPA_REQUEST_STATUS_EXECUTED
+      - MPA_REQUEST_STATUS_CANCELLED_PENDING_APPROVAL
+      - MPA_REQUEST_STATUS_CANCELLED_APPROVED
+      - MPA_REQUEST_STATUS_DISCARDED
+    SubmitMyMPARequestRequest:
+      example:
+        action: CONFIRM
+        comment: comment
+      properties:
+        action:
+          $ref: '#/components/schemas/MPASubmitAction'
+        comment:
+          description: Optional comment to set on the request alongside the action.
+          type: string
+      required:
+      - action
+      type: object
     MPAReview:
       example:
         reviewerName: Pat Lee
@@ -278,25 +447,86 @@ components:
       - reviewerId
       type: object
       x-nullable: true
-    SubmitMyMPARequestRequest:
-      example:
-        action: CONFIRM
-        comment: comment
-      properties:
-        action:
-          $ref: '#/components/schemas/MPASubmitAction'
-        comment:
-          description: Optional comment to set on the request alongside the action.
-          type: string
-      required:
-      - action
-      type: object
     Error:
       example:
         error: error
       properties:
         error:
           type: string
+      type: object
+    MPADecision:
+      description: 'Decision on an MPA review record as returned on read APIs. APPROVED and DENIED come from reviewer actions; CANCELLED is written by the system (for example when the policy is deleted while requests are still pending).
+
+        '
+      enum:
+      - APPROVED
+      - DENIED
+      - CANCELLED
+      example: APPROVED
+      type: string
+      x-enum-varnames:
+      - MPA_REVIEW_DECISION_APPROVED
+      - MPA_REVIEW_DECISION_DENIED
+      - MPA_REVIEW_DECISION_CANCELLED
+    MPASubmitAction:
+      description: Action to take on a CREATED MPA request.
+      enum:
+      - MPA_SUBMIT_ACTION_UNSPECIFIED
+      - CONFIRM
+      - DISCARD
+      example: CONFIRM
+      type: string
+      x-enum-varnames:
+      - MPA_SUBMIT_ACTION_UNSPECIFIED
+      - MPA_SUBMIT_ACTION_CONFIRM
+      - MPA_SUBMIT_ACTION_DISCARD
+    GetMPARequestResponse:
+      example:
+        mpaRequestDetail:
+          request:
+            requesterEmail: requester@example.com
+            resolvedTime: 2026-05-05 02:10:12+00:00
+            requesterName: Riley Chen
+            approvalExpirationTime: 2026-05-05 03:00:05+00:00
+            executionExpirationTime: 2026-05-05 07:00:05+00:00
+            createdTime: 2026-05-04 23:00:05+00:00
+            comment: Removing a backup policy that has been replaced.
+            id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+            policyDetails:
+            - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+              requiredApprovals: 2
+              approverProviderGroupId: platform-admins
+              executionWindowHours: 4
+              description: Require approval before deleting backup policies.
+              approvalWindowHours: 24
+              currentApprovals: 1
+            - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+              requiredApprovals: 2
+              approverProviderGroupId: platform-admins
+              executionWindowHours: 4
+              description: Require approval before deleting backup policies.
+              approvalWindowHours: 24
+              currentApprovals: 1
+            operation: MPA_OPERATION_DELETE_BACKUP_POLICY
+            status: PENDING_APPROVAL
+          reviews:
+          - reviewerName: Pat Lee
+            decision: APPROVED
+            reviewedTime: 2026-05-04 23:30:00+00:00
+            reviewerEmail: reviewer@example.com
+            comment: Approved after confirming the request with the application owner.
+            id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a20
+          - reviewerName: Pat Lee
+            decision: APPROVED
+            reviewedTime: 2026-05-04 23:30:00+00:00
+            reviewerEmail: reviewer@example.com
+            comment: Approved after confirming the request with the application owner.
+            id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a20
+      properties:
+        mpaRequestDetail:
+          $ref: '#/components/schemas/MPARequestDetail'
+      required:
+      - mpaRequestDetail
       type: object
     MPARequestPolicyDetail:
       example:
@@ -402,20 +632,26 @@ components:
       - reviews
       type: object
       x-nullable: true
-    MPADecision:
-      description: 'Decision on an MPA review record as returned on read APIs. APPROVED and DENIED come from reviewer actions; CANCELLED is written by the system (for example when the policy is deleted while requests are still pending).
-
-        '
+    MPAOperationType:
+      description: Operation that requires action approval before it can be completed.
       enum:
-      - APPROVED
-      - DENIED
-      - CANCELLED
-      example: APPROVED
+      - MPA_OPERATION_TYPE_UNSPECIFIED
+      - MPA_OPERATION_ADD_RESTORE_ACCOUNT
+      - MPA_OPERATION_RESTORE_RESOURCE
+      - MPA_OPERATION_UPDATE_BACKUP_POLICY
+      - MPA_OPERATION_DELETE_BACKUP_POLICY
+      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
+      example: MPA_OPERATION_DELETE_BACKUP_POLICY
       type: string
+      x-docs-internal-enum:
+      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
       x-enum-varnames:
-      - MPA_REVIEW_DECISION_APPROVED
-      - MPA_REVIEW_DECISION_DENIED
-      - MPA_REVIEW_DECISION_CANCELLED
+      - MPA_OPERATION_TYPE_UNSPECIFIED
+      - MPA_OPERATION_TYPE_MPA_OPERATION_ADD_RESTORE_ACCOUNT
+      - MPA_OPERATION_TYPE_MPA_OPERATION_RESTORE_RESOURCE
+      - MPA_OPERATION_TYPE_MPA_OPERATION_UPDATE_BACKUP_POLICY
+      - MPA_OPERATION_TYPE_MPA_OPERATION_DELETE_BACKUP_POLICY
+      - MPA_OPERATION_TYPE_MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
     SubmitMyMPARequestResponse:
       example:
         actionApprovalRequest:
@@ -447,242 +683,6 @@ components:
       properties:
         actionApprovalRequest:
           $ref: '#/components/schemas/MPARequest'
-      type: object
-    CancelMyMPARequestResponse:
-      example:
-        actionApprovalRequest:
-          requesterEmail: requester@example.com
-          resolvedTime: 2026-05-05 02:10:12+00:00
-          requesterName: Riley Chen
-          approvalExpirationTime: 2026-05-05 03:00:05+00:00
-          executionExpirationTime: 2026-05-05 07:00:05+00:00
-          createdTime: 2026-05-04 23:00:05+00:00
-          comment: Removing a backup policy that has been replaced.
-          id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
-          policyDetails:
-          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-            requiredApprovals: 2
-            approverProviderGroupId: platform-admins
-            executionWindowHours: 4
-            description: Require approval before deleting backup policies.
-            approvalWindowHours: 24
-            currentApprovals: 1
-          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-            requiredApprovals: 2
-            approverProviderGroupId: platform-admins
-            executionWindowHours: 4
-            description: Require approval before deleting backup policies.
-            approvalWindowHours: 24
-            currentApprovals: 1
-          operation: MPA_OPERATION_DELETE_BACKUP_POLICY
-          status: PENDING_APPROVAL
-      properties:
-        actionApprovalRequest:
-          $ref: '#/components/schemas/MPARequest'
-      required:
-      - actionApprovalRequest
-      type: object
-    MPARequest:
-      example:
-        requesterEmail: requester@example.com
-        resolvedTime: 2026-05-05 02:10:12+00:00
-        requesterName: Riley Chen
-        approvalExpirationTime: 2026-05-05 03:00:05+00:00
-        executionExpirationTime: 2026-05-05 07:00:05+00:00
-        createdTime: 2026-05-04 23:00:05+00:00
-        comment: Removing a backup policy that has been replaced.
-        id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
-        policyDetails:
-        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-          requiredApprovals: 2
-          approverProviderGroupId: platform-admins
-          executionWindowHours: 4
-          description: Require approval before deleting backup policies.
-          approvalWindowHours: 24
-          currentApprovals: 1
-        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-          requiredApprovals: 2
-          approverProviderGroupId: platform-admins
-          executionWindowHours: 4
-          description: Require approval before deleting backup policies.
-          approvalWindowHours: 24
-          currentApprovals: 1
-        operation: MPA_OPERATION_DELETE_BACKUP_POLICY
-        status: PENDING_APPROVAL
-      properties:
-        id:
-          description: Unique identifier of the action approval request.
-          example: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
-          format: uuid
-          type: string
-        operation:
-          $ref: '#/components/schemas/MPAOperationType'
-        requesterEmail:
-          description: Email address of the requester who created the approval request.
-          example: requester@example.com
-          type: string
-        requesterName:
-          description: Display name of the requester at the time the request was created.
-          example: Riley Chen
-          type: string
-        comment:
-          description: Optional comment from the requester explaining why this operation is needed.
-          example: Removing a backup policy that has been replaced.
-          type: string
-        status:
-          $ref: '#/components/schemas/MPARequestStatus'
-        policyDetails:
-          description: Per-policy configuration and approval progress.
-          items:
-            $ref: '#/components/schemas/MPARequestPolicyDetail'
-          type: array
-        approvalExpirationTime:
-          description: Deadline for gathering approvals. Set when the request is confirmed (submitted). Null for requests in CREATED or DISCARDED status.
-          example: 2026-05-05 03:00:05+00:00
-          format: date-time
-          type:
-          - string
-          - 'null'
-        executionExpirationTime:
-          description: Deadline for executing the approved action. Set when the request is approved.
-          example: 2026-05-05 07:00:05+00:00
-          format: date-time
-          type:
-          - string
-          - 'null'
-        resolvedTime:
-          description: Time when the request reached a terminal state, such as executed, expired, canceled, denied, or discarded. Null while the request is still active.
-          example: 2026-05-05 02:10:12+00:00
-          format: date-time
-          type:
-          - string
-          - 'null'
-        createdTime:
-          description: Time when the approval request was created.
-          example: 2026-05-04 23:00:05+00:00
-          format: date-time
-          type: string
-      required:
-      - createdTime
-      - id
-      - operation
-      - policyDetails
-      - requestMethod
-      - requestPath
-      - requesterEmail
-      - requesterId
-      - status
-      type: object
-      x-nullable: true
-    MPARequestStatus:
-      description: 'Lifecycle state of an action approval request from creation through resolution. DISCARDED means the requester abandoned a draft before it was submitted for approval.
-
-        '
-      enum:
-      - MPA_REQUEST_STATUS_UNSPECIFIED
-      - CREATED
-      - PENDING_APPROVAL
-      - APPROVED
-      - DENIED
-      - EXPIRED_PENDING_APPROVAL
-      - EXPIRED_APPROVED
-      - EXECUTED
-      - CANCELED_PENDING_APPROVAL
-      - CANCELED_APPROVED
-      - DISCARDED
-      example: PENDING_APPROVAL
-      type: string
-      x-enum-varnames:
-      - MPA_REQUEST_STATUS_UNSPECIFIED
-      - MPA_REQUEST_STATUS_CREATED
-      - MPA_REQUEST_STATUS_PENDING_APPROVAL
-      - MPA_REQUEST_STATUS_APPROVED
-      - MPA_REQUEST_STATUS_DENIED
-      - MPA_REQUEST_STATUS_EXPIRED_PENDING_APPROVAL
-      - MPA_REQUEST_STATUS_EXPIRED_APPROVED
-      - MPA_REQUEST_STATUS_EXECUTED
-      - MPA_REQUEST_STATUS_CANCELLED_PENDING_APPROVAL
-      - MPA_REQUEST_STATUS_CANCELLED_APPROVED
-      - MPA_REQUEST_STATUS_DISCARDED
-    MPAOperationType:
-      description: Operation that requires action approval before it can be completed.
-      enum:
-      - MPA_OPERATION_TYPE_UNSPECIFIED
-      - MPA_OPERATION_ADD_RESTORE_ACCOUNT
-      - MPA_OPERATION_RESTORE_RESOURCE
-      - MPA_OPERATION_UPDATE_BACKUP_POLICY
-      - MPA_OPERATION_DELETE_BACKUP_POLICY
-      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
-      example: MPA_OPERATION_DELETE_BACKUP_POLICY
-      type: string
-      x-docs-internal-enum:
-      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
-      x-enum-varnames:
-      - MPA_OPERATION_TYPE_UNSPECIFIED
-      - MPA_OPERATION_TYPE_MPA_OPERATION_ADD_RESTORE_ACCOUNT
-      - MPA_OPERATION_TYPE_MPA_OPERATION_RESTORE_RESOURCE
-      - MPA_OPERATION_TYPE_MPA_OPERATION_UPDATE_BACKUP_POLICY
-      - MPA_OPERATION_TYPE_MPA_OPERATION_DELETE_BACKUP_POLICY
-      - MPA_OPERATION_TYPE_MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
-    MPASubmitAction:
-      description: Action to take on a CREATED MPA request.
-      enum:
-      - MPA_SUBMIT_ACTION_UNSPECIFIED
-      - CONFIRM
-      - DISCARD
-      example: CONFIRM
-      type: string
-      x-enum-varnames:
-      - MPA_SUBMIT_ACTION_UNSPECIFIED
-      - MPA_SUBMIT_ACTION_CONFIRM
-      - MPA_SUBMIT_ACTION_DISCARD
-    GetMPARequestResponse:
-      example:
-        mpaRequestDetail:
-          request:
-            requesterEmail: requester@example.com
-            resolvedTime: 2026-05-05 02:10:12+00:00
-            requesterName: Riley Chen
-            approvalExpirationTime: 2026-05-05 03:00:05+00:00
-            executionExpirationTime: 2026-05-05 07:00:05+00:00
-            createdTime: 2026-05-04 23:00:05+00:00
-            comment: Removing a backup policy that has been replaced.
-            id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
-            policyDetails:
-            - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-              requiredApprovals: 2
-              approverProviderGroupId: platform-admins
-              executionWindowHours: 4
-              description: Require approval before deleting backup policies.
-              approvalWindowHours: 24
-              currentApprovals: 1
-            - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-              requiredApprovals: 2
-              approverProviderGroupId: platform-admins
-              executionWindowHours: 4
-              description: Require approval before deleting backup policies.
-              approvalWindowHours: 24
-              currentApprovals: 1
-            operation: MPA_OPERATION_DELETE_BACKUP_POLICY
-            status: PENDING_APPROVAL
-          reviews:
-          - reviewerName: Pat Lee
-            decision: APPROVED
-            reviewedTime: 2026-05-04 23:30:00+00:00
-            reviewerEmail: reviewer@example.com
-            comment: Approved after confirming the request with the application owner.
-            id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a20
-          - reviewerName: Pat Lee
-            decision: APPROVED
-            reviewedTime: 2026-05-04 23:30:00+00:00
-            reviewerEmail: reviewer@example.com
-            comment: Approved after confirming the request with the application owner.
-            id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a20
-      properties:
-        mpaRequestDetail:
-          $ref: '#/components/schemas/MPARequestDetail'
-      required:
-      - mpaRequestDetail
       type: object
   securitySchemes:
     ApiKeyAuth:

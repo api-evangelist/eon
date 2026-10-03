@@ -101,18 +101,6 @@ paths:
           key: id
 components:
   schemas:
-    TakeSnapshotResponse:
-      example:
-        jobId: 9892ecab-22d5-47ca-b2b4-70369e80b90a
-      properties:
-        jobId:
-          description: Backup job ID.
-          example: 9892ecab-22d5-47ca-b2b4-70369e80b90a
-          format: uuid
-          type: string
-      required:
-      - jobId
-      type: object
     TakeSnapshotRequest:
       example:
         vaultId: 0d79d713-78df-5870-882f-0089d05396b6
@@ -138,6 +126,18 @@ components:
       properties:
         error:
           type: string
+      type: object
+    TakeSnapshotResponse:
+      example:
+        jobId: 9892ecab-22d5-47ca-b2b4-70369e80b90a
+      properties:
+        jobId:
+          description: Backup job ID.
+          example: 9892ecab-22d5-47ca-b2b4-70369e80b90a
+          format: uuid
+          type: string
+      required:
+      - jobId
       type: object
   securitySchemes:
     ApiKeyAuth:

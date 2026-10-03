@@ -297,47 +297,6 @@ paths:
           key: projectId
 components:
   schemas:
-    QueryDBRequest:
-      example:
-        restoreAccountId: 1e0b9aa3-a942-5e86-afe6-57606e952622
-        databaseName: postgres
-        query: SELECT * FROM customers LIMIT 50;
-        destination:
-          s3Bucket:
-            bucketName: my-restore-bucket
-            prefix: restored_records/
-      properties:
-        databaseName:
-          description: Name of the database to query.
-          example: postgres
-          type: string
-        query:
-          description: 'SQL query to run against the database.
-
-            Support is limited to Athena [`SELECT` queries](https://docs.aws.amazon.com/athena/latest/ug/select.html).
-
-            Either `query` or `lucene` must be provided.
-
-            '
-          example: SELECT * FROM customers LIMIT 50;
-          type: string
-          x-docs-public-description: 'SQL query to run against the database.
-
-            Support is limited to Athena [`SELECT` queries](https://docs.aws.amazon.com/athena/latest/ug/select.html).
-
-            '
-        restoreAccountId:
-          description: Eon-assigned ID of the [restore account](./list-restore-accounts).
-          example: 1e0b9aa3-a942-5e86-afe6-57606e952622
-          type: string
-        destination:
-          $ref: '#/components/schemas/QueryDBRestoreDestination'
-      required:
-      - databaseName
-      - destination
-      - query
-      - restoreAccountId
-      type: object
     QueryDBRestoreDestination:
       example:
         s3Bucket:
@@ -346,13 +305,6 @@ components:
       properties:
         s3Bucket:
           $ref: '#/components/schemas/S3RestoreDestination'
-      type: object
-    Error:
-      example:
-        error: error
-      properties:
-        error:
-          type: string
       type: object
     S3RestoreDestination:
       description: S3 bucket.
@@ -419,28 +371,6 @@ components:
       required:
       - status
       type: object
-    QueryDBStatus:
-      description: 'Query status.
-
-        If completed, the query results can be retrieved.
-
-        `UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - UNSPECIFIED
-      - IN_PROGRESS
-      - COMPLETED
-      - CANCELED
-      - FAILED
-      example: IN_PROGRESS
-      type: string
-      x-enum-varnames:
-      - QUERY_STATUS_UNSPECIFIED
-      - QUERY_IN_PROGRESS
-      - QUERY_COMPLETED
-      - QUERY_CANCELED
-      - QUERY_FAILED
     QueryDBResultResponse:
       example:
         records:
@@ -496,6 +426,76 @@ components:
       - columns
       - nextToken
       - records
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    QueryDBStatus:
+      description: 'Query status.
+
+        If completed, the query results can be retrieved.
+
+        `UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - UNSPECIFIED
+      - IN_PROGRESS
+      - COMPLETED
+      - CANCELED
+      - FAILED
+      example: IN_PROGRESS
+      type: string
+      x-enum-varnames:
+      - QUERY_STATUS_UNSPECIFIED
+      - QUERY_IN_PROGRESS
+      - QUERY_COMPLETED
+      - QUERY_CANCELED
+      - QUERY_FAILED
+    QueryDBRequest:
+      example:
+        restoreAccountId: 1e0b9aa3-a942-5e86-afe6-57606e952622
+        databaseName: postgres
+        query: SELECT * FROM customers LIMIT 50;
+        destination:
+          s3Bucket:
+            bucketName: my-restore-bucket
+            prefix: restored_records/
+      properties:
+        databaseName:
+          description: Name of the database to query.
+          example: postgres
+          type: string
+        query:
+          description: 'SQL query to run against the database.
+
+            Support is limited to Athena [`SELECT` queries](https://docs.aws.amazon.com/athena/latest/ug/select.html).
+
+            Either `query` or `lucene` must be provided.
+
+            '
+          example: SELECT * FROM customers LIMIT 50;
+          type: string
+          x-docs-public-description: 'SQL query to run against the database.
+
+            Support is limited to Athena [`SELECT` queries](https://docs.aws.amazon.com/athena/latest/ug/select.html).
+
+            '
+        restoreAccountId:
+          description: Eon-assigned ID of the [restore account](./list-restore-accounts).
+          example: 1e0b9aa3-a942-5e86-afe6-57606e952622
+          type: string
+        destination:
+          $ref: '#/components/schemas/QueryDBRestoreDestination'
+      required:
+      - databaseName
+      - destination
+      - query
+      - restoreAccountId
       type: object
     QueryDBResponse:
       example:
