@@ -2358,1403 +2358,78 @@ paths:
         excluded: true
 components:
   schemas:
-    MPARequest:
+    GetSnapshotResponse:
       example:
-        requesterEmail: requester@example.com
-        resolvedTime: 2026-05-05 02:10:12+00:00
-        requesterName: Riley Chen
-        approvalExpirationTime: 2026-05-05 03:00:05+00:00
-        executionExpirationTime: 2026-05-05 07:00:05+00:00
-        createdTime: 2026-05-04 23:00:05+00:00
-        comment: Removing a backup policy that has been replaced.
-        id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
-        policyDetails:
-        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-          requiredApprovals: 2
-          approverProviderGroupId: platform-admins
-          executionWindowHours: 4
-          description: Require approval before deleting backup policies.
-          approvalWindowHours: 24
-          currentApprovals: 1
-        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-          requiredApprovals: 2
-          approverProviderGroupId: platform-admins
-          executionWindowHours: 4
-          description: Require approval before deleting backup policies.
-          approvalWindowHours: 24
-          currentApprovals: 1
-        operation: MPA_OPERATION_DELETE_BACKUP_POLICY
-        status: PENDING_APPROVAL
-      properties:
-        id:
-          description: Unique identifier of the action approval request.
-          example: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
-          format: uuid
-          type: string
-        operation:
-          $ref: '#/components/schemas/MPAOperationType'
-        requesterEmail:
-          description: Email address of the requester who created the approval request.
-          example: requester@example.com
-          type: string
-        requesterName:
-          description: Display name of the requester at the time the request was created.
-          example: Riley Chen
-          type: string
-        comment:
-          description: Optional comment from the requester explaining why this operation is needed.
-          example: Removing a backup policy that has been replaced.
-          type: string
-        status:
-          $ref: '#/components/schemas/MPARequestStatus'
-        policyDetails:
-          description: Per-policy configuration and approval progress.
-          items:
-            $ref: '#/components/schemas/MPARequestPolicyDetail'
-          type: array
-        approvalExpirationTime:
-          description: Deadline for gathering approvals. Set when the request is confirmed (submitted). Null for requests in CREATED or DISCARDED status.
-          example: 2026-05-05 03:00:05+00:00
-          format: date-time
-          type:
-          - string
-          - 'null'
-        executionExpirationTime:
-          description: Deadline for executing the approved action. Set when the request is approved.
-          example: 2026-05-05 07:00:05+00:00
-          format: date-time
-          type:
-          - string
-          - 'null'
-        resolvedTime:
-          description: Time when the request reached a terminal state, such as executed, expired, canceled, denied, or discarded. Null while the request is still active.
-          example: 2026-05-05 02:10:12+00:00
-          format: date-time
-          type:
-          - string
-          - 'null'
-        createdTime:
-          description: Time when the approval request was created.
-          example: 2026-05-04 23:00:05+00:00
-          format: date-time
-          type: string
-      required:
-      - createdTime
-      - id
-      - operation
-      - policyDetails
-      - requestMethod
-      - requestPath
-      - requesterEmail
-      - requesterId
-      - status
-      type: object
-      x-nullable: true
-    AzureSqlDatabaseRestoreTarget:
-      example:
-        resourceGroupName: my-resource-group-12345
-        adminUserName: myadminuser
-        serverName: my-mssql-server
-        region: eastus
-        tags:
-          key: tags
-      properties:
-        region:
-          description: Region to restore to.
-          example: eastus
-          type: string
-        resourceGroupName:
-          description: Name of the resource group to restore to.
-          example: my-resource-group-12345
-          type: string
-        serverName:
-          description: Restored SQL server name.
-          example: my-mssql-server
-          type: string
-        adminUserName:
-          description: Username to set for admin of user of the restored database.
-          example: myadminuser
-          type: string
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Tags to apply to the restored instance as key-value pairs, where key and value are both strings.
-
-            If not provided, defaults to an empty object, with no tags applied.
-
-
-            **Example:** `{"eon_api_restore": "true"}`
-
-            '
-          type: object
-      required:
-      - adminUserName
-      - region
-      - resourceGroupName
-      - serverName
-      type: object
-    SnapshotDateFilters:
-      additionalProperties: false
-      example:
-        endDate: endDate
-        startDate: startDate
-      properties:
-        startDate:
-          description: 'Matches if `pointInTime` is on or later than this date.
-
-            Must be in ISO 8601 YYYY-MM-DD format.
-
-            '
-          type: string
-        endDate:
-          description: 'Matches if `pointInTime` is on or earlier than this date.
-
-            Must be in ISO 8601 YYYY-MM-DD format.
-
-            '
-          type: string
-      type: object
-    RestoreGcpCloudSqlRequest:
-      example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        destination:
-          gcpCloudSql:
-            networkHostProject: my-shared-vpc-project
-            zone: us-east1-b
-            name: my-restored-instance
-            networkName: default
-            networkType: PRIVATE
-            labels:
-              eon_api_restore: 'true'
-      properties:
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        destination:
-          $ref: '#/components/schemas/GcpCloudSqlRestoreDestination'
-      required:
-      - destination
-      - restoreAccountId
-      type: object
-    RestoreDynamoDBTableRequest:
-      example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        destination:
-          awsDynamodb:
-            encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-            restoreRegion: eu-west-1
-            writeCapacityUnits: 50000
-            restoredName: my-restored-table
-            tags:
-              eon_api_restore: 'true'
-      properties:
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        destination:
-          $ref: '#/components/schemas/DynamodbTableRestoreDestination'
-      required:
-      - destination
-      - restoreAccountId
-      type: object
-    AzureDiskRestoreDestination:
-      example:
-        azureDisk:
-          settings:
-            tier: Standard
-            name: my-disk-12345
-            hyperVGeneration: V1
-            type: Standard_LRS
-            sizeBytes: 10737418240
-            tags:
-              key: tags
-          resourceGroupName: my-resource-group-12345
-          region: region
-      properties:
-        azureDisk:
-          $ref: '#/components/schemas/AzureDiskTarget'
-      type: object
-    ResourceType:
-      description: 'Resource type identifier combining cloud provider and service type.
-
-        `RESOURCE_TYPE_UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - AWS_EC2
-      - AWS_RDS
-      - AWS_S3
-      - AWS_EFS
-      - AWS_FSX
-      - AWS_EKS_NAMESPACE
-      - AWS_DYNAMO_DB
-      - AWS_EBS_VOLUME
-      - AWS_KEYSPACES_TABLE
-      - AWS_CASSANDRA_CLUSTER
-      - AWS_DOCUMENTDB
-      - AWS_NEPTUNE
-      - AZURE_VIRTUAL_MACHINE
-      - AZURE_FILE_SHARE
-      - AZURE_STORAGE_ACCOUNT
-      - AZURE_DISK
-      - AZURE_SQL_DATABASE
-      - AZURE_SQL_MANAGED_INSTANCE
-      - AZURE_SQL_VIRTUAL_MACHINE
-      - AZURE_SAP_HANA_VM
-      - AZURE_MYSQL
-      - AZURE_POSTGRESQL
-      - AZURE_COSMOSDB_MONGODB
-      - AZURE_COSMOSDB_NOSQL
-      - AZURE_AKS_NAMESPACE
-      - AZURE_CASSANDRA_CLUSTER
-      - ATLAS_MONGODB_CLUSTER
-      - GCP_COMPUTE_ENGINE_INSTANCE
-      - GCP_CLOUD_SQL_INSTANCE
-      - GCP_CLOUD_STORAGE_BUCKET
-      - GCP_GKE_NAMESPACE
-      - GCP_BIG_QUERY
-      - GCP_CLOUD_FIRESTORE
-      - GCP_DISK
-      - GCP_SAP_HANA_VM
-      - GCP_CASSANDRA_CLUSTER
-      - GOOGLE_WORKSPACE_RESOURCE
-      - MICROSOFT_365_RESOURCE
-      - RESOURCE_TYPE_UNSPECIFIED
-      example: AWS_EC2
-      type: string
-      x-docs-internal-enum:
-      - AWS_EBS_VOLUME
-      - AWS_KEYSPACES_TABLE
-      - AWS_CASSANDRA_CLUSTER
-      - GCP_CASSANDRA_CLUSTER
-      - AZURE_CASSANDRA_CLUSTER
-      - AWS_DOCUMENTDB
-      - AWS_NEPTUNE
-      - AZURE_SAP_HANA_VM
-      - AZURE_AKS_NAMESPACE
-      - GCP_GKE_NAMESPACE
-      - GCP_BIG_QUERY
-      - GCP_CLOUD_FIRESTORE
-      - GCP_DISK
-      - GCP_SAP_HANA_VM
-      - GOOGLE_WORKSPACE_RESOURCE
-      - MICROSOFT_365_RESOURCE
-    EbsTarget:
-      example:
-        description: Restored through the Eon API
-        volumeSettings:
-          iops: 3000
-          throughput: 125
-          type: gp3
-          sizeBytes: 10000000000
-        availabilityZone: eu-central-1a
-        volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-        tags:
-          eon_api_restore: 'true'
-      properties:
-        description:
-          description: 'Description to apply to the restored volume.
-
-
-            Default: No description.
-
-            '
-          example: Restored through the Eon API
-          type: string
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Tags to apply to the restored volume as key-value pairs, where key and value are both strings.
-
-
-            **Example:** `{"eon_api_restore": "true"}`
-
-            '
-          example:
-            eon_api_restore: 'true'
-          type: object
-        volumeEncryptionKeyId:
-          description: ID of the key you want Eon to use for encrypting the restored volume.
-          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          type: string
-        availabilityZone:
-          description: Availability zone to restore the volume to.
-          example: eu-central-1a
-          type: string
-        volumeSettings:
-          $ref: '#/components/schemas/VolumeSettings'
-      required:
-      - availabilityZone
-      - volumeEncryptionKeyId
-      - volumeSettings
-      type: object
-    RestoreFilesRequest:
-      example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        destination:
-          gcsBucket:
-            bucketName: my-restore-bucket-12345
-            prefix: my-restore-prefix
-          storageAccount:
-            container: my-restore-container-12345
-            resourceGroup: my-restore-resource-group-12345
-            prefix: my-restore-prefix
-            name: my-restore-storage-account-12345
-          s3Bucket:
-            bucketName: my-restore-bucket-12345
-            encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
-            prefix: my-restore-prefix
-        files:
-        - path: path
-          isDirectory: true
-        - path: path
-          isDirectory: true
-      properties:
-        destination:
-          $ref: '#/components/schemas/ObjectStorageDestination'
-        files:
-          description: List of file paths to restore.
-          items:
-            $ref: '#/components/schemas/FilePath'
-          type: array
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-      required:
-      - destination
-      - files
-      - restoreAccountId
-      type: object
-    DynamodbTableRestoreDestination:
-      example:
-        awsDynamodb:
-          encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          restoreRegion: eu-west-1
-          writeCapacityUnits: 50000
-          restoredName: my-restored-table
-          tags:
-            eon_api_restore: 'true'
-      properties:
-        awsDynamodb:
-          $ref: '#/components/schemas/AwsDynamoDBDestination'
-      type: object
-    GcpVmInstanceRestoreDestination:
-      example:
-        gcpVm:
-          startInstanceAfterRestore: true
-          networkHostProject: my-shared-vpc-project
-          disks:
-          - settings:
-              encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-              name: my-restored-disk
-              iops: 3000
-              description: boot disk
-              throughput: 125
-              type: pd-ssd
-              sizeBytes: 10737418240
-              labels:
-                key: labels
-            providerDiskId: '5178361631409150158'
-          - settings:
-              encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-              name: my-restored-disk
-              iops: 3000
-              description: boot disk
-              throughput: 125
-              type: pd-ssd
-              sizeBytes: 10737418240
-              labels:
-                key: labels
-            providerDiskId: '5178361631409150158'
-          zone: us-east1-b
-          name: my-vm-12345
-          networkName: default
-          internalIp: 10.0.0.10
-          machineType: e2-medium
-          subnetName: default
-          labels:
-            eon_api_restore: 'true'
-      properties:
-        gcpVm:
-          $ref: '#/components/schemas/GcpVmInstanceRestoreTarget'
-      type: object
-    AwsEc2SnapshotProperties:
-      description: 'Properties of the original AWS EC2 instance at the time the snapshot was taken.
-
-        Present only when `resourceType` is set to `AWS_EC2`.
-
-        '
-      example:
-        subnetId: subnet-062510159bedef64a
-        securityGroupIds:
-        - sg-0997af14f8095fc57
-        instanceType: t3.micro
-        instanceProfileName: public-database-profile
-        volumes:
-        - providerVolumeId: vol-00b7506c1a2bc8cfd
-          volumeSettings:
-            iops: 3000
-            throughput: 125
-            type: gp3
-            sizeBytes: 10000000000
-          region: us-east-1
-          availabilityZone: us-east-1a
-          tags:
-            key: tags
-        - providerVolumeId: vol-00b7506c1a2bc8cfd
-          volumeSettings:
-            iops: 3000
-            throughput: 125
-            type: gp3
-            sizeBytes: 10000000000
-          region: us-east-1
-          availabilityZone: us-east-1a
-          tags:
-            key: tags
-      properties:
-        instanceType:
-          description: Instance type.
-          example: t3.micro
-          type: string
-        subnetId:
-          description: ID of the subnet the instance is in.
-          example: subnet-062510159bedef64a
-          type: string
-        securityGroupIds:
-          description: IDs of security groups associated with the resource.
-          example:
-          - sg-0997af14f8095fc57
-          items:
-            type: string
-          type: array
-        instanceProfileName:
-          description: The resource's instance profile.
-          example: public-database-profile
-          type: string
-        volumes:
-          description: List of volumes attached to the resource.
-          items:
-            $ref: '#/components/schemas/InventorySnapshotVolume'
-          type: array
-      type:
-      - object
-      - 'null'
-    StorageAccountRestoreTarget:
-      description: 'Information about the storage account where you want to restore the files.
-
-        If you don''t specify a target, the files are restored to the original storage account.
-
-        '
-      example:
-        container: my-restore-container-12345
-        resourceGroup: my-restore-resource-group-12345
-        prefix: my-restore-prefix
-        name: my-restore-storage-account-12345
-      properties:
-        name:
-          description: Name of the storage account to restore the files to.
-          example: my-restore-storage-account-12345
-          type: string
-        resourceGroup:
-          description: Name of the resource group that contains the storage account.
-          example: my-restore-resource-group-12345
-          type: string
-        container:
-          description: Name of the container in the storage account to restore the files to.
-          example: my-restore-container-12345
-          type: string
-        prefix:
-          description: 'Prefix to add to the restore path.
-
-            If you don''t specify a prefix, the files are restored to their respective folders in the original file tree, starting from the root of the container.
-
-            '
-          example: my-restore-prefix
-          type: string
-      required:
-      - container
-      - name
-      type: object
-    AwsEc2InstanceRestoreDestination:
-      example:
-        awsEc2:
-          subnetId: subnet-01234567890123456
-          startInstanceAfterRestore: true
-          securityGroupIds:
-          - securityGroupIds
-          - securityGroupIds
-          instanceType: t3.micro
-          volumeRestoreParameters:
-          - providerVolumeId: vol-00b7506c1a2bc8cfd
-            description: root volume
-            volumeSettings:
-              iops: 3000
-              throughput: 125
-              type: gp3
-              sizeBytes: 10000000000
-            volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-            tags:
-              key: tags
-          - providerVolumeId: vol-00b7506c1a2bc8cfd
-            description: root volume
-            volumeSettings:
-              iops: 3000
-              throughput: 125
-              type: gp3
-              sizeBytes: 10000000000
-            volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-            tags:
-              key: tags
-          region: us-east-1
-          privateIpAddress: 10.0.0.50
-          tags:
-            key: tags
-      properties:
-        awsEc2:
-          $ref: '#/components/schemas/AwsEc2InstanceRestoreTarget'
-      type: object
-    SnapshotFilterConditions:
-      additionalProperties: false
-      example:
-        pointInTime:
-          endDate: endDate
-          startDate: startDate
-      properties:
-        pointInTime:
-          $ref: '#/components/schemas/SnapshotDateFilters'
-      type: object
-    MPAInterceptedResponse:
-      description: Body returned when an operation is intercepted by an MPA policy.
-      example:
-        actionApprovalRequest:
-          requesterEmail: requester@example.com
-          resolvedTime: 2026-05-05 02:10:12+00:00
-          requesterName: Riley Chen
-          approvalExpirationTime: 2026-05-05 03:00:05+00:00
-          executionExpirationTime: 2026-05-05 07:00:05+00:00
-          createdTime: 2026-05-04 23:00:05+00:00
-          comment: Removing a backup policy that has been replaced.
-          id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
-          policyDetails:
-          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-            requiredApprovals: 2
-            approverProviderGroupId: platform-admins
-            executionWindowHours: 4
-            description: Require approval before deleting backup policies.
-            approvalWindowHours: 24
-            currentApprovals: 1
-          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
-            requiredApprovals: 2
-            approverProviderGroupId: platform-admins
-            executionWindowHours: 4
-            description: Require approval before deleting backup policies.
-            approvalWindowHours: 24
-            currentApprovals: 1
-          operation: MPA_OPERATION_DELETE_BACKUP_POLICY
-          status: PENDING_APPROVAL
-      properties:
-        actionApprovalRequest:
-          $ref: '#/components/schemas/MPARequest'
-      required:
-      - actionApprovalRequest
-      - mpaPolicies
-      type: object
-      x-nullable: true
-    SnapshotSortField:
-      description: Field to sort by.
-      enum:
-      - pointInTime
-      example: pointInTime
-      type: string
-      x-enum-varnames:
-      - SNAPSHOT_SORT_POINT_IN_TIME
-    ListInventorySnapshotsRequest:
-      additionalProperties: false
-      example:
-        filters:
-          pointInTime:
-            endDate: endDate
-            startDate: startDate
-        sorts:
-        - field: pointInTime
-          order: ASC
-        - field: pointInTime
-          order: ASC
-      properties:
-        filters:
-          $ref: '#/components/schemas/SnapshotFilterConditions'
-        sorts:
-          description: 'List of sorting options.
-
-            Sorting is applied in the order passed in the list.
-
-            '
-          items:
-            $ref: '#/components/schemas/SortSnapshotsBy'
-          type: array
-      type: object
-    RestoreVolumeToEbsRequest:
-      example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        providerVolumeId: vol-01a29e3ba811d4613
-        destination:
-          awsEbs:
-            description: Restored through the Eon API
-            volumeSettings:
-              iops: 3000
-              throughput: 125
-              type: gp3
-              sizeBytes: 10000000000
-            availabilityZone: eu-central-1a
-            volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-            tags:
-              eon_api_restore: 'true'
-      properties:
-        providerVolumeId:
-          description: Cloud-provider-assigned ID of the volume to restore.
-          example: vol-01a29e3ba811d4613
-          type: string
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        destination:
-          $ref: '#/components/schemas/EbsRestoreDestination'
-      required:
-      - destination
-      - providerVolumeId
-      - restoreAccountId
-      type: object
-    GcpVmInstanceRestoreTarget:
-      example:
-        startInstanceAfterRestore: true
-        networkHostProject: my-shared-vpc-project
-        disks:
-        - settings:
-            encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-            name: my-restored-disk
-            iops: 3000
-            description: boot disk
-            throughput: 125
-            type: pd-ssd
-            sizeBytes: 10737418240
-            labels:
-              key: labels
-          providerDiskId: '5178361631409150158'
-        - settings:
-            encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-            name: my-restored-disk
-            iops: 3000
-            description: boot disk
-            throughput: 125
-            type: pd-ssd
-            sizeBytes: 10737418240
-            labels:
-              key: labels
-          providerDiskId: '5178361631409150158'
-        zone: us-east1-b
-        name: my-vm-12345
-        networkName: default
-        internalIp: 10.0.0.10
-        machineType: e2-medium
-        subnetName: default
-        labels:
-          eon_api_restore: 'true'
-      properties:
-        zone:
-          description: Zone to restore to.
-          example: us-east1-b
-          type: string
-        machineType:
-          description: Machine type to use.
-          example: e2-medium
-          type: string
-        name:
-          description: VM name.
-          example: my-vm-12345
-          maxLength: 63
-          type: string
-        networkName:
-          description: Name of the VPC network to use.
-          example: default
-          type: string
-        subnetName:
-          description: Name of the subnet to use.
-          example: default
-          type: string
-        networkHostProject:
-          description: 'ID of the project that hosts the VPC network.
-
-            Applicable only when restoring to a shared VPC network.
-
-            '
-          example: my-shared-vpc-project
-          type: string
-        labels:
-          additionalProperties:
-            type: string
-          description: 'Labels to apply to the restored VM as key-value pairs, where key and value are both strings.
-
-            These labels are always applied: `"eon-restore": "true"`.
-
-
-            **Example:** `{"eon_api_restore": "true"}`
-
-            '
-          example:
-            eon_api_restore: 'true'
-          type: object
-        disks:
-          description: 'Disks to restore and attach to the restored instance.
-
-            Each item in the list corresponds to a disk to be restored, where `providerDiskId` matches the disk''s ID at the time of the snapshot.
-
-            The boot disk must be in the list.
-
-            '
-          items:
-            $ref: '#/components/schemas/RestoreGcpInstanceDiskInput'
-          type: array
-        internalIp:
-          description: 'Optional internal (private) IPv4 address for the restored VM, e.g. "10.0.0.10".
-
-            Must fall within the selected subnet''s primary CIDR range.
-
-            Leave empty to let GCP auto-assign an address.
-
-            '
-          example: 10.0.0.10
-          type: string
-        startInstanceAfterRestore:
-          default: true
-          description: 'Whether to start the VM instance after restoring it.
-
-            If set to `false`, the VM is created in a stopped state.
-
-            '
-          type: boolean
-      required:
-      - disks
-      - machineType
-      - name
-      - networkName
-      - subnetName
-      - zone
-      type: object
-    RestoreGcpInstanceDiskInput:
-      example:
-        settings:
-          encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-          name: my-restored-disk
-          iops: 3000
-          description: boot disk
-          throughput: 125
-          type: pd-ssd
-          sizeBytes: 10737418240
-          labels:
-            key: labels
-        providerDiskId: '5178361631409150158'
-      properties:
-        providerDiskId:
-          description: Cloud-provider-assigned ID of the disk to restore.
-          example: '5178361631409150158'
-          type: string
-        settings:
-          $ref: '#/components/schemas/GcpDiskSettings'
-      required:
-      - providerDiskId
-      - settings
-      type: object
-    S3RestoreTarget:
-      description: 'Information about the S3 bucket where you want to restore the files.
-
-        If you don''t specify a target, the files are restored to the original bucket.
-
-        '
-      example:
-        bucketName: my-restore-bucket-12345
-        encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
-        prefix: my-restore-prefix
-      properties:
-        bucketName:
-          description: Name of an existing bucket to restore the files to.
-          example: my-restore-bucket-12345
-          type: string
-        encryptionKeyId:
-          description: ID of the key you want Eon to use for encrypting the restored files.
-          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
-          type: string
-        prefix:
-          description: 'Prefix to add to the restore path.
-
-            If you don''t specify a prefix, the files are restored to their respective folders in the original file tree, starting from the root of the bucket.
-
-            '
-          example: my-restore-prefix
-          type: string
-      required:
-      - bucketName
-      type: object
-    HoldSnapshotRequest:
-      example:
-        description: Keeping for the Q3 audit until finance signs off.
-      properties:
-        description:
-          description: 'Optional free-text note explaining why the snapshot is being held.
-
-            Shown on the snapshot''s hold badge and cleared when the hold is removed.
-
-            '
-          example: Keeping for the Q3 audit until finance signs off.
-          maxLength: 500
-          type: string
-      type: object
-    InventorySnapshotVolume:
-      example:
-        providerVolumeId: vol-00b7506c1a2bc8cfd
-        volumeSettings:
-          iops: 3000
-          throughput: 125
-          type: gp3
-          sizeBytes: 10000000000
-        region: us-east-1
-        availabilityZone: us-east-1a
-        tags:
-          key: tags
-      properties:
-        providerVolumeId:
-          description: Cloud-provider-assigned volume ID.
-          example: vol-00b7506c1a2bc8cfd
-          type: string
-        region:
-          description: Region the volume is hosted in.
-          example: us-east-1
-          type: string
-        availabilityZone:
-          description: Availability zone the volume is hosted in.
-          example: us-east-1a
-          type: string
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Volume tags as key-value pairs.
-
-            Both keys and values are strings.
-
-
-            **Example**: `{"env": "prod", "db": ""}`
-
-            '
-          type: object
-        volumeSettings:
-          $ref: '#/components/schemas/VolumeSettings'
-      required:
-      - availabilityZone
-      - deviceName
-      - providerVolumeId
-      - region
-      - tags
-      - volumeSettings
-      type: object
-    GcpNetworkType:
-      description: 'Network type.
-
-        `UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - UNSPECIFIED
-      - PUBLIC
-      - PRIVATE
-      example: PRIVATE
-      type: string
-      x-enum-varnames:
-      - GCP_NETWORK_TYPE_UNSPECIFIED
-      - GCP_NETWORK_TYPE_PUBLIC
-      - GCP_NETWORK_TYPE_PRIVATE
-    EbsRestoreDestination:
-      example:
-        awsEbs:
-          description: Restored through the Eon API
-          volumeSettings:
-            iops: 3000
-            throughput: 125
-            type: gp3
-            sizeBytes: 10000000000
-          availabilityZone: eu-central-1a
-          volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          tags:
-            eon_api_restore: 'true'
-      properties:
-        awsEbs:
-          $ref: '#/components/schemas/EbsTarget'
-      type: object
-    ResourceSnapshot:
-      description: Details about the backed-up resource at the time the snapshot was taken.
-      example:
-        properties:
-          azureVm:
-            disks:
-            - settings:
-                tier: Standard
-                name: my-disk-12345
-                hyperVGeneration: V1
-                type: Standard_LRS
-                sizeBytes: 10737418240
-                tags:
-                  key: tags
-              providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-            - settings:
-                tier: Standard
-                name: my-disk-12345
-                hyperVGeneration: V1
-                type: Standard_LRS
-                sizeBytes: 10737418240
-                tags:
-                  key: tags
-              providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-            name: name
-            sizeBytes: sizeBytes
-          awsEc2:
-            subnetId: subnet-062510159bedef64a
-            securityGroupIds:
-            - sg-0997af14f8095fc57
-            instanceType: t3.micro
-            instanceProfileName: public-database-profile
-            volumes:
-            - providerVolumeId: vol-00b7506c1a2bc8cfd
-              volumeSettings:
-                iops: 3000
-                throughput: 125
-                type: gp3
-                sizeBytes: 10000000000
-              region: us-east-1
-              availabilityZone: us-east-1a
-              tags:
-                key: tags
-            - providerVolumeId: vol-00b7506c1a2bc8cfd
-              volumeSettings:
-                iops: 3000
-                throughput: 125
-                type: gp3
-                sizeBytes: 10000000000
-              region: us-east-1
-              availabilityZone: us-east-1a
-              tags:
-                key: tags
-        tags:
-          Name: customers
-        resourceType: AWS_EC2
-      properties:
-        properties:
-          $ref: '#/components/schemas/ResourceSnapshotProperties'
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Resource tags as key-value pairs.
-
-            Both keys and values are strings.
-
-            If a tag is a key with no value, the value is presented as an empty string.
-
-
-            **Example:** `{"Name": "customers"}`
-
-            '
-          example:
-            Name: customers
-          type: object
-        resourceType:
-          $ref: '#/components/schemas/ResourceType'
-      type: object
-    GCSRestoreTarget:
-      description: 'Information about the Google Cloud Storage bucket where you want to restore the files.
-
-        If you don''t specify a target, the files are restored to the original bucket.
-
-        '
-      example:
-        bucketName: my-restore-bucket-12345
-        prefix: my-restore-prefix
-      properties:
-        bucketName:
-          description: Name of an existing bucket to restore the files to.
-          example: my-restore-bucket-12345
-          type: string
-        prefix:
-          description: 'Prefix to add to the restore path.
-
-            If you don''t specify a prefix, the files are restored to their respective folders in the original file tree, starting from the root of the bucket.
-
-            '
-          example: my-restore-prefix
-          type: string
-      required:
-      - bucketName
-      type: object
-      x-internal: false
-    EbsSnapshotTarget:
-      example:
-        snapshotEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-        description: Restored through the Eon API
-        region: eu-central-1
-        tags:
-          eon_api_restore: 'true'
-      properties:
-        region:
-          description: Region to restore the EBS snapshot to.
-          example: eu-central-1
-          type: string
-        description:
-          description: Description to apply to the EBS snapshot.
-          example: Restored through the Eon API
-          type: string
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Tags to apply to the EBS snapshot as key-value pairs, where key and value are both strings.
-
-
-            **Example:** `{"eon_api_restore": "true"}`
-
-            '
-          example:
-            eon_api_restore: 'true'
-          type: object
-        snapshotEncryptionKeyId:
-          description: ID of the key you want Eon to use for encrypting the EBS snapshot.
-          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          type: string
-      required:
-      - region
-      - snapshotEncryptionKeyId
-      type: object
-    FilePath:
-      example:
-        path: path
-        isDirectory: true
-      properties:
-        path:
-          description: Absolute path to the file or directory to restore.
-          type: string
-        isDirectory:
-          description: 'Whether `path` is a directory.
-
-            If `true`, Eon restores all files in all subdirectories under the path.
-
-            If `false`, Eon restores only the file at the path.
-
-            '
-          type: boolean
-      required:
-      - isDirectory
-      - path
-      type: object
-    SortOrder:
-      description: Sort order. Use `ASC` for ascending order and `DESC` for descending order.
-      enum:
-      - ASC
-      - DESC
-      example: ASC
-      type: string
-    AzureDisk:
-      example:
-        settings:
-          tier: Standard
-          name: my-disk-12345
-          hyperVGeneration: V1
-          type: Standard_LRS
-          sizeBytes: 10737418240
-          tags:
-            key: tags
-        providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-      properties:
-        providerDiskId:
-          description: Cloud-provider-assigned disk ID.
-          example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-          type: string
-        settings:
-          $ref: '#/components/schemas/AzureDiskSettings'
-      required:
-      - providerDiskId
-      - settings
-      type: object
-    DatabaseDestination:
-      description: Restore configuration.
-      example:
-        awsRds:
-          encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          dbInstanceClass: db.t3.micro
-          subnetGroup: subnetGroup
-          restoreRegion: eu-west-1
-          securityGroups:
-          - securityGroups
-          - securityGroups
-          preserveInstanceNames: false
-          passwordConfig:
-            password: password
-            secretsManagerKmsKeyId: secretsManagerKmsKeyId
-            passwordManagementType: AWS_SECRETS_MANAGER
-          restoredName: my-restored-db
-          tags:
-            eon_api_restore: 'true'
-      properties:
-        awsRds:
-          $ref: '#/components/schemas/AwsDatabaseDestination'
-      type: object
-    Snapshot:
-      description: Eon snapshot.
-      example:
-        pointInTime: 2024-10-29 23:01:30+00:00
-        jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
-        resourceId: b06bc01a-b08a-4fc7-933d-3f26ed434a29
-        onHold: false
-        vaultId: 0c71a8aa-edcc-4bf3-8498-fdea45621953
-        resource:
-          properties:
-            azureVm:
-              disks:
-              - settings:
-                  tier: Standard
-                  name: my-disk-12345
-                  hyperVGeneration: V1
-                  type: Standard_LRS
-                  sizeBytes: 10737418240
+        snapshot:
+          pointInTime: 2024-10-29 23:01:30+00:00
+          jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+          resourceId: b06bc01a-b08a-4fc7-933d-3f26ed434a29
+          onHold: false
+          vaultId: 0c71a8aa-edcc-4bf3-8498-fdea45621953
+          resource:
+            properties:
+              azureVm:
+                disks:
+                - settings:
+                    tier: Standard
+                    name: my-disk-12345
+                    hyperVGeneration: V1
+                    type: Standard_LRS
+                    sizeBytes: 10737418240
+                    tags:
+                      key: tags
+                  providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+                - settings:
+                    tier: Standard
+                    name: my-disk-12345
+                    hyperVGeneration: V1
+                    type: Standard_LRS
+                    sizeBytes: 10737418240
+                    tags:
+                      key: tags
+                  providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+                name: name
+                sizeBytes: sizeBytes
+              awsEc2:
+                subnetId: subnet-062510159bedef64a
+                securityGroupIds:
+                - sg-0997af14f8095fc57
+                instanceType: t3.micro
+                instanceProfileName: public-database-profile
+                volumes:
+                - providerVolumeId: vol-00b7506c1a2bc8cfd
+                  volumeSettings:
+                    iops: 3000
+                    throughput: 125
+                    type: gp3
+                    sizeBytes: 10000000000
+                  region: us-east-1
+                  availabilityZone: us-east-1a
                   tags:
                     key: tags
-                providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-              - settings:
-                  tier: Standard
-                  name: my-disk-12345
-                  hyperVGeneration: V1
-                  type: Standard_LRS
-                  sizeBytes: 10737418240
+                - providerVolumeId: vol-00b7506c1a2bc8cfd
+                  volumeSettings:
+                    iops: 3000
+                    throughput: 125
+                    type: gp3
+                    sizeBytes: 10000000000
+                  region: us-east-1
+                  availabilityZone: us-east-1a
                   tags:
                     key: tags
-                providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-              name: name
-              sizeBytes: sizeBytes
-            awsEc2:
-              subnetId: subnet-062510159bedef64a
-              securityGroupIds:
-              - sg-0997af14f8095fc57
-              instanceType: t3.micro
-              instanceProfileName: public-database-profile
-              volumes:
-              - providerVolumeId: vol-00b7506c1a2bc8cfd
-                volumeSettings:
-                  iops: 3000
-                  throughput: 125
-                  type: gp3
-                  sizeBytes: 10000000000
-                region: us-east-1
-                availabilityZone: us-east-1a
-                tags:
-                  key: tags
-              - providerVolumeId: vol-00b7506c1a2bc8cfd
-                volumeSettings:
-                  iops: 3000
-                  throughput: 125
-                  type: gp3
-                  sizeBytes: 10000000000
-                region: us-east-1
-                availabilityZone: us-east-1a
-                tags:
-                  key: tags
-          tags:
-            Name: customers
-          resourceType: AWS_EC2
-        holdDescription: Keeping for the Q3 audit until finance signs off.
-        expirationTime: 2025-01-20 09:40:26+00:00
-        createdTime: 2024-10-29 23:01:24.841897+00:00
-        id: 043090df-9fe5-4f89-9859-45db589c2936
-        projectId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-      properties:
-        id:
-          description: Eon snapshot ID.
-          example: 043090df-9fe5-4f89-9859-45db589c2936
-          type: string
-        projectId:
-          description: ID of the snapshot's parent project.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        createdTime:
-          description: 'Date and time the snapshot creation was started.
-
-            This doesn''t represent the point in time the resource is backed up from, which is instead represented by the `pointInTime` property.
-
-            '
-          example: 2024-10-29 23:01:24.841897+00:00
-          format: date-time
-          type: string
-        pointInTime:
-          description: Date and time of the resource that's preserved by the snapshot.
-          example: 2024-10-29 23:01:30+00:00
-          format: date-time
-          type: string
-        vaultId:
-          description: ID of the vault the snapshot is stored in. Empty for native snapshots.
-          example: 0c71a8aa-edcc-4bf3-8498-fdea45621953
-          type: string
-        resourceId:
-          description: Eon-assigned ID of the resource the snapshot is backing up.
-          example: b06bc01a-b08a-4fc7-933d-3f26ed434a29
-          type: string
-        jobId:
-          description: Backup job ID.
-          example: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
-          type: string
-        expirationTime:
-          description: Date and time the snapshot's retention is expected to expire, after which it's marked for deletion.
-          example: 2025-01-20 09:40:26+00:00
-          format: date-time
-          type: string
-        resource:
-          $ref: '#/components/schemas/ResourceSnapshot'
-        onHold:
-          description: Whether the snapshot is on user hold.
-          example: false
-          type: boolean
-          x-internal: false
-        holdDescription:
-          description: Free-text note explaining why the snapshot is on hold. Cleared when the hold is removed.
-          example: Keeping for the Q3 audit until finance signs off.
-          type: string
-          x-internal: false
-      required:
-      - createdTime
-      - id
-      - resourceId
-      - status
-      type: object
-    AzureVmSnapshotProperties:
-      description: 'Properties of the original Azure Virtual Machine instance at the time the snapshot was taken.
-
-        Present only when `resourceType` is set to `AZURE_VIRTUAL_MACHINE`.
-
-        '
-      example:
-        disks:
-        - settings:
-            tier: Standard
-            name: my-disk-12345
-            hyperVGeneration: V1
-            type: Standard_LRS
-            sizeBytes: 10737418240
             tags:
-              key: tags
-          providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-        - settings:
-            tier: Standard
-            name: my-disk-12345
-            hyperVGeneration: V1
-            type: Standard_LRS
-            sizeBytes: 10737418240
-            tags:
-              key: tags
-          providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-        name: name
-        sizeBytes: sizeBytes
+              Name: customers
+            resourceType: AWS_EC2
+          holdDescription: Keeping for the Q3 audit until finance signs off.
+          expirationTime: 2025-01-20 09:40:26+00:00
+          createdTime: 2024-10-29 23:01:24.841897+00:00
+          id: 043090df-9fe5-4f89-9859-45db589c2936
+          projectId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
       properties:
-        name:
-          description: VM name.
-          type: string
-        sizeBytes:
-          description: VM size, in bytes.
-          type: string
-        disks:
-          description: List of disks attached to the resource.
-          items:
-            $ref: '#/components/schemas/AzureDisk'
-          type: array
-      type:
-      - object
-      - 'null'
-    RestoreVolumeToEbsSnapshotRequest:
-      example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        providerVolumeId: vol-01a29e3ba811d4613
-        destination:
-          awsEbs:
-            snapshotEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-            description: Restored through the Eon API
-            region: eu-central-1
-            tags:
-              eon_api_restore: 'true'
-      properties:
-        providerVolumeId:
-          description: Cloud-provider-assigned ID of the volume to restore.
-          example: vol-01a29e3ba811d4613
-          type: string
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        destination:
-          $ref: '#/components/schemas/EbsSnapshotRestoreDestination'
+        snapshot:
+          $ref: '#/components/schemas/Snapshot'
       required:
-      - destination
-      - providerVolumeId
-      - restoreAccountId
-      type: object
-    MPARequestStatus:
-      description: 'Lifecycle state of an action approval request from creation through resolution. DISCARDED means the requester abandoned a draft before it was submitted for approval.
-
-        '
-      enum:
-      - MPA_REQUEST_STATUS_UNSPECIFIED
-      - CREATED
-      - PENDING_APPROVAL
-      - APPROVED
-      - DENIED
-      - EXPIRED_PENDING_APPROVAL
-      - EXPIRED_APPROVED
-      - EXECUTED
-      - CANCELED_PENDING_APPROVAL
-      - CANCELED_APPROVED
-      - DISCARDED
-      example: PENDING_APPROVAL
-      type: string
-      x-enum-varnames:
-      - MPA_REQUEST_STATUS_UNSPECIFIED
-      - MPA_REQUEST_STATUS_CREATED
-      - MPA_REQUEST_STATUS_PENDING_APPROVAL
-      - MPA_REQUEST_STATUS_APPROVED
-      - MPA_REQUEST_STATUS_DENIED
-      - MPA_REQUEST_STATUS_EXPIRED_PENDING_APPROVAL
-      - MPA_REQUEST_STATUS_EXPIRED_APPROVED
-      - MPA_REQUEST_STATUS_EXECUTED
-      - MPA_REQUEST_STATUS_CANCELLED_PENDING_APPROVAL
-      - MPA_REQUEST_STATUS_CANCELLED_APPROVED
-      - MPA_REQUEST_STATUS_DISCARDED
-    RestoreBigQueryDatasetRequest:
-      example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        destination:
-          datasetId: restored_dataset
-          location: us-central1
-          selectedTables:
-          - users
-          - orders
-          selectedViews:
-          - active_users_view
-          - order_summary_view
-          labels:
-            key: labels
-          overwriteExistingData: false
-      properties:
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        destination:
-          $ref: '#/components/schemas/BigQueryDatasetDestination'
-      required:
-      - destination
-      - restoreAccountId
+      - snapshot
       type: object
     AzureVmInstanceRestoreTarget:
       example:
@@ -3842,471 +2517,13 @@ components:
       - vmName
       - vmSize
       type: object
-    Error:
-      example:
-        error: error
-      properties:
-        error:
-          type: string
-      type: object
-    AzureSqlDatabaseRestoreDestination:
-      example:
-        azureSqlDatabase:
-          resourceGroupName: my-resource-group-12345
-          adminUserName: myadminuser
-          serverName: my-mssql-server
-          region: eastus
-          tags:
-            key: tags
-      properties:
-        azureSqlDatabase:
-          $ref: '#/components/schemas/AzureSqlDatabaseRestoreTarget'
-      type: object
-    RestoreBucketRequest:
-      example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        destination:
-          gcsBucket:
-            bucketName: my-restore-bucket-12345
-            prefix: my-restore-prefix
-          storageAccount:
-            container: my-restore-container-12345
-            resourceGroup: my-restore-resource-group-12345
-            prefix: my-restore-prefix
-            name: my-restore-storage-account-12345
-          s3Bucket:
-            bucketName: my-restore-bucket-12345
-            encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
-            prefix: my-restore-prefix
-      properties:
-        destination:
-          $ref: '#/components/schemas/ObjectStorageDestination'
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-      required:
-      - destination
-      - restoreAccountId
-      type: object
-    RestoreAwsEc2InstanceRequest:
-      example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        destination:
-          awsEc2:
-            subnetId: subnet-01234567890123456
-            startInstanceAfterRestore: true
-            securityGroupIds:
-            - securityGroupIds
-            - securityGroupIds
-            instanceType: t3.micro
-            volumeRestoreParameters:
-            - providerVolumeId: vol-00b7506c1a2bc8cfd
-              description: root volume
-              volumeSettings:
-                iops: 3000
-                throughput: 125
-                type: gp3
-                sizeBytes: 10000000000
-              volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-              tags:
-                key: tags
-            - providerVolumeId: vol-00b7506c1a2bc8cfd
-              description: root volume
-              volumeSettings:
-                iops: 3000
-                throughput: 125
-                type: gp3
-                sizeBytes: 10000000000
-              volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-              tags:
-                key: tags
-            region: us-east-1
-            privateIpAddress: 10.0.0.50
-            tags:
-              key: tags
-        templateId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-      properties:
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        destination:
-          $ref: '#/components/schemas/AwsEc2InstanceRestoreDestination'
-        templateId:
-          description: 'When set, the restore service re-evaluates this restore template at submit
-
-            time and applies the resolved params onto the request before restoring.
-
-            '
-          format: uuid
-          type: string
-      required:
-      - destination
-      - restoreAccountId
-      type: object
-    AwsDynamoDBDestination:
-      description: Configuration for restoring to DynamoDB.
-      example:
-        encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-        restoreRegion: eu-west-1
-        writeCapacityUnits: 50000
-        restoredName: my-restored-table
-        tags:
-          eon_api_restore: 'true'
-      properties:
-        restoreRegion:
-          description: Region to restore to.
-          example: eu-west-1
-          type: string
-        encryptionKeyId:
-          description: ID of the key you want Eon to use for encrypting the restored resource.
-          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          type: string
-        restoredName:
-          description: Name to assign to the restored resource.
-          example: my-restored-table
-          type: string
-        writeCapacityUnits:
-          description: 'Write capacity units for the restored table.
-
-            Defaults to 5.
-
-            '
-          example: 50000
-          type: integer
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Tags to apply to the restored instance as key-value pairs, where key and value are both strings.
-
-
-            **Example:** `{"eon_api_restore": "true"}`
-
-            '
-          example:
-            eon_api_restore: 'true'
-          type: object
-      required:
-      - restoreRegion
-      - restoredName
-      type: object
-    ObjectStorageDestination:
-      example:
-        gcsBucket:
-          bucketName: my-restore-bucket-12345
-          prefix: my-restore-prefix
-        storageAccount:
-          container: my-restore-container-12345
-          resourceGroup: my-restore-resource-group-12345
-          prefix: my-restore-prefix
-          name: my-restore-storage-account-12345
-        s3Bucket:
-          bucketName: my-restore-bucket-12345
-          encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
-          prefix: my-restore-prefix
-      properties:
-        s3Bucket:
-          $ref: '#/components/schemas/S3RestoreTarget'
-        storageAccount:
-          $ref: '#/components/schemas/StorageAccountRestoreTarget'
-        gcsBucket:
-          $ref: '#/components/schemas/GCSRestoreTarget'
-      type: object
-    GetSnapshotResponse:
-      example:
-        snapshot:
-          pointInTime: 2024-10-29 23:01:30+00:00
-          jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
-          resourceId: b06bc01a-b08a-4fc7-933d-3f26ed434a29
-          onHold: false
-          vaultId: 0c71a8aa-edcc-4bf3-8498-fdea45621953
-          resource:
-            properties:
-              azureVm:
-                disks:
-                - settings:
-                    tier: Standard
-                    name: my-disk-12345
-                    hyperVGeneration: V1
-                    type: Standard_LRS
-                    sizeBytes: 10737418240
-                    tags:
-                      key: tags
-                  providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-                - settings:
-                    tier: Standard
-                    name: my-disk-12345
-                    hyperVGeneration: V1
-                    type: Standard_LRS
-                    sizeBytes: 10737418240
-                    tags:
-                      key: tags
-                  providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-                name: name
-                sizeBytes: sizeBytes
-              awsEc2:
-                subnetId: subnet-062510159bedef64a
-                securityGroupIds:
-                - sg-0997af14f8095fc57
-                instanceType: t3.micro
-                instanceProfileName: public-database-profile
-                volumes:
-                - providerVolumeId: vol-00b7506c1a2bc8cfd
-                  volumeSettings:
-                    iops: 3000
-                    throughput: 125
-                    type: gp3
-                    sizeBytes: 10000000000
-                  region: us-east-1
-                  availabilityZone: us-east-1a
-                  tags:
-                    key: tags
-                - providerVolumeId: vol-00b7506c1a2bc8cfd
-                  volumeSettings:
-                    iops: 3000
-                    throughput: 125
-                    type: gp3
-                    sizeBytes: 10000000000
-                  region: us-east-1
-                  availabilityZone: us-east-1a
-                  tags:
-                    key: tags
-            tags:
-              Name: customers
-            resourceType: AWS_EC2
-          holdDescription: Keeping for the Q3 audit until finance signs off.
-          expirationTime: 2025-01-20 09:40:26+00:00
-          createdTime: 2024-10-29 23:01:24.841897+00:00
-          id: 043090df-9fe5-4f89-9859-45db589c2936
-          projectId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-      properties:
-        snapshot:
-          $ref: '#/components/schemas/Snapshot'
-      required:
-      - snapshot
-      type: object
-    AzureDiskTarget:
-      example:
-        settings:
-          tier: Standard
-          name: my-disk-12345
-          hyperVGeneration: V1
-          type: Standard_LRS
-          sizeBytes: 10737418240
-          tags:
-            key: tags
-        resourceGroupName: my-resource-group-12345
-        region: region
-      properties:
-        region:
-          description: Region to restore to.
-          type: string
-        resourceGroupName:
-          description: Name of the resource group to restore to.
-          example: my-resource-group-12345
-          type: string
-        settings:
-          $ref: '#/components/schemas/AzureDiskSettings'
-      required:
-      - region
-      - resourceGroupName
-      - settings
-      type: object
-    RdsPasswordConfig:
-      description: 'Password management configuration for the restored RDS database.
-
-        '
-      example:
-        password: password
-        secretsManagerKmsKeyId: secretsManagerKmsKeyId
-        passwordManagementType: AWS_SECRETS_MANAGER
-      properties:
-        passwordManagementType:
-          description: 'Password management type to apply to the restored database.
-
-            '
-          enum:
-          - AWS_SECRETS_MANAGER
-          - SELF_MANAGED
-          type: string
-          x-fern-enum:
-            AWS_SECRETS_MANAGER:
-              description: 'Manage password through AWS Secrets Manager.
-
-                Use with `secretsManagerKmsKeyId`.
-
-                '
-            SELF_MANAGED:
-              description: 'Set a master user password on the database.
-
-                Use with `password`.
-
-                '
-        password:
-          description: 'Customer-managed password.
-
-            Required when password management type is `SELF_MANAGED`.
-
-            '
-          type: string
-          writeOnly: true
-        secretsManagerKmsKeyId:
-          description: 'ARN of a KMS key to encrypt the secret that stores the database master password.
-
-            The secret is managed through Amazon Secrets Manager.
-
-            Applicable when password management type is `AWS_SECRETS_MANAGER`.
-
-
-            If omitted, AWS defaults to the `aws/secretsmanager` key.
-
-
-            This is distinct from `encryptionKeyId`, which controls RDS storage encryption.
-
-            '
-          type: string
-      required:
-      - passwordManagementType
-      type:
-      - object
-      - 'null'
-    AzureVmInstanceRestoreDestination:
-      example:
-        azureVm:
-          startInstanceAfterRestore: true
-          vmName: my-vm-12345
-          resourceGroupName: my-resource-group-12345
-          disks:
-          - settings:
-              tier: Standard
-              name: my-disk-12345
-              hyperVGeneration: V1
-              type: Standard_LRS
-              sizeBytes: 10737418240
-              tags:
-                key: tags
-            providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-          - settings:
-              tier: Standard
-              name: my-disk-12345
-              hyperVGeneration: V1
-              type: Standard_LRS
-              sizeBytes: 10737418240
-              tags:
-                key: tags
-            providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-          networkInterface: networkInterface
-          vmSize: Standard_DS1_v2
-          region: eastus
-          tags:
-            key: tags
-      properties:
-        azureVm:
-          $ref: '#/components/schemas/AzureVmInstanceRestoreTarget'
-      type: object
-    RestoreAzureInstanceDiskInput:
-      example:
-        settings:
-          tier: Standard
-          name: my-disk-12345
-          hyperVGeneration: V1
-          type: Standard_LRS
-          sizeBytes: 10737418240
-          tags:
-            key: tags
-        providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-      properties:
-        providerDiskId:
-          description: Cloud-provider-assigned ID of the disk to restore.
-          example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-          type: string
-        settings:
-          $ref: '#/components/schemas/AzureDiskSettings'
-      required:
-      - providerDiskId
-      - settings
-      type: object
-    AwsDatabaseDestination:
-      description: Configuration for restoring to RDS.
-      example:
-        encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-        dbInstanceClass: db.t3.micro
-        subnetGroup: subnetGroup
-        restoreRegion: eu-west-1
-        securityGroups:
-        - securityGroups
-        - securityGroups
-        preserveInstanceNames: false
-        passwordConfig:
-          password: password
-          secretsManagerKmsKeyId: secretsManagerKmsKeyId
-          passwordManagementType: AWS_SECRETS_MANAGER
-        restoredName: my-restored-db
-        tags:
-          eon_api_restore: 'true'
-      properties:
-        restoreRegion:
-          description: Region to restore to.
-          example: eu-west-1
-          type: string
-        encryptionKeyId:
-          description: ID of the key you want Eon to use for encrypting the restored resource.
-          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          type: string
-        restoredName:
-          description: Name to assign to the restored resource.
-          example: my-restored-db
-          type: string
-        securityGroups:
-          description: 'List of security group IDs to associate with the restored resource.
-
-            Must be in the same VPC of `subnetGroup`.
-
-            '
-          items:
-            type: string
-          type: array
-        subnetGroup:
-          description: 'Subnet group ID to associate with the restored resource.
-
-            Must be in the same VPC of `securityGroup`.
-
-            '
-          type: string
-        dbInstanceClass:
-          description: Instance class to use for the restored resource.
-          example: db.t3.micro
-          type: string
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Tags to apply to the restored instance as key-value pairs, where key and value are both strings.
-
-
-            **Example:** `{"eon_api_restore": "true"}`
-
-            '
-          example:
-            eon_api_restore: 'true'
-          type: object
-        passwordConfig:
-          $ref: '#/components/schemas/RdsPasswordConfig'
-        preserveInstanceNames:
-          default: false
-          description: 'When true, restores cluster members with their original instance names from the snapshot.
-
-            If `restoredName` is empty, name is set to the original cluster identifier from the snapshot.
-
-            Applies only to Aurora clusters.
-
-            '
-          type: boolean
-      required:
-      - encryptionKeyId
-      - restoreRegion
-      - restoredName
-      type: object
+    SortOrder:
+      description: Sort order. Use `ASC` for ascending order and `DESC` for descending order.
+      enum:
+      - ASC
+      - DESC
+      example: ASC
+      type: string
     EbsSnapshotRestoreDestination:
       example:
         awsEbs:
@@ -4318,161 +2535,6 @@ components:
       properties:
         awsEbs:
           $ref: '#/components/schemas/EbsSnapshotTarget'
-      type: object
-    SortSnapshotsBy:
-      description: 'List of sorting options.
-
-        Sorting is applied in the order passed in the list.
-
-        '
-      example:
-        field: pointInTime
-        order: ASC
-      properties:
-        field:
-          $ref: '#/components/schemas/SnapshotSortField'
-        order:
-          $ref: '#/components/schemas/SortOrder'
-      required:
-      - field
-      - order
-      type: object
-    MPAOperationType:
-      description: Operation that requires action approval before it can be completed.
-      enum:
-      - MPA_OPERATION_TYPE_UNSPECIFIED
-      - MPA_OPERATION_ADD_RESTORE_ACCOUNT
-      - MPA_OPERATION_RESTORE_RESOURCE
-      - MPA_OPERATION_UPDATE_BACKUP_POLICY
-      - MPA_OPERATION_DELETE_BACKUP_POLICY
-      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
-      example: MPA_OPERATION_DELETE_BACKUP_POLICY
-      type: string
-      x-docs-internal-enum:
-      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
-      x-enum-varnames:
-      - MPA_OPERATION_TYPE_UNSPECIFIED
-      - MPA_OPERATION_TYPE_MPA_OPERATION_ADD_RESTORE_ACCOUNT
-      - MPA_OPERATION_TYPE_MPA_OPERATION_RESTORE_RESOURCE
-      - MPA_OPERATION_TYPE_MPA_OPERATION_UPDATE_BACKUP_POLICY
-      - MPA_OPERATION_TYPE_MPA_OPERATION_DELETE_BACKUP_POLICY
-      - MPA_OPERATION_TYPE_MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
-    AzureDiskSettings:
-      example:
-        tier: Standard
-        name: my-disk-12345
-        hyperVGeneration: V1
-        type: Standard_LRS
-        sizeBytes: 10737418240
-        tags:
-          key: tags
-      properties:
-        name:
-          description: Disk name.
-          example: my-disk-12345
-          type: string
-        type:
-          description: Disk type.
-          example: Standard_LRS
-          type: string
-        tier:
-          description: Disk tier.
-          example: Standard
-          type: string
-        hyperVGeneration:
-          description: 'Hyper-V generation of the disk.
-
-            When restoring, defaults to the original Hyper-V generation captured by the snapshot.
-
-            '
-          example: V1
-          type: string
-        sizeBytes:
-          description: 'Size of the disk, in bytes.
-
-            When restoring, defaults to the original disk size captured by the snapshot.
-
-            '
-          example: 10737418240
-          format: int64
-          type: integer
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Tags to apply to the restored disk as key-value pairs, where key and value are both strings.
-
-            If not provided, defaults to an empty object, with no tags applied.
-
-
-            **Example:** `{"eon_api_restore": "true"}`
-
-            '
-          type: object
-      required:
-      - name
-      - tier
-      - type
-      type: object
-    GcpDiskRestoreDestination:
-      example:
-        gcpDisk:
-          settings:
-            encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-            name: my-restored-disk
-            iops: 3000
-            description: boot disk
-            throughput: 125
-            type: pd-ssd
-            sizeBytes: 10737418240
-            labels:
-              key: labels
-          zone: us-central1-a
-      properties:
-        gcpDisk:
-          $ref: '#/components/schemas/GcpDiskTarget'
-      type: object
-    RestoreAzureVmInstanceRequest:
-      example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        destination:
-          azureVm:
-            startInstanceAfterRestore: true
-            vmName: my-vm-12345
-            resourceGroupName: my-resource-group-12345
-            disks:
-            - settings:
-                tier: Standard
-                name: my-disk-12345
-                hyperVGeneration: V1
-                type: Standard_LRS
-                sizeBytes: 10737418240
-                tags:
-                  key: tags
-              providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-            - settings:
-                tier: Standard
-                name: my-disk-12345
-                hyperVGeneration: V1
-                type: Standard_LRS
-                sizeBytes: 10737418240
-                tags:
-                  key: tags
-              providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-            networkInterface: networkInterface
-            vmSize: Standard_DS1_v2
-            region: eastus
-            tags:
-              key: tags
-      properties:
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        destination:
-          $ref: '#/components/schemas/AzureVmInstanceRestoreDestination'
-      required:
-      - destination
-      - restoreAccountId
       type: object
     MPARequestPolicyDetail:
       example:
@@ -4525,154 +2587,92 @@ components:
       - requiredApprovals
       type: object
       x-nullable: true
-    GcpCloudSqlTarget:
+    RestoreAzureSqlDatabaseRequest:
       example:
-        networkHostProject: my-shared-vpc-project
-        zone: us-east1-b
-        name: my-restored-instance
-        networkName: default
-        networkType: PRIVATE
-        labels:
-          eon_api_restore: 'true'
+        restoreAccountId: restoreAccountId
+        destination:
+          azureSqlDatabase:
+            resourceGroupName: my-resource-group-12345
+            adminUserName: myadminuser
+            serverName: my-mssql-server
+            region: eastus
+            tags:
+              key: tags
       properties:
-        zone:
-          description: Zone to restore to.
-          example: us-east1-b
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
           type: string
-        name:
-          description: Instance name.
-          example: my-restored-instance
-          type: string
-        networkType:
-          $ref: '#/components/schemas/GcpNetworkType'
-        networkName:
-          description: Name of the VPC network to use.
-          example: default
-          type: string
-        networkHostProject:
-          description: 'ID of the project that hosts the VPC network.
+        destination:
+          $ref: '#/components/schemas/AzureSqlDatabaseRestoreDestination'
+      required:
+      - destination
+      - restoreAccountId
+      type: object
+    SnapshotSortField:
+      description: Field to sort by.
+      enum:
+      - pointInTime
+      example: pointInTime
+      type: string
+      x-enum-varnames:
+      - SNAPSHOT_SORT_POINT_IN_TIME
+    SortSnapshotsBy:
+      description: 'List of sorting options.
 
-            Applicable only when restoring to a shared VPC network.
+        Sorting is applied in the order passed in the list.
 
-            '
-          example: my-shared-vpc-project
-          type: string
-        labels:
-          additionalProperties:
-            type: string
-          description: 'Labels to apply to the restored Cloud SQL instance as key-value pairs, where key and value are both strings.
-
-            These labels are always applied: `"eon-restore": "true"`.
-
-
-            **Example:** `{"eon_api_restore": "true"}`
-
-            '
-          example:
+        '
+      example:
+        field: pointInTime
+        order: ASC
+      properties:
+        field:
+          $ref: '#/components/schemas/SnapshotSortField'
+        order:
+          $ref: '#/components/schemas/SortOrder'
+      required:
+      - field
+      - order
+      type: object
+    GcpVmInstanceRestoreDestination:
+      example:
+        gcpVm:
+          startInstanceAfterRestore: true
+          networkHostProject: my-shared-vpc-project
+          disks:
+          - settings:
+              encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+              name: my-restored-disk
+              iops: 3000
+              description: boot disk
+              throughput: 125
+              type: pd-ssd
+              sizeBytes: 10737418240
+              labels:
+                key: labels
+            providerDiskId: '5178361631409150158'
+          - settings:
+              encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+              name: my-restored-disk
+              iops: 3000
+              description: boot disk
+              throughput: 125
+              type: pd-ssd
+              sizeBytes: 10737418240
+              labels:
+                key: labels
+            providerDiskId: '5178361631409150158'
+          zone: us-east1-b
+          name: my-vm-12345
+          networkName: default
+          internalIp: 10.0.0.10
+          machineType: e2-medium
+          subnetName: default
+          labels:
             eon_api_restore: 'true'
-          type: object
-      required:
-      - name
-      - networkType
-      - zone
-      type:
-      - object
-      - 'null'
-    AwsEc2InstanceRestoreTarget:
-      example:
-        subnetId: subnet-01234567890123456
-        startInstanceAfterRestore: true
-        securityGroupIds:
-        - securityGroupIds
-        - securityGroupIds
-        instanceType: t3.micro
-        volumeRestoreParameters:
-        - providerVolumeId: vol-00b7506c1a2bc8cfd
-          description: root volume
-          volumeSettings:
-            iops: 3000
-            throughput: 125
-            type: gp3
-            sizeBytes: 10000000000
-          volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          tags:
-            key: tags
-        - providerVolumeId: vol-00b7506c1a2bc8cfd
-          description: root volume
-          volumeSettings:
-            iops: 3000
-            throughput: 125
-            type: gp3
-            sizeBytes: 10000000000
-          volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          tags:
-            key: tags
-        region: us-east-1
-        privateIpAddress: 10.0.0.50
-        tags:
-          key: tags
       properties:
-        region:
-          description: Region to restore the instance to.
-          example: us-east-1
-          type: string
-        instanceType:
-          description: Instance type to use for the restored instance.
-          example: t3.micro
-          type: string
-        subnetId:
-          description: Subnet ID to associate with the restored instance.
-          example: subnet-01234567890123456
-          type: string
-        securityGroupIds:
-          description: List of security group IDs to associate with the restored instance.
-          items:
-            type: string
-          type: array
-        privateIpAddress:
-          description: 'Optional primary private IPv4 address for the restored instance, e.g. "10.0.0.50".
-
-            Must fall within the selected subnet''s CIDR range.
-
-            Leave empty to let AWS auto-assign an address.
-
-            '
-          example: 10.0.0.50
-          type: string
-        tags:
-          additionalProperties:
-            type: string
-          description: 'Tags to apply to the restored instance as key-value pairs, where key and value are both strings.
-
-
-            **Example:** `{"eon_api_restore": "true"}`
-
-            '
-          type: object
-        volumeRestoreParameters:
-          description: 'Volumes to restore and attach to the restored instance.
-
-            Each item in the list corresponds to a volume to be restored, where `providerVolumeId` matches the volume''s ID at the time of the snapshot.
-
-            The root volume must be present in the list.
-
-            '
-          items:
-            $ref: '#/components/schemas/RestoreInstanceVolumeInput'
-          type: array
-        startInstanceAfterRestore:
-          default: true
-          description: 'Whether to start the EC2 instance after restoring it.
-
-            If set to `false`, the instance remains in a stopped state.
-
-            '
-          type: boolean
-      required:
-      - instanceType
-      - region
-      - subnetId
-      - volumeRestoreParameters
+        gcpVm:
+          $ref: '#/components/schemas/GcpVmInstanceRestoreTarget'
       type: object
     ListInventorySnapshotsResponse:
       example:
@@ -4829,6 +2829,19 @@ components:
       - snapshots
       - totalCount
       type: object
+    DynamodbTableRestoreDestination:
+      example:
+        awsDynamodb:
+          encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          restoreRegion: eu-west-1
+          writeCapacityUnits: 50000
+          restoredName: my-restored-table
+          tags:
+            eon_api_restore: 'true'
+      properties:
+        awsDynamodb:
+          $ref: '#/components/schemas/AwsDynamoDBDestination'
+      type: object
     GcpCloudSqlRestoreDestination:
       example:
         gcpCloudSql:
@@ -4843,70 +2856,554 @@ components:
         gcpCloudSql:
           $ref: '#/components/schemas/GcpCloudSqlTarget'
       type: object
-    RestoreGcpDiskRequest:
+    RestoreGcpVmInstanceRequest:
       example:
         restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        providerDiskId: '5178361631409150158'
         destination:
-          gcpDisk:
-            settings:
-              encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-              name: my-restored-disk
-              iops: 3000
-              description: boot disk
-              throughput: 125
-              type: pd-ssd
-              sizeBytes: 10737418240
-              labels:
-                key: labels
-            zone: us-central1-a
+          gcpVm:
+            startInstanceAfterRestore: true
+            networkHostProject: my-shared-vpc-project
+            disks:
+            - settings:
+                encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+                name: my-restored-disk
+                iops: 3000
+                description: boot disk
+                throughput: 125
+                type: pd-ssd
+                sizeBytes: 10737418240
+                labels:
+                  key: labels
+              providerDiskId: '5178361631409150158'
+            - settings:
+                encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+                name: my-restored-disk
+                iops: 3000
+                description: boot disk
+                throughput: 125
+                type: pd-ssd
+                sizeBytes: 10737418240
+                labels:
+                  key: labels
+              providerDiskId: '5178361631409150158'
+            zone: us-east1-b
+            name: my-vm-12345
+            networkName: default
+            internalIp: 10.0.0.10
+            machineType: e2-medium
+            subnetName: default
+            labels:
+              eon_api_restore: 'true'
+      properties:
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        destination:
+          $ref: '#/components/schemas/GcpVmInstanceRestoreDestination'
+      required:
+      - destination
+      - restoreAccountId
+      type: object
+    ListInventorySnapshotsRequest:
+      additionalProperties: false
+      example:
+        filters:
+          pointInTime:
+            endDate: endDate
+            startDate: startDate
+        sorts:
+        - field: pointInTime
+          order: ASC
+        - field: pointInTime
+          order: ASC
+      properties:
+        filters:
+          $ref: '#/components/schemas/SnapshotFilterConditions'
+        sorts:
+          description: 'List of sorting options.
+
+            Sorting is applied in the order passed in the list.
+
+            '
+          items:
+            $ref: '#/components/schemas/SortSnapshotsBy'
+          type: array
+      type: object
+    AzureSqlDatabaseRestoreTarget:
+      example:
+        resourceGroupName: my-resource-group-12345
+        adminUserName: myadminuser
+        serverName: my-mssql-server
+        region: eastus
+        tags:
+          key: tags
+      properties:
+        region:
+          description: Region to restore to.
+          example: eastus
+          type: string
+        resourceGroupName:
+          description: Name of the resource group to restore to.
+          example: my-resource-group-12345
+          type: string
+        serverName:
+          description: Restored SQL server name.
+          example: my-mssql-server
+          type: string
+        adminUserName:
+          description: Username to set for admin of user of the restored database.
+          example: myadminuser
+          type: string
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Tags to apply to the restored instance as key-value pairs, where key and value are both strings.
+
+            If not provided, defaults to an empty object, with no tags applied.
+
+
+            **Example:** `{"eon_api_restore": "true"}`
+
+            '
+          type: object
+      required:
+      - adminUserName
+      - region
+      - resourceGroupName
+      - serverName
+      type: object
+    MPARequestStatus:
+      description: 'Lifecycle state of an action approval request from creation through resolution. DISCARDED means the requester abandoned a draft before it was submitted for approval.
+
+        '
+      enum:
+      - MPA_REQUEST_STATUS_UNSPECIFIED
+      - CREATED
+      - PENDING_APPROVAL
+      - APPROVED
+      - DENIED
+      - EXPIRED_PENDING_APPROVAL
+      - EXPIRED_APPROVED
+      - EXECUTED
+      - CANCELED_PENDING_APPROVAL
+      - CANCELED_APPROVED
+      - DISCARDED
+      example: PENDING_APPROVAL
+      type: string
+      x-enum-varnames:
+      - MPA_REQUEST_STATUS_UNSPECIFIED
+      - MPA_REQUEST_STATUS_CREATED
+      - MPA_REQUEST_STATUS_PENDING_APPROVAL
+      - MPA_REQUEST_STATUS_APPROVED
+      - MPA_REQUEST_STATUS_DENIED
+      - MPA_REQUEST_STATUS_EXPIRED_PENDING_APPROVAL
+      - MPA_REQUEST_STATUS_EXPIRED_APPROVED
+      - MPA_REQUEST_STATUS_EXECUTED
+      - MPA_REQUEST_STATUS_CANCELLED_PENDING_APPROVAL
+      - MPA_REQUEST_STATUS_CANCELLED_APPROVED
+      - MPA_REQUEST_STATUS_DISCARDED
+    Snapshot:
+      description: Eon snapshot.
+      example:
+        pointInTime: 2024-10-29 23:01:30+00:00
+        jobId: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+        resourceId: b06bc01a-b08a-4fc7-933d-3f26ed434a29
+        onHold: false
+        vaultId: 0c71a8aa-edcc-4bf3-8498-fdea45621953
+        resource:
+          properties:
+            azureVm:
+              disks:
+              - settings:
+                  tier: Standard
+                  name: my-disk-12345
+                  hyperVGeneration: V1
+                  type: Standard_LRS
+                  sizeBytes: 10737418240
+                  tags:
+                    key: tags
+                providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+              - settings:
+                  tier: Standard
+                  name: my-disk-12345
+                  hyperVGeneration: V1
+                  type: Standard_LRS
+                  sizeBytes: 10737418240
+                  tags:
+                    key: tags
+                providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+              name: name
+              sizeBytes: sizeBytes
+            awsEc2:
+              subnetId: subnet-062510159bedef64a
+              securityGroupIds:
+              - sg-0997af14f8095fc57
+              instanceType: t3.micro
+              instanceProfileName: public-database-profile
+              volumes:
+              - providerVolumeId: vol-00b7506c1a2bc8cfd
+                volumeSettings:
+                  iops: 3000
+                  throughput: 125
+                  type: gp3
+                  sizeBytes: 10000000000
+                region: us-east-1
+                availabilityZone: us-east-1a
+                tags:
+                  key: tags
+              - providerVolumeId: vol-00b7506c1a2bc8cfd
+                volumeSettings:
+                  iops: 3000
+                  throughput: 125
+                  type: gp3
+                  sizeBytes: 10000000000
+                region: us-east-1
+                availabilityZone: us-east-1a
+                tags:
+                  key: tags
+          tags:
+            Name: customers
+          resourceType: AWS_EC2
+        holdDescription: Keeping for the Q3 audit until finance signs off.
+        expirationTime: 2025-01-20 09:40:26+00:00
+        createdTime: 2024-10-29 23:01:24.841897+00:00
+        id: 043090df-9fe5-4f89-9859-45db589c2936
+        projectId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+      properties:
+        id:
+          description: Eon snapshot ID.
+          example: 043090df-9fe5-4f89-9859-45db589c2936
+          type: string
+        projectId:
+          description: ID of the snapshot's parent project.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        createdTime:
+          description: 'Date and time the snapshot creation was started.
+
+            This doesn''t represent the point in time the resource is backed up from, which is instead represented by the `pointInTime` property.
+
+            '
+          example: 2024-10-29 23:01:24.841897+00:00
+          format: date-time
+          type: string
+        pointInTime:
+          description: Date and time of the resource that's preserved by the snapshot.
+          example: 2024-10-29 23:01:30+00:00
+          format: date-time
+          type: string
+        vaultId:
+          description: ID of the vault the snapshot is stored in. Empty for native snapshots.
+          example: 0c71a8aa-edcc-4bf3-8498-fdea45621953
+          type: string
+        resourceId:
+          description: Eon-assigned ID of the resource the snapshot is backing up.
+          example: b06bc01a-b08a-4fc7-933d-3f26ed434a29
+          type: string
+        jobId:
+          description: Backup job ID.
+          example: 2cfe604d-1fc3-5db2-9f4c-2044f08e9411
+          type: string
+        expirationTime:
+          description: Date and time the snapshot's retention is expected to expire, after which it's marked for deletion.
+          example: 2025-01-20 09:40:26+00:00
+          format: date-time
+          type: string
+        resource:
+          $ref: '#/components/schemas/ResourceSnapshot'
+        onHold:
+          description: Whether the snapshot is on user hold.
+          example: false
+          type: boolean
+          x-internal: false
+        holdDescription:
+          description: Free-text note explaining why the snapshot is on hold. Cleared when the hold is removed.
+          example: Keeping for the Q3 audit until finance signs off.
+          type: string
+          x-internal: false
+      required:
+      - createdTime
+      - id
+      - resourceId
+      - status
+      type: object
+    MPAInterceptedResponse:
+      description: Body returned when an operation is intercepted by an MPA policy.
+      example:
+        actionApprovalRequest:
+          requesterEmail: requester@example.com
+          resolvedTime: 2026-05-05 02:10:12+00:00
+          requesterName: Riley Chen
+          approvalExpirationTime: 2026-05-05 03:00:05+00:00
+          executionExpirationTime: 2026-05-05 07:00:05+00:00
+          createdTime: 2026-05-04 23:00:05+00:00
+          comment: Removing a backup policy that has been replaced.
+          id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+          policyDetails:
+          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+            requiredApprovals: 2
+            approverProviderGroupId: platform-admins
+            executionWindowHours: 4
+            description: Require approval before deleting backup policies.
+            approvalWindowHours: 24
+            currentApprovals: 1
+          - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+            requiredApprovals: 2
+            approverProviderGroupId: platform-admins
+            executionWindowHours: 4
+            description: Require approval before deleting backup policies.
+            approvalWindowHours: 24
+            currentApprovals: 1
+          operation: MPA_OPERATION_DELETE_BACKUP_POLICY
+          status: PENDING_APPROVAL
+      properties:
+        actionApprovalRequest:
+          $ref: '#/components/schemas/MPARequest'
+      required:
+      - actionApprovalRequest
+      - mpaPolicies
+      type: object
+      x-nullable: true
+    EbsTarget:
+      example:
+        description: Restored through the Eon API
+        volumeSettings:
+          iops: 3000
+          throughput: 125
+          type: gp3
+          sizeBytes: 10000000000
+        availabilityZone: eu-central-1a
+        volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+        tags:
+          eon_api_restore: 'true'
+      properties:
+        description:
+          description: 'Description to apply to the restored volume.
+
+
+            Default: No description.
+
+            '
+          example: Restored through the Eon API
+          type: string
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Tags to apply to the restored volume as key-value pairs, where key and value are both strings.
+
+
+            **Example:** `{"eon_api_restore": "true"}`
+
+            '
+          example:
+            eon_api_restore: 'true'
+          type: object
+        volumeEncryptionKeyId:
+          description: ID of the key you want Eon to use for encrypting the restored volume.
+          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          type: string
+        availabilityZone:
+          description: Availability zone to restore the volume to.
+          example: eu-central-1a
+          type: string
+        volumeSettings:
+          $ref: '#/components/schemas/VolumeSettings'
+      required:
+      - availabilityZone
+      - volumeEncryptionKeyId
+      - volumeSettings
+      type: object
+    GcpVmInstanceRestoreTarget:
+      example:
+        startInstanceAfterRestore: true
+        networkHostProject: my-shared-vpc-project
+        disks:
+        - settings:
+            encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+            name: my-restored-disk
+            iops: 3000
+            description: boot disk
+            throughput: 125
+            type: pd-ssd
+            sizeBytes: 10737418240
+            labels:
+              key: labels
+          providerDiskId: '5178361631409150158'
+        - settings:
+            encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+            name: my-restored-disk
+            iops: 3000
+            description: boot disk
+            throughput: 125
+            type: pd-ssd
+            sizeBytes: 10737418240
+            labels:
+              key: labels
+          providerDiskId: '5178361631409150158'
+        zone: us-east1-b
+        name: my-vm-12345
+        networkName: default
+        internalIp: 10.0.0.10
+        machineType: e2-medium
+        subnetName: default
+        labels:
+          eon_api_restore: 'true'
+      properties:
+        zone:
+          description: Zone to restore to.
+          example: us-east1-b
+          type: string
+        machineType:
+          description: Machine type to use.
+          example: e2-medium
+          type: string
+        name:
+          description: VM name.
+          example: my-vm-12345
+          maxLength: 63
+          type: string
+        networkName:
+          description: Name of the VPC network to use.
+          example: default
+          type: string
+        subnetName:
+          description: Name of the subnet to use.
+          example: default
+          type: string
+        networkHostProject:
+          description: 'ID of the project that hosts the VPC network.
+
+            Applicable only when restoring to a shared VPC network.
+
+            '
+          example: my-shared-vpc-project
+          type: string
+        labels:
+          additionalProperties:
+            type: string
+          description: 'Labels to apply to the restored VM as key-value pairs, where key and value are both strings.
+
+            These labels are always applied: `"eon-restore": "true"`.
+
+
+            **Example:** `{"eon_api_restore": "true"}`
+
+            '
+          example:
+            eon_api_restore: 'true'
+          type: object
+        disks:
+          description: 'Disks to restore and attach to the restored instance.
+
+            Each item in the list corresponds to a disk to be restored, where `providerDiskId` matches the disk''s ID at the time of the snapshot.
+
+            The boot disk must be in the list.
+
+            '
+          items:
+            $ref: '#/components/schemas/RestoreGcpInstanceDiskInput'
+          type: array
+        internalIp:
+          description: 'Optional internal (private) IPv4 address for the restored VM, e.g. "10.0.0.10".
+
+            Must fall within the selected subnet''s primary CIDR range.
+
+            Leave empty to let GCP auto-assign an address.
+
+            '
+          example: 10.0.0.10
+          type: string
+        startInstanceAfterRestore:
+          default: true
+          description: 'Whether to start the VM instance after restoring it.
+
+            If set to `false`, the VM is created in a stopped state.
+
+            '
+          type: boolean
+      required:
+      - disks
+      - machineType
+      - name
+      - networkName
+      - subnetName
+      - zone
+      type: object
+    RestoreGcpInstanceDiskInput:
+      example:
+        settings:
+          encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+          name: my-restored-disk
+          iops: 3000
+          description: boot disk
+          throughput: 125
+          type: pd-ssd
+          sizeBytes: 10737418240
+          labels:
+            key: labels
+        providerDiskId: '5178361631409150158'
       properties:
         providerDiskId:
           description: Cloud-provider-assigned ID of the disk to restore.
           example: '5178361631409150158'
           type: string
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        destination:
-          $ref: '#/components/schemas/GcpDiskRestoreDestination'
+        settings:
+          $ref: '#/components/schemas/GcpDiskSettings'
       required:
-      - destination
       - providerDiskId
-      - restoreAccountId
+      - settings
       type: object
-    RestoreAzureDiskRequest:
+    AwsEc2InstanceRestoreDestination:
       example:
-        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-        providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-        destination:
-          azureDisk:
-            settings:
-              tier: Standard
-              name: my-disk-12345
-              hyperVGeneration: V1
-              type: Standard_LRS
-              sizeBytes: 10737418240
-              tags:
-                key: tags
-            resourceGroupName: my-resource-group-12345
-            region: region
+        awsEc2:
+          subnetId: subnet-01234567890123456
+          startInstanceAfterRestore: true
+          securityGroupIds:
+          - securityGroupIds
+          - securityGroupIds
+          instanceType: t3.micro
+          volumeRestoreParameters:
+          - providerVolumeId: vol-00b7506c1a2bc8cfd
+            description: root volume
+            volumeSettings:
+              iops: 3000
+              throughput: 125
+              type: gp3
+              sizeBytes: 10000000000
+            volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+            tags:
+              key: tags
+          - providerVolumeId: vol-00b7506c1a2bc8cfd
+            description: root volume
+            volumeSettings:
+              iops: 3000
+              throughput: 125
+              type: gp3
+              sizeBytes: 10000000000
+            volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+            tags:
+              key: tags
+          region: us-east-1
+          privateIpAddress: 10.0.0.50
+          tags:
+            key: tags
       properties:
-        providerDiskId:
-          description: Cloud-provider-assigned ID of the disk to restore.
-          example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
-          type: string
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          type: string
-        destination:
-          $ref: '#/components/schemas/AzureDiskRestoreDestination'
-      required:
-      - destination
-      - providerDiskId
-      - restoreAccountId
+        awsEc2:
+          $ref: '#/components/schemas/AwsEc2InstanceRestoreTarget'
+      type: object
+    AzureSqlDatabaseRestoreDestination:
+      example:
+        azureSqlDatabase:
+          resourceGroupName: my-resource-group-12345
+          adminUserName: myadminuser
+          serverName: my-mssql-server
+          region: eastus
+          tags:
+            key: tags
+      properties:
+        azureSqlDatabase:
+          $ref: '#/components/schemas/AzureSqlDatabaseRestoreTarget'
       type: object
     RestoreDbToRdsInstanceRequest:
       example:
@@ -4939,6 +3436,624 @@ components:
       required:
       - destination
       - restoreAccountId
+      type: object
+    FilePath:
+      example:
+        path: path
+        isDirectory: true
+      properties:
+        path:
+          description: Absolute path to the file or directory to restore.
+          type: string
+        isDirectory:
+          description: 'Whether `path` is a directory.
+
+            If `true`, Eon restores all files in all subdirectories under the path.
+
+            If `false`, Eon restores only the file at the path.
+
+            '
+          type: boolean
+      required:
+      - isDirectory
+      - path
+      type: object
+    AzureVmInstanceRestoreDestination:
+      example:
+        azureVm:
+          startInstanceAfterRestore: true
+          vmName: my-vm-12345
+          resourceGroupName: my-resource-group-12345
+          disks:
+          - settings:
+              tier: Standard
+              name: my-disk-12345
+              hyperVGeneration: V1
+              type: Standard_LRS
+              sizeBytes: 10737418240
+              tags:
+                key: tags
+            providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+          - settings:
+              tier: Standard
+              name: my-disk-12345
+              hyperVGeneration: V1
+              type: Standard_LRS
+              sizeBytes: 10737418240
+              tags:
+                key: tags
+            providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+          networkInterface: networkInterface
+          vmSize: Standard_DS1_v2
+          region: eastus
+          tags:
+            key: tags
+      properties:
+        azureVm:
+          $ref: '#/components/schemas/AzureVmInstanceRestoreTarget'
+      type: object
+    RestoreAzureInstanceDiskInput:
+      example:
+        settings:
+          tier: Standard
+          name: my-disk-12345
+          hyperVGeneration: V1
+          type: Standard_LRS
+          sizeBytes: 10737418240
+          tags:
+            key: tags
+        providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+      properties:
+        providerDiskId:
+          description: Cloud-provider-assigned ID of the disk to restore.
+          example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+          type: string
+        settings:
+          $ref: '#/components/schemas/AzureDiskSettings'
+      required:
+      - providerDiskId
+      - settings
+      type: object
+    MPARequest:
+      example:
+        requesterEmail: requester@example.com
+        resolvedTime: 2026-05-05 02:10:12+00:00
+        requesterName: Riley Chen
+        approvalExpirationTime: 2026-05-05 03:00:05+00:00
+        executionExpirationTime: 2026-05-05 07:00:05+00:00
+        createdTime: 2026-05-04 23:00:05+00:00
+        comment: Removing a backup policy that has been replaced.
+        id: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+        policyDetails:
+        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+          requiredApprovals: 2
+          approverProviderGroupId: platform-admins
+          executionWindowHours: 4
+          description: Require approval before deleting backup policies.
+          approvalWindowHours: 24
+          currentApprovals: 1
+        - approverIdpId: 018f3b3f-4818-7c31-a0d7-2e02f2f83a31
+          requiredApprovals: 2
+          approverProviderGroupId: platform-admins
+          executionWindowHours: 4
+          description: Require approval before deleting backup policies.
+          approvalWindowHours: 24
+          currentApprovals: 1
+        operation: MPA_OPERATION_DELETE_BACKUP_POLICY
+        status: PENDING_APPROVAL
+      properties:
+        id:
+          description: Unique identifier of the action approval request.
+          example: 018f3b3f-4818-7c31-a0d7-2e02f2f83a10
+          format: uuid
+          type: string
+        operation:
+          $ref: '#/components/schemas/MPAOperationType'
+        requesterEmail:
+          description: Email address of the requester who created the approval request.
+          example: requester@example.com
+          type: string
+        requesterName:
+          description: Display name of the requester at the time the request was created.
+          example: Riley Chen
+          type: string
+        comment:
+          description: Optional comment from the requester explaining why this operation is needed.
+          example: Removing a backup policy that has been replaced.
+          type: string
+        status:
+          $ref: '#/components/schemas/MPARequestStatus'
+        policyDetails:
+          description: Per-policy configuration and approval progress.
+          items:
+            $ref: '#/components/schemas/MPARequestPolicyDetail'
+          type: array
+        approvalExpirationTime:
+          description: Deadline for gathering approvals. Set when the request is confirmed (submitted). Null for requests in CREATED or DISCARDED status.
+          example: 2026-05-05 03:00:05+00:00
+          format: date-time
+          type:
+          - string
+          - 'null'
+        executionExpirationTime:
+          description: Deadline for executing the approved action. Set when the request is approved.
+          example: 2026-05-05 07:00:05+00:00
+          format: date-time
+          type:
+          - string
+          - 'null'
+        resolvedTime:
+          description: Time when the request reached a terminal state, such as executed, expired, canceled, denied, or discarded. Null while the request is still active.
+          example: 2026-05-05 02:10:12+00:00
+          format: date-time
+          type:
+          - string
+          - 'null'
+        createdTime:
+          description: Time when the approval request was created.
+          example: 2026-05-04 23:00:05+00:00
+          format: date-time
+          type: string
+      required:
+      - createdTime
+      - id
+      - operation
+      - policyDetails
+      - requestMethod
+      - requestPath
+      - requesterEmail
+      - requesterId
+      - status
+      type: object
+      x-nullable: true
+    RestoreBucketRequest:
+      example:
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        destination:
+          gcsBucket:
+            bucketName: my-restore-bucket-12345
+            prefix: my-restore-prefix
+          storageAccount:
+            container: my-restore-container-12345
+            resourceGroup: my-restore-resource-group-12345
+            prefix: my-restore-prefix
+            name: my-restore-storage-account-12345
+          s3Bucket:
+            bucketName: my-restore-bucket-12345
+            encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
+            prefix: my-restore-prefix
+      properties:
+        destination:
+          $ref: '#/components/schemas/ObjectStorageDestination'
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+      required:
+      - destination
+      - restoreAccountId
+      type: object
+    GcpDiskRestoreDestination:
+      example:
+        gcpDisk:
+          settings:
+            encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+            name: my-restored-disk
+            iops: 3000
+            description: boot disk
+            throughput: 125
+            type: pd-ssd
+            sizeBytes: 10737418240
+            labels:
+              key: labels
+          zone: us-central1-a
+      properties:
+        gcpDisk:
+          $ref: '#/components/schemas/GcpDiskTarget'
+      type: object
+    ResourceSnapshot:
+      description: Details about the backed-up resource at the time the snapshot was taken.
+      example:
+        properties:
+          azureVm:
+            disks:
+            - settings:
+                tier: Standard
+                name: my-disk-12345
+                hyperVGeneration: V1
+                type: Standard_LRS
+                sizeBytes: 10737418240
+                tags:
+                  key: tags
+              providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+            - settings:
+                tier: Standard
+                name: my-disk-12345
+                hyperVGeneration: V1
+                type: Standard_LRS
+                sizeBytes: 10737418240
+                tags:
+                  key: tags
+              providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+            name: name
+            sizeBytes: sizeBytes
+          awsEc2:
+            subnetId: subnet-062510159bedef64a
+            securityGroupIds:
+            - sg-0997af14f8095fc57
+            instanceType: t3.micro
+            instanceProfileName: public-database-profile
+            volumes:
+            - providerVolumeId: vol-00b7506c1a2bc8cfd
+              volumeSettings:
+                iops: 3000
+                throughput: 125
+                type: gp3
+                sizeBytes: 10000000000
+              region: us-east-1
+              availabilityZone: us-east-1a
+              tags:
+                key: tags
+            - providerVolumeId: vol-00b7506c1a2bc8cfd
+              volumeSettings:
+                iops: 3000
+                throughput: 125
+                type: gp3
+                sizeBytes: 10000000000
+              region: us-east-1
+              availabilityZone: us-east-1a
+              tags:
+                key: tags
+        tags:
+          Name: customers
+        resourceType: AWS_EC2
+      properties:
+        properties:
+          $ref: '#/components/schemas/ResourceSnapshotProperties'
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Resource tags as key-value pairs.
+
+            Both keys and values are strings.
+
+            If a tag is a key with no value, the value is presented as an empty string.
+
+
+            **Example:** `{"Name": "customers"}`
+
+            '
+          example:
+            Name: customers
+          type: object
+        resourceType:
+          $ref: '#/components/schemas/ResourceType'
+      type: object
+    RestoreVolumeToEbsSnapshotRequest:
+      example:
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        providerVolumeId: vol-01a29e3ba811d4613
+        destination:
+          awsEbs:
+            snapshotEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+            description: Restored through the Eon API
+            region: eu-central-1
+            tags:
+              eon_api_restore: 'true'
+      properties:
+        providerVolumeId:
+          description: Cloud-provider-assigned ID of the volume to restore.
+          example: vol-01a29e3ba811d4613
+          type: string
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        destination:
+          $ref: '#/components/schemas/EbsSnapshotRestoreDestination'
+      required:
+      - destination
+      - providerVolumeId
+      - restoreAccountId
+      type: object
+    RestoreJobInitiationResponse:
+      example:
+        jobId: 9892ecab-22d5-47ca-b2b4-70369e80b90a
+      properties:
+        jobId:
+          description: Restore job ID.
+          example: 9892ecab-22d5-47ca-b2b4-70369e80b90a
+          format: uuid
+          type: string
+      required:
+      - jobId
+      type: object
+    HoldSnapshotRequest:
+      example:
+        description: Keeping for the Q3 audit until finance signs off.
+      properties:
+        description:
+          description: 'Optional free-text note explaining why the snapshot is being held.
+
+            Shown on the snapshot''s hold badge and cleared when the hold is removed.
+
+            '
+          example: Keeping for the Q3 audit until finance signs off.
+          maxLength: 500
+          type: string
+      type: object
+    RestoreGcpCloudSqlRequest:
+      example:
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        destination:
+          gcpCloudSql:
+            networkHostProject: my-shared-vpc-project
+            zone: us-east1-b
+            name: my-restored-instance
+            networkName: default
+            networkType: PRIVATE
+            labels:
+              eon_api_restore: 'true'
+      properties:
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        destination:
+          $ref: '#/components/schemas/GcpCloudSqlRestoreDestination'
+      required:
+      - destination
+      - restoreAccountId
+      type: object
+    GcpDiskTarget:
+      example:
+        settings:
+          encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+          name: my-restored-disk
+          iops: 3000
+          description: boot disk
+          throughput: 125
+          type: pd-ssd
+          sizeBytes: 10737418240
+          labels:
+            key: labels
+        zone: us-central1-a
+      properties:
+        zone:
+          description: Zone to restore the disk to.
+          example: us-central1-a
+          type: string
+        settings:
+          $ref: '#/components/schemas/GcpDiskSettings'
+      required:
+      - settings
+      - zone
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    RestoreBigQueryDatasetRequest:
+      example:
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        destination:
+          datasetId: restored_dataset
+          location: us-central1
+          selectedTables:
+          - users
+          - orders
+          selectedViews:
+          - active_users_view
+          - order_summary_view
+          labels:
+            key: labels
+          overwriteExistingData: false
+      properties:
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        destination:
+          $ref: '#/components/schemas/BigQueryDatasetDestination'
+      required:
+      - destination
+      - restoreAccountId
+      type: object
+    EbsSnapshotTarget:
+      example:
+        snapshotEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+        description: Restored through the Eon API
+        region: eu-central-1
+        tags:
+          eon_api_restore: 'true'
+      properties:
+        region:
+          description: Region to restore the EBS snapshot to.
+          example: eu-central-1
+          type: string
+        description:
+          description: Description to apply to the EBS snapshot.
+          example: Restored through the Eon API
+          type: string
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Tags to apply to the EBS snapshot as key-value pairs, where key and value are both strings.
+
+
+            **Example:** `{"eon_api_restore": "true"}`
+
+            '
+          example:
+            eon_api_restore: 'true'
+          type: object
+        snapshotEncryptionKeyId:
+          description: ID of the key you want Eon to use for encrypting the EBS snapshot.
+          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          type: string
+      required:
+      - region
+      - snapshotEncryptionKeyId
+      type: object
+    ResourceType:
+      description: 'Resource type identifier combining cloud provider and service type.
+
+        `RESOURCE_TYPE_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - AWS_EC2
+      - AWS_RDS
+      - AWS_S3
+      - AWS_EFS
+      - AWS_FSX
+      - AWS_EKS_NAMESPACE
+      - AWS_DYNAMO_DB
+      - AWS_EBS_VOLUME
+      - AWS_KEYSPACES_TABLE
+      - AWS_CASSANDRA_CLUSTER
+      - AWS_DOCUMENTDB
+      - AWS_NEPTUNE
+      - AZURE_VIRTUAL_MACHINE
+      - AZURE_FILE_SHARE
+      - AZURE_STORAGE_ACCOUNT
+      - AZURE_DISK
+      - AZURE_SQL_DATABASE
+      - AZURE_SQL_MANAGED_INSTANCE
+      - AZURE_SQL_VIRTUAL_MACHINE
+      - AZURE_SAP_HANA_VM
+      - AZURE_MYSQL
+      - AZURE_POSTGRESQL
+      - AZURE_COSMOSDB_MONGODB
+      - AZURE_COSMOSDB_NOSQL
+      - AZURE_AKS_NAMESPACE
+      - AZURE_CASSANDRA_CLUSTER
+      - ATLAS_MONGODB_CLUSTER
+      - GCP_COMPUTE_ENGINE_INSTANCE
+      - GCP_CLOUD_SQL_INSTANCE
+      - GCP_CLOUD_STORAGE_BUCKET
+      - GCP_GKE_NAMESPACE
+      - GCP_BIG_QUERY
+      - GCP_CLOUD_FIRESTORE
+      - GCP_DISK
+      - GCP_SAP_HANA_VM
+      - GCP_CASSANDRA_CLUSTER
+      - GOOGLE_WORKSPACE_RESOURCE
+      - MICROSOFT_365_RESOURCE
+      - RESOURCE_TYPE_UNSPECIFIED
+      example: AWS_EC2
+      type: string
+      x-docs-internal-enum:
+      - AWS_EBS_VOLUME
+      - AWS_KEYSPACES_TABLE
+      - AWS_CASSANDRA_CLUSTER
+      - GCP_CASSANDRA_CLUSTER
+      - AZURE_CASSANDRA_CLUSTER
+      - AWS_DOCUMENTDB
+      - AWS_NEPTUNE
+      - AZURE_SAP_HANA_VM
+      - AZURE_AKS_NAMESPACE
+      - GCP_GKE_NAMESPACE
+      - GCP_BIG_QUERY
+      - GCP_CLOUD_FIRESTORE
+      - GCP_DISK
+      - GCP_SAP_HANA_VM
+      - GOOGLE_WORKSPACE_RESOURCE
+      - MICROSOFT_365_RESOURCE
+    RestoreAzureDiskRequest:
+      example:
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+        destination:
+          azureDisk:
+            settings:
+              tier: Standard
+              name: my-disk-12345
+              hyperVGeneration: V1
+              type: Standard_LRS
+              sizeBytes: 10737418240
+              tags:
+                key: tags
+            resourceGroupName: my-resource-group-12345
+            region: region
+      properties:
+        providerDiskId:
+          description: Cloud-provider-assigned ID of the disk to restore.
+          example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+          type: string
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        destination:
+          $ref: '#/components/schemas/AzureDiskRestoreDestination'
+      required:
+      - destination
+      - providerDiskId
+      - restoreAccountId
+      type: object
+    AzureVmSnapshotProperties:
+      description: 'Properties of the original Azure Virtual Machine instance at the time the snapshot was taken.
+
+        Present only when `resourceType` is set to `AZURE_VIRTUAL_MACHINE`.
+
+        '
+      example:
+        disks:
+        - settings:
+            tier: Standard
+            name: my-disk-12345
+            hyperVGeneration: V1
+            type: Standard_LRS
+            sizeBytes: 10737418240
+            tags:
+              key: tags
+          providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+        - settings:
+            tier: Standard
+            name: my-disk-12345
+            hyperVGeneration: V1
+            type: Standard_LRS
+            sizeBytes: 10737418240
+            tags:
+              key: tags
+          providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+        name: name
+        sizeBytes: sizeBytes
+      properties:
+        name:
+          description: VM name.
+          type: string
+        sizeBytes:
+          description: VM size, in bytes.
+          type: string
+        disks:
+          description: List of disks attached to the resource.
+          items:
+            $ref: '#/components/schemas/AzureDisk'
+          type: array
+      type:
+      - object
+      - 'null'
+    EbsRestoreDestination:
+      example:
+        awsEbs:
+          description: Restored through the Eon API
+          volumeSettings:
+            iops: 3000
+            throughput: 125
+            type: gp3
+            sizeBytes: 10000000000
+          availabilityZone: eu-central-1a
+          volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          tags:
+            eon_api_restore: 'true'
+      properties:
+        awsEbs:
+          $ref: '#/components/schemas/EbsTarget'
       type: object
     ResourceSnapshotProperties:
       description: 'Properties of the original resource at the time the snapshot was taken.
@@ -5004,92 +4119,327 @@ components:
       type:
       - object
       - 'null'
-    GcpDiskTarget:
+    RdsPasswordConfig:
+      description: 'Password management configuration for the restored RDS database.
+
+        '
       example:
-        settings:
-          encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-          name: my-restored-disk
-          iops: 3000
-          description: boot disk
-          throughput: 125
-          type: pd-ssd
-          sizeBytes: 10737418240
-          labels:
-            key: labels
-        zone: us-central1-a
+        password: password
+        secretsManagerKmsKeyId: secretsManagerKmsKeyId
+        passwordManagementType: AWS_SECRETS_MANAGER
       properties:
-        zone:
-          description: Zone to restore the disk to.
-          example: us-central1-a
+        passwordManagementType:
+          description: 'Password management type to apply to the restored database.
+
+            '
+          enum:
+          - AWS_SECRETS_MANAGER
+          - SELF_MANAGED
           type: string
-        settings:
-          $ref: '#/components/schemas/GcpDiskSettings'
+          x-fern-enum:
+            AWS_SECRETS_MANAGER:
+              description: 'Manage password through AWS Secrets Manager.
+
+                Use with `secretsManagerKmsKeyId`.
+
+                '
+            SELF_MANAGED:
+              description: 'Set a master user password on the database.
+
+                Use with `password`.
+
+                '
+        password:
+          description: 'Customer-managed password.
+
+            Required when password management type is `SELF_MANAGED`.
+
+            '
+          type: string
+          writeOnly: true
+        secretsManagerKmsKeyId:
+          description: 'ARN of a KMS key to encrypt the secret that stores the database master password.
+
+            The secret is managed through Amazon Secrets Manager.
+
+            Applicable when password management type is `AWS_SECRETS_MANAGER`.
+
+
+            If omitted, AWS defaults to the `aws/secretsmanager` key.
+
+
+            This is distinct from `encryptionKeyId`, which controls RDS storage encryption.
+
+            '
+          type: string
       required:
-      - settings
-      - zone
-      type: object
-    RestoreInstanceVolumeInput:
+      - passwordManagementType
+      type:
+      - object
+      - 'null'
+    DatabaseDestination:
+      description: Restore configuration.
       example:
-        providerVolumeId: vol-00b7506c1a2bc8cfd
-        description: root volume
-        volumeSettings:
-          iops: 3000
-          throughput: 125
-          type: gp3
-          sizeBytes: 10000000000
-        volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-        tags:
-          key: tags
+        awsRds:
+          encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          dbInstanceClass: db.t3.micro
+          subnetGroup: subnetGroup
+          restoreRegion: eu-west-1
+          securityGroups:
+          - securityGroups
+          - securityGroups
+          preserveInstanceNames: false
+          passwordConfig:
+            password: password
+            secretsManagerKmsKeyId: secretsManagerKmsKeyId
+            passwordManagementType: AWS_SECRETS_MANAGER
+          restoredName: my-restored-db
+          tags:
+            eon_api_restore: 'true'
+      properties:
+        awsRds:
+          $ref: '#/components/schemas/AwsDatabaseDestination'
+      type: object
+    RestoreVolumeToEbsRequest:
+      example:
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        providerVolumeId: vol-01a29e3ba811d4613
+        destination:
+          awsEbs:
+            description: Restored through the Eon API
+            volumeSettings:
+              iops: 3000
+              throughput: 125
+              type: gp3
+              sizeBytes: 10000000000
+            availabilityZone: eu-central-1a
+            volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+            tags:
+              eon_api_restore: 'true'
       properties:
         providerVolumeId:
           description: Cloud-provider-assigned ID of the volume to restore.
-          example: vol-00b7506c1a2bc8cfd
+          example: vol-01a29e3ba811d4613
           type: string
-        description:
-          description: Optional description.
-          example: root volume
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        destination:
+          $ref: '#/components/schemas/EbsRestoreDestination'
+      required:
+      - destination
+      - providerVolumeId
+      - restoreAccountId
+      type: object
+    AwsDynamoDBDestination:
+      description: Configuration for restoring to DynamoDB.
+      example:
+        encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+        restoreRegion: eu-west-1
+        writeCapacityUnits: 50000
+        restoredName: my-restored-table
+        tags:
+          eon_api_restore: 'true'
+      properties:
+        restoreRegion:
+          description: Region to restore to.
+          example: eu-west-1
+          type: string
+        encryptionKeyId:
+          description: ID of the key you want Eon to use for encrypting the restored resource.
+          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          type: string
+        restoredName:
+          description: Name to assign to the restored resource.
+          example: my-restored-table
+          type: string
+        writeCapacityUnits:
+          description: 'Write capacity units for the restored table.
+
+            Defaults to 5.
+
+            '
+          example: 50000
+          type: integer
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Tags to apply to the restored instance as key-value pairs, where key and value are both strings.
+
+
+            **Example:** `{"eon_api_restore": "true"}`
+
+            '
+          example:
+            eon_api_restore: 'true'
+          type: object
+      required:
+      - restoreRegion
+      - restoredName
+      type: object
+    AzureDisk:
+      example:
+        settings:
+          tier: Standard
+          name: my-disk-12345
+          hyperVGeneration: V1
+          type: Standard_LRS
+          sizeBytes: 10737418240
+          tags:
+            key: tags
+        providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+      properties:
+        providerDiskId:
+          description: Cloud-provider-assigned disk ID.
+          example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+          type: string
+        settings:
+          $ref: '#/components/schemas/AzureDiskSettings'
+      required:
+      - providerDiskId
+      - settings
+      type: object
+    AwsEc2SnapshotProperties:
+      description: 'Properties of the original AWS EC2 instance at the time the snapshot was taken.
+
+        Present only when `resourceType` is set to `AWS_EC2`.
+
+        '
+      example:
+        subnetId: subnet-062510159bedef64a
+        securityGroupIds:
+        - sg-0997af14f8095fc57
+        instanceType: t3.micro
+        instanceProfileName: public-database-profile
+        volumes:
+        - providerVolumeId: vol-00b7506c1a2bc8cfd
+          volumeSettings:
+            iops: 3000
+            throughput: 125
+            type: gp3
+            sizeBytes: 10000000000
+          region: us-east-1
+          availabilityZone: us-east-1a
+          tags:
+            key: tags
+        - providerVolumeId: vol-00b7506c1a2bc8cfd
+          volumeSettings:
+            iops: 3000
+            throughput: 125
+            type: gp3
+            sizeBytes: 10000000000
+          region: us-east-1
+          availabilityZone: us-east-1a
+          tags:
+            key: tags
+      properties:
+        instanceType:
+          description: Instance type.
+          example: t3.micro
+          type: string
+        subnetId:
+          description: ID of the subnet the instance is in.
+          example: subnet-062510159bedef64a
+          type: string
+        securityGroupIds:
+          description: IDs of security groups associated with the resource.
+          example:
+          - sg-0997af14f8095fc57
+          items:
+            type: string
+          type: array
+        instanceProfileName:
+          description: The resource's instance profile.
+          example: public-database-profile
+          type: string
+        volumes:
+          description: List of volumes attached to the resource.
+          items:
+            $ref: '#/components/schemas/InventorySnapshotVolume'
+          type: array
+      type:
+      - object
+      - 'null'
+    AwsDatabaseDestination:
+      description: Configuration for restoring to RDS.
+      example:
+        encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+        dbInstanceClass: db.t3.micro
+        subnetGroup: subnetGroup
+        restoreRegion: eu-west-1
+        securityGroups:
+        - securityGroups
+        - securityGroups
+        preserveInstanceNames: false
+        passwordConfig:
+          password: password
+          secretsManagerKmsKeyId: secretsManagerKmsKeyId
+          passwordManagementType: AWS_SECRETS_MANAGER
+        restoredName: my-restored-db
+        tags:
+          eon_api_restore: 'true'
+      properties:
+        restoreRegion:
+          description: Region to restore to.
+          example: eu-west-1
+          type: string
+        encryptionKeyId:
+          description: ID of the key you want Eon to use for encrypting the restored resource.
+          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          type: string
+        restoredName:
+          description: Name to assign to the restored resource.
+          example: my-restored-db
+          type: string
+        securityGroups:
+          description: 'List of security group IDs to associate with the restored resource.
+
+            Must be in the same VPC of `subnetGroup`.
+
+            '
+          items:
+            type: string
+          type: array
+        subnetGroup:
+          description: 'Subnet group ID to associate with the restored resource.
+
+            Must be in the same VPC of `securityGroup`.
+
+            '
+          type: string
+        dbInstanceClass:
+          description: Instance class to use for the restored resource.
+          example: db.t3.micro
           type: string
         tags:
           additionalProperties:
             type: string
-          description: 'Tags to apply to the restored volume as key-value pairs, where key and value are both strings.
+          description: 'Tags to apply to the restored instance as key-value pairs, where key and value are both strings.
 
 
-            **Example:** `{"primary": ""}`
+            **Example:** `{"eon_api_restore": "true"}`
 
             '
+          example:
+            eon_api_restore: 'true'
           type: object
-        volumeEncryptionKeyId:
-          description: ARN of the KMS key for encrypting the restored volume.
-          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
-          type: string
-        volumeSettings:
-          $ref: '#/components/schemas/VolumeSettings'
+        passwordConfig:
+          $ref: '#/components/schemas/RdsPasswordConfig'
+        preserveInstanceNames:
+          default: false
+          description: 'When true, restores cluster members with their original instance names from the snapshot.
+
+            If `restoredName` is empty, name is set to the original cluster identifier from the snapshot.
+
+            Applies only to Aurora clusters.
+
+            '
+          type: boolean
       required:
-      - providerVolumeId
-      - volumeEncryptionKeyId
-      - volumeSettings
-      type: object
-    RestoreAzureSqlDatabaseRequest:
-      example:
-        restoreAccountId: restoreAccountId
-        destination:
-          azureSqlDatabase:
-            resourceGroupName: my-resource-group-12345
-            adminUserName: myadminuser
-            serverName: my-mssql-server
-            region: eastus
-            tags:
-              key: tags
-      properties:
-        restoreAccountId:
-          description: Eon-assigned ID of the restore account.
-          type: string
-        destination:
-          $ref: '#/components/schemas/AzureSqlDatabaseRestoreDestination'
-      required:
-      - destination
-      - restoreAccountId
+      - encryptionKeyId
+      - restoreRegion
+      - restoredName
       type: object
     GcpDiskSettings:
       example:
@@ -5159,6 +4509,35 @@ components:
           type: string
       required:
       - name
+      - sizeBytes
+      - type
+      type: object
+    VolumeSettings:
+      description: Provisioned volume settings.
+      example:
+        iops: 3000
+        throughput: 125
+        type: gp3
+        sizeBytes: 10000000000
+      properties:
+        type:
+          description: Volume type.
+          example: gp3
+          type: string
+        sizeBytes:
+          description: Volume size in bytes.
+          example: 10000000000
+          format: int64
+          type: integer
+        iops:
+          description: Volume IOPS.
+          example: 3000
+          type: integer
+        throughput:
+          description: Volume throughput.
+          example: 125
+          type: integer
+      required:
       - sizeBytes
       - type
       type: object
@@ -5249,55 +4628,253 @@ components:
       required:
       - datasetId
       type: object
-    RestoreJobInitiationResponse:
-      example:
-        jobId: 9892ecab-22d5-47ca-b2b4-70369e80b90a
-      properties:
-        jobId:
-          description: Restore job ID.
-          example: 9892ecab-22d5-47ca-b2b4-70369e80b90a
-          format: uuid
-          type: string
-      required:
-      - jobId
-      type: object
-    RestoreGcpVmInstanceRequest:
+    RestoreAzureVmInstanceRequest:
       example:
         restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
         destination:
-          gcpVm:
+          azureVm:
             startInstanceAfterRestore: true
-            networkHostProject: my-shared-vpc-project
+            vmName: my-vm-12345
+            resourceGroupName: my-resource-group-12345
             disks:
             - settings:
-                encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-                name: my-restored-disk
-                iops: 3000
-                description: boot disk
-                throughput: 125
-                type: pd-ssd
+                tier: Standard
+                name: my-disk-12345
+                hyperVGeneration: V1
+                type: Standard_LRS
                 sizeBytes: 10737418240
-                labels:
-                  key: labels
-              providerDiskId: '5178361631409150158'
+                tags:
+                  key: tags
+              providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
             - settings:
-                encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
-                name: my-restored-disk
-                iops: 3000
-                description: boot disk
-                throughput: 125
-                type: pd-ssd
+                tier: Standard
+                name: my-disk-12345
+                hyperVGeneration: V1
+                type: Standard_LRS
                 sizeBytes: 10737418240
-                labels:
-                  key: labels
-              providerDiskId: '5178361631409150158'
-            zone: us-east1-b
-            name: my-vm-12345
-            networkName: default
-            internalIp: 10.0.0.10
-            machineType: e2-medium
-            subnetName: default
-            labels:
+                tags:
+                  key: tags
+              providerDiskId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group-12345/providers/Microsoft.Compute/disks/my-disk-12345
+            networkInterface: networkInterface
+            vmSize: Standard_DS1_v2
+            region: eastus
+            tags:
+              key: tags
+      properties:
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        destination:
+          $ref: '#/components/schemas/AzureVmInstanceRestoreDestination'
+      required:
+      - destination
+      - restoreAccountId
+      type: object
+    S3RestoreTarget:
+      description: 'Information about the S3 bucket where you want to restore the files.
+
+        If you don''t specify a target, the files are restored to the original bucket.
+
+        '
+      example:
+        bucketName: my-restore-bucket-12345
+        encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
+        prefix: my-restore-prefix
+      properties:
+        bucketName:
+          description: Name of an existing bucket to restore the files to.
+          example: my-restore-bucket-12345
+          type: string
+        encryptionKeyId:
+          description: ID of the key you want Eon to use for encrypting the restored files.
+          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
+          type: string
+        prefix:
+          description: 'Prefix to add to the restore path.
+
+            If you don''t specify a prefix, the files are restored to their respective folders in the original file tree, starting from the root of the bucket.
+
+            '
+          example: my-restore-prefix
+          type: string
+      required:
+      - bucketName
+      type: object
+    RestoreGcpDiskRequest:
+      example:
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        providerDiskId: '5178361631409150158'
+        destination:
+          gcpDisk:
+            settings:
+              encryptionKeyId: projects/my-project/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+              name: my-restored-disk
+              iops: 3000
+              description: boot disk
+              throughput: 125
+              type: pd-ssd
+              sizeBytes: 10737418240
+              labels:
+                key: labels
+            zone: us-central1-a
+      properties:
+        providerDiskId:
+          description: Cloud-provider-assigned ID of the disk to restore.
+          example: '5178361631409150158'
+          type: string
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        destination:
+          $ref: '#/components/schemas/GcpDiskRestoreDestination'
+      required:
+      - destination
+      - providerDiskId
+      - restoreAccountId
+      type: object
+    MPAOperationType:
+      description: Operation that requires action approval before it can be completed.
+      enum:
+      - MPA_OPERATION_TYPE_UNSPECIFIED
+      - MPA_OPERATION_ADD_RESTORE_ACCOUNT
+      - MPA_OPERATION_RESTORE_RESOURCE
+      - MPA_OPERATION_UPDATE_BACKUP_POLICY
+      - MPA_OPERATION_DELETE_BACKUP_POLICY
+      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
+      example: MPA_OPERATION_DELETE_BACKUP_POLICY
+      type: string
+      x-docs-internal-enum:
+      - MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
+      x-enum-varnames:
+      - MPA_OPERATION_TYPE_UNSPECIFIED
+      - MPA_OPERATION_TYPE_MPA_OPERATION_ADD_RESTORE_ACCOUNT
+      - MPA_OPERATION_TYPE_MPA_OPERATION_RESTORE_RESOURCE
+      - MPA_OPERATION_TYPE_MPA_OPERATION_UPDATE_BACKUP_POLICY
+      - MPA_OPERATION_TYPE_MPA_OPERATION_DELETE_BACKUP_POLICY
+      - MPA_OPERATION_TYPE_MPA_OPERATION_REMOVE_SNAPSHOT_HOLD
+    ObjectStorageDestination:
+      example:
+        gcsBucket:
+          bucketName: my-restore-bucket-12345
+          prefix: my-restore-prefix
+        storageAccount:
+          container: my-restore-container-12345
+          resourceGroup: my-restore-resource-group-12345
+          prefix: my-restore-prefix
+          name: my-restore-storage-account-12345
+        s3Bucket:
+          bucketName: my-restore-bucket-12345
+          encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
+          prefix: my-restore-prefix
+      properties:
+        s3Bucket:
+          $ref: '#/components/schemas/S3RestoreTarget'
+        storageAccount:
+          $ref: '#/components/schemas/StorageAccountRestoreTarget'
+        gcsBucket:
+          $ref: '#/components/schemas/GCSRestoreTarget'
+      type: object
+    RestoreInstanceVolumeInput:
+      example:
+        providerVolumeId: vol-00b7506c1a2bc8cfd
+        description: root volume
+        volumeSettings:
+          iops: 3000
+          throughput: 125
+          type: gp3
+          sizeBytes: 10000000000
+        volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+        tags:
+          key: tags
+      properties:
+        providerVolumeId:
+          description: Cloud-provider-assigned ID of the volume to restore.
+          example: vol-00b7506c1a2bc8cfd
+          type: string
+        description:
+          description: Optional description.
+          example: root volume
+          type: string
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Tags to apply to the restored volume as key-value pairs, where key and value are both strings.
+
+
+            **Example:** `{"primary": ""}`
+
+            '
+          type: object
+        volumeEncryptionKeyId:
+          description: ARN of the KMS key for encrypting the restored volume.
+          example: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          type: string
+        volumeSettings:
+          $ref: '#/components/schemas/VolumeSettings'
+      required:
+      - providerVolumeId
+      - volumeEncryptionKeyId
+      - volumeSettings
+      type: object
+    InventorySnapshotVolume:
+      example:
+        providerVolumeId: vol-00b7506c1a2bc8cfd
+        volumeSettings:
+          iops: 3000
+          throughput: 125
+          type: gp3
+          sizeBytes: 10000000000
+        region: us-east-1
+        availabilityZone: us-east-1a
+        tags:
+          key: tags
+      properties:
+        providerVolumeId:
+          description: Cloud-provider-assigned volume ID.
+          example: vol-00b7506c1a2bc8cfd
+          type: string
+        region:
+          description: Region the volume is hosted in.
+          example: us-east-1
+          type: string
+        availabilityZone:
+          description: Availability zone the volume is hosted in.
+          example: us-east-1a
+          type: string
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Volume tags as key-value pairs.
+
+            Both keys and values are strings.
+
+
+            **Example**: `{"env": "prod", "db": ""}`
+
+            '
+          type: object
+        volumeSettings:
+          $ref: '#/components/schemas/VolumeSettings'
+      required:
+      - availabilityZone
+      - deviceName
+      - providerVolumeId
+      - region
+      - tags
+      - volumeSettings
+      type: object
+    RestoreDynamoDBTableRequest:
+      example:
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        destination:
+          awsDynamodb:
+            encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+            restoreRegion: eu-west-1
+            writeCapacityUnits: 50000
+            restoredName: my-restored-table
+            tags:
               eon_api_restore: 'true'
       properties:
         restoreAccountId:
@@ -5305,39 +4882,462 @@ components:
           example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
           type: string
         destination:
-          $ref: '#/components/schemas/GcpVmInstanceRestoreDestination'
+          $ref: '#/components/schemas/DynamodbTableRestoreDestination'
       required:
       - destination
       - restoreAccountId
       type: object
-    VolumeSettings:
-      description: Provisioned volume settings.
+    RestoreAwsEc2InstanceRequest:
       example:
-        iops: 3000
-        throughput: 125
-        type: gp3
-        sizeBytes: 10000000000
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        destination:
+          awsEc2:
+            subnetId: subnet-01234567890123456
+            startInstanceAfterRestore: true
+            securityGroupIds:
+            - securityGroupIds
+            - securityGroupIds
+            instanceType: t3.micro
+            volumeRestoreParameters:
+            - providerVolumeId: vol-00b7506c1a2bc8cfd
+              description: root volume
+              volumeSettings:
+                iops: 3000
+                throughput: 125
+                type: gp3
+                sizeBytes: 10000000000
+              volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+              tags:
+                key: tags
+            - providerVolumeId: vol-00b7506c1a2bc8cfd
+              description: root volume
+              volumeSettings:
+                iops: 3000
+                throughput: 125
+                type: gp3
+                sizeBytes: 10000000000
+              volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+              tags:
+                key: tags
+            region: us-east-1
+            privateIpAddress: 10.0.0.50
+            tags:
+              key: tags
+        templateId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+        destination:
+          $ref: '#/components/schemas/AwsEc2InstanceRestoreDestination'
+        templateId:
+          description: 'When set, the restore service re-evaluates this restore template at submit
+
+            time and applies the resolved params onto the request before restoring.
+
+            '
+          format: uuid
+          type: string
+      required:
+      - destination
+      - restoreAccountId
+      type: object
+    StorageAccountRestoreTarget:
+      description: 'Information about the storage account where you want to restore the files.
+
+        If you don''t specify a target, the files are restored to the original storage account.
+
+        '
+      example:
+        container: my-restore-container-12345
+        resourceGroup: my-restore-resource-group-12345
+        prefix: my-restore-prefix
+        name: my-restore-storage-account-12345
+      properties:
+        name:
+          description: Name of the storage account to restore the files to.
+          example: my-restore-storage-account-12345
+          type: string
+        resourceGroup:
+          description: Name of the resource group that contains the storage account.
+          example: my-restore-resource-group-12345
+          type: string
+        container:
+          description: Name of the container in the storage account to restore the files to.
+          example: my-restore-container-12345
+          type: string
+        prefix:
+          description: 'Prefix to add to the restore path.
+
+            If you don''t specify a prefix, the files are restored to their respective folders in the original file tree, starting from the root of the container.
+
+            '
+          example: my-restore-prefix
+          type: string
+      required:
+      - container
+      - name
+      type: object
+    AwsEc2InstanceRestoreTarget:
+      example:
+        subnetId: subnet-01234567890123456
+        startInstanceAfterRestore: true
+        securityGroupIds:
+        - securityGroupIds
+        - securityGroupIds
+        instanceType: t3.micro
+        volumeRestoreParameters:
+        - providerVolumeId: vol-00b7506c1a2bc8cfd
+          description: root volume
+          volumeSettings:
+            iops: 3000
+            throughput: 125
+            type: gp3
+            sizeBytes: 10000000000
+          volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          tags:
+            key: tags
+        - providerVolumeId: vol-00b7506c1a2bc8cfd
+          description: root volume
+          volumeSettings:
+            iops: 3000
+            throughput: 125
+            type: gp3
+            sizeBytes: 10000000000
+          volumeEncryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b
+          tags:
+            key: tags
+        region: us-east-1
+        privateIpAddress: 10.0.0.50
+        tags:
+          key: tags
+      properties:
+        region:
+          description: Region to restore the instance to.
+          example: us-east-1
+          type: string
+        instanceType:
+          description: Instance type to use for the restored instance.
+          example: t3.micro
+          type: string
+        subnetId:
+          description: Subnet ID to associate with the restored instance.
+          example: subnet-01234567890123456
+          type: string
+        securityGroupIds:
+          description: List of security group IDs to associate with the restored instance.
+          items:
+            type: string
+          type: array
+        privateIpAddress:
+          description: 'Optional primary private IPv4 address for the restored instance, e.g. "10.0.0.50".
+
+            Must fall within the selected subnet''s CIDR range.
+
+            Leave empty to let AWS auto-assign an address.
+
+            '
+          example: 10.0.0.50
+          type: string
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Tags to apply to the restored instance as key-value pairs, where key and value are both strings.
+
+
+            **Example:** `{"eon_api_restore": "true"}`
+
+            '
+          type: object
+        volumeRestoreParameters:
+          description: 'Volumes to restore and attach to the restored instance.
+
+            Each item in the list corresponds to a volume to be restored, where `providerVolumeId` matches the volume''s ID at the time of the snapshot.
+
+            The root volume must be present in the list.
+
+            '
+          items:
+            $ref: '#/components/schemas/RestoreInstanceVolumeInput'
+          type: array
+        startInstanceAfterRestore:
+          default: true
+          description: 'Whether to start the EC2 instance after restoring it.
+
+            If set to `false`, the instance remains in a stopped state.
+
+            '
+          type: boolean
+      required:
+      - instanceType
+      - region
+      - subnetId
+      - volumeRestoreParameters
+      type: object
+    GcpNetworkType:
+      description: 'Network type.
+
+        `UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - UNSPECIFIED
+      - PUBLIC
+      - PRIVATE
+      example: PRIVATE
+      type: string
+      x-enum-varnames:
+      - GCP_NETWORK_TYPE_UNSPECIFIED
+      - GCP_NETWORK_TYPE_PUBLIC
+      - GCP_NETWORK_TYPE_PRIVATE
+    AzureDiskSettings:
+      example:
+        tier: Standard
+        name: my-disk-12345
+        hyperVGeneration: V1
+        type: Standard_LRS
+        sizeBytes: 10737418240
+        tags:
+          key: tags
+      properties:
+        name:
+          description: Disk name.
+          example: my-disk-12345
+          type: string
         type:
-          description: Volume type.
-          example: gp3
+          description: Disk type.
+          example: Standard_LRS
+          type: string
+        tier:
+          description: Disk tier.
+          example: Standard
+          type: string
+        hyperVGeneration:
+          description: 'Hyper-V generation of the disk.
+
+            When restoring, defaults to the original Hyper-V generation captured by the snapshot.
+
+            '
+          example: V1
           type: string
         sizeBytes:
-          description: Volume size in bytes.
-          example: 10000000000
+          description: 'Size of the disk, in bytes.
+
+            When restoring, defaults to the original disk size captured by the snapshot.
+
+            '
+          example: 10737418240
           format: int64
           type: integer
-        iops:
-          description: Volume IOPS.
-          example: 3000
-          type: integer
-        throughput:
-          description: Volume throughput.
-          example: 125
-          type: integer
+        tags:
+          additionalProperties:
+            type: string
+          description: 'Tags to apply to the restored disk as key-value pairs, where key and value are both strings.
+
+            If not provided, defaults to an empty object, with no tags applied.
+
+
+            **Example:** `{"eon_api_restore": "true"}`
+
+            '
+          type: object
       required:
-      - sizeBytes
+      - name
+      - tier
       - type
+      type: object
+    AzureDiskTarget:
+      example:
+        settings:
+          tier: Standard
+          name: my-disk-12345
+          hyperVGeneration: V1
+          type: Standard_LRS
+          sizeBytes: 10737418240
+          tags:
+            key: tags
+        resourceGroupName: my-resource-group-12345
+        region: region
+      properties:
+        region:
+          description: Region to restore to.
+          type: string
+        resourceGroupName:
+          description: Name of the resource group to restore to.
+          example: my-resource-group-12345
+          type: string
+        settings:
+          $ref: '#/components/schemas/AzureDiskSettings'
+      required:
+      - region
+      - resourceGroupName
+      - settings
+      type: object
+    RestoreFilesRequest:
+      example:
+        restoreAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+        destination:
+          gcsBucket:
+            bucketName: my-restore-bucket-12345
+            prefix: my-restore-prefix
+          storageAccount:
+            container: my-restore-container-12345
+            resourceGroup: my-restore-resource-group-12345
+            prefix: my-restore-prefix
+            name: my-restore-storage-account-12345
+          s3Bucket:
+            bucketName: my-restore-bucket-12345
+            encryptionKeyId: arn:aws:kms:eu-central-1:151435873114:key/1e61541a-5039-413a-b821-0f4f596b785b1514358
+            prefix: my-restore-prefix
+        files:
+        - path: path
+          isDirectory: true
+        - path: path
+          isDirectory: true
+      properties:
+        destination:
+          $ref: '#/components/schemas/ObjectStorageDestination'
+        files:
+          description: List of file paths to restore.
+          items:
+            $ref: '#/components/schemas/FilePath'
+          type: array
+        restoreAccountId:
+          description: Eon-assigned ID of the restore account.
+          example: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          type: string
+      required:
+      - destination
+      - files
+      - restoreAccountId
+      type: object
+    AzureDiskRestoreDestination:
+      example:
+        azureDisk:
+          settings:
+            tier: Standard
+            name: my-disk-12345
+            hyperVGeneration: V1
+            type: Standard_LRS
+            sizeBytes: 10737418240
+            tags:
+              key: tags
+          resourceGroupName: my-resource-group-12345
+          region: region
+      properties:
+        azureDisk:
+          $ref: '#/components/schemas/AzureDiskTarget'
+      type: object
+    GCSRestoreTarget:
+      description: 'Information about the Google Cloud Storage bucket where you want to restore the files.
+
+        If you don''t specify a target, the files are restored to the original bucket.
+
+        '
+      example:
+        bucketName: my-restore-bucket-12345
+        prefix: my-restore-prefix
+      properties:
+        bucketName:
+          description: Name of an existing bucket to restore the files to.
+          example: my-restore-bucket-12345
+          type: string
+        prefix:
+          description: 'Prefix to add to the restore path.
+
+            If you don''t specify a prefix, the files are restored to their respective folders in the original file tree, starting from the root of the bucket.
+
+            '
+          example: my-restore-prefix
+          type: string
+      required:
+      - bucketName
+      type: object
+      x-internal: false
+    SnapshotDateFilters:
+      additionalProperties: false
+      example:
+        endDate: endDate
+        startDate: startDate
+      properties:
+        startDate:
+          description: 'Matches if `pointInTime` is on or later than this date.
+
+            Must be in ISO 8601 YYYY-MM-DD format.
+
+            '
+          type: string
+        endDate:
+          description: 'Matches if `pointInTime` is on or earlier than this date.
+
+            Must be in ISO 8601 YYYY-MM-DD format.
+
+            '
+          type: string
+      type: object
+    GcpCloudSqlTarget:
+      example:
+        networkHostProject: my-shared-vpc-project
+        zone: us-east1-b
+        name: my-restored-instance
+        networkName: default
+        networkType: PRIVATE
+        labels:
+          eon_api_restore: 'true'
+      properties:
+        zone:
+          description: Zone to restore to.
+          example: us-east1-b
+          type: string
+        name:
+          description: Instance name.
+          example: my-restored-instance
+          type: string
+        networkType:
+          $ref: '#/components/schemas/GcpNetworkType'
+        networkName:
+          description: Name of the VPC network to use.
+          example: default
+          type: string
+        networkHostProject:
+          description: 'ID of the project that hosts the VPC network.
+
+            Applicable only when restoring to a shared VPC network.
+
+            '
+          example: my-shared-vpc-project
+          type: string
+        labels:
+          additionalProperties:
+            type: string
+          description: 'Labels to apply to the restored Cloud SQL instance as key-value pairs, where key and value are both strings.
+
+            These labels are always applied: `"eon-restore": "true"`.
+
+
+            **Example:** `{"eon_api_restore": "true"}`
+
+            '
+          example:
+            eon_api_restore: 'true'
+          type: object
+      required:
+      - name
+      - networkType
+      - zone
+      type:
+      - object
+      - 'null'
+    SnapshotFilterConditions:
+      additionalProperties: false
+      example:
+        pointInTime:
+          endDate: endDate
+          startDate: startDate
+      properties:
+        pointInTime:
+          $ref: '#/components/schemas/SnapshotDateFilters'
       type: object
   securitySchemes:
     ApiKeyAuth:

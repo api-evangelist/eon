@@ -681,223 +681,139 @@ paths:
           key: groupId
 components:
   schemas:
-    AccessConditionalExpression:
-      description: 'Conditional expression to evaluate to determine which resources are accessible.
-
-
-        Only one of the expressions below can be used.
-
-        For multiple conditions using `AND` or `OR` logic, group expressions with `group`.
-
-        You can nest multiple groups to create more complex expressions.
-
-        '
+    PermissionType:
+      description: User permission.
+      enum:
+      - permission_id_unspecified
+      - global_settings.view
+      - vault_accounts.manage
+      - cost_explorer.view
+      - user_access.manage
+      - saml_group_access.manage
+      - api_credentials.manage
+      - api_credentials.rotate_secret
+      - custom_roles.manage
+      - dashboard.view
+      - inventory.view
+      - jobs.view
+      - audit_logs.view
+      - backup_settings.view
+      - storage_gateway.view
+      - database_explorer.search
+      - file_explorer.search
+      - snapshots.take_or_convert
+      - resources.restore
+      - configuration.validate
+      - files.restore
+      - databases.query
+      - data_classes.override
+      - environments.override
+      - detected_apps.override
+      - network_classification.override
+      - control_violations.mute
+      - backup_exclusion.manage
+      - vaults.manage
+      - source_accounts.manage
+      - restore_accounts.manage
+      - backup_policies.manage
+      - discovery_configuration.manage
+      - backup_configuration.manage
+      - controls.manage
+      - ransomware_detection.manage
+      - notification_policies.manage
+      - storage_gateway.manage
+      - oauth_apps.manage
+      - zero_etl_policies.manage
+      - action_approval_rules.manage
+      - action_approval_rules.view
+      - action_approval_requests.manage
+      - mpa_policies.manage
+      - mpa_policies.view
+      - mpa_requests.manage
+      - restore_templates.manage
+      - datalake.view
+      - datalake.operate
+      - compliance.view
+      - classification_policies.manage
+      example: inventory.view
+      type: string
+      x-docs-internal-enum:
+      - zero_etl_policies.manage
+      - action_approval_rules.manage
+      - action_approval_rules.view
+      - action_approval_requests.manage
+      - mpa_policies.manage
+      - mpa_policies.view
+      - mpa_requests.manage
+      - restore_templates.manage
+      - datalake.view
+      - datalake.operate
+      - compliance.view
+      - classification_policies.manage
+    PermissionGrantInput:
       example:
-        resourceId:
-          operator: IN
-          resourceIds:
-          - resourceIds
-          - resourceIds
-        resourceGroupName:
-          resourceGroupNames:
-          - resourceGroupNames
-          - resourceGroupNames
-          operator: IN
-        tagKeys:
-          tagKeys:
-          - tagKeys
-          - tagKeys
-          operator: CONTAINS_ANY_OF
-        vpc:
-          vpcs:
-          - vpcs
-          - vpcs
-          operator: IN
-        resourceName:
-          resourceNames:
-          - resourceNames
-          - resourceNames
-          operator: IN
-        dataClasses:
-          dataClasses:
-          - PII
-          - PII
-          operator: CONTAINS_ANY_OF
-        accountId:
-          accountIds:
-          - accountIds
-          - accountIds
-          operator: IN
-        environment:
-          environments:
-          - PROD
-          - PROD
-          operator: IN
-        tagKeyValues:
-          tagKeyValues:
-          - value: value
-            key: key
-          - value: value
-            key: key
-          operator: CONTAINS_ANY_OF
-        cloudProvider:
-          cloudProviders:
-          - AWS
-          - AWS
-          operator: IN
-        sourceRegion:
-          regions:
-          - regions
-          - regions
-          operator: IN
-        subnets:
-          subnets:
-          - subnets
-          - subnets
-          operator: CONTAINS_ANY_OF
-        group:
-          operands:
-          - resourceType:
-              operator: IN
-              resourceTypes:
-              - AWS_EC2
-              - AWS_RDS
-          - environment:
-              operator: IN
-              environments:
-              - PROD
-              - PROD_INTERNAL
-          operator: AND
-        resourceType:
-          resourceTypes:
-          - AWS_EC2
-          - AWS_EC2
-          operator: IN
-        apps:
-          operator: CONTAINS_ANY_OF
-          apps:
-          - apps
-          - apps
+        accessConditionId: Non-PII only.
+        permission: inventory.view
       properties:
-        group:
-          $ref: '#/components/schemas/RoleAccessGroupCondition'
-        resourceType:
-          $ref: '#/components/schemas/ResourceTypeCondition'
-        dataClasses:
-          $ref: '#/components/schemas/DataClassesCondition'
-        environment:
-          $ref: '#/components/schemas/EnvironmentCondition'
-        apps:
-          $ref: '#/components/schemas/AppsCondition'
-        cloudProvider:
-          $ref: '#/components/schemas/CloudProviderCondition'
-        accountId:
-          $ref: '#/components/schemas/AccountIdCondition'
-        sourceRegion:
-          $ref: '#/components/schemas/RegionCondition'
-        vpc:
-          $ref: '#/components/schemas/VpcCondition'
-        subnets:
-          $ref: '#/components/schemas/SubnetsCondition'
-        resourceGroupName:
-          $ref: '#/components/schemas/ResourceGroupNameCondition'
-        resourceName:
-          $ref: '#/components/schemas/ResourceNameCondition'
-        resourceId:
-          $ref: '#/components/schemas/ResourceIdCondition'
-        tagKeys:
-          $ref: '#/components/schemas/TagKeysCondition'
-        tagKeyValues:
-          $ref: '#/components/schemas/TagKeyValuesCondition'
-      type:
-      - object
-      - 'null'
-    AppsCondition:
-      example:
-        operator: CONTAINS_ANY_OF
-        apps:
-        - apps
-        - apps
-      properties:
-        operator:
-          $ref: '#/components/schemas/ListOperators'
-        apps:
-          items:
-            type: string
-          type: array
-      required:
-      - apps
-      - operator
-      type:
-      - object
-      - 'null'
-    UpdateIdpGroupResponse:
-      example:
-        group:
-          roleIds:
-          - 550e8400-e29b-41d4-a716-446655440000
-          - 72bc42a0-e169-533f-b95a-4a434574756b
-          providerGroupId: engineering-team
-          idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-          displayName: Engineering Team
-          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
-      properties:
-        group:
-          $ref: '#/components/schemas/IdpGroup'
-      required:
-      - group
-      type: object
-    ListIdpGroupsResponse:
-      example:
-        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
-        groups:
-        - roleIds:
-          - 550e8400-e29b-41d4-a716-446655440000
-          - 72bc42a0-e169-533f-b95a-4a434574756b
-          providerGroupId: engineering-team
-          idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-          displayName: Engineering Team
-          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
-        - roleIds:
-          - 550e8400-e29b-41d4-a716-446655440000
-          - 72bc42a0-e169-533f-b95a-4a434574756b
-          providerGroupId: engineering-team
-          idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-          displayName: Engineering Team
-          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
-        totalCount: 0
-      properties:
-        groups:
-          description: List of IdP group role assignments.
-          items:
-            $ref: '#/components/schemas/IdpGroup'
-          type: array
-        totalCount:
-          description: Total number of IdP group role assignments.
-          type: integer
-        nextToken:
-          description: 'Cursor that points to the first record of the next page of results.
+        permission:
+          $ref: '#/components/schemas/PermissionType'
+        accessConditionId:
+          description: 'If present, the ID of the set of access conditions that restrict the resources the permission is granted for.
 
-            Pass this value in the next request.
+            The ID must be present in an entry in `accessConditions`, and the permission itself must support access conditions.
+
+            If omitted, the permission is granted for all resources.
 
             '
-          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+          example: Non-PII only.
           type: string
       required:
-      - groups
+      - permission
       type: object
-    Environment:
-      description: 'The resource''s environment: production, internal production, or staging.
+    ListPermissionsResponse:
+      example:
+        permissions:
+        - permissionType: inventory.view
+          allowConditions: false
+          description: Can view resource details in the inventory.
+        - permissionType: inventory.view
+          allowConditions: false
+          description: Can view resource details in the inventory.
+      properties:
+        permissions:
+          description: List of available user permissions.
+          items:
+            $ref: '#/components/schemas/Permission'
+          type: array
+      required:
+      - permissions
+      type: object
+    ListOperators:
+      description: 'Evaluates whether the original list constains any, all, or none of the values in this list.
 
-        `ENVIRONMENT_UNSPECIFIED` is supported only in responses.
+        `UNSPECIFIED` is supported only in responses.
 
         '
       enum:
-      - PROD
-      - PROD_INTERNAL
-      - STAGE
-      - ENVIRONMENT_UNSPECIFIED
-      example: PROD
+      - CONTAINS_ANY_OF
+      - CONTAINS_NONE_OF
+      - CONTAINS_ALL_OF
+      - UNSPECIFIED
+      example: CONTAINS_ANY_OF
+      type: string
+      x-enum-varnames:
+      - CONTAINS_ANY_OF_OPERATOR
+      - CONTAINS_NONE_OF_OPERATOR
+      - CONTAINS_ALL_OF_OPERATOR
+      - LIST_OPERATOR_UNSPECIFIED
+    DataClass:
+      description: 'Data classes.
+
+
+        Allowed values: `FI`, `PHI`, `PII`
+
+        '
+      example: PII
       type: string
     IdpGroup:
       description: IdP group role assignment.
@@ -953,6 +869,175 @@ components:
       - providerGroupId
       - roleIds
       type: object
+    UpdateIdpGroupRequest:
+      example:
+        roleIds:
+        - 550e8400-e29b-41d4-a716-446655440000
+        - 6ba7b810-9dad-11d1-80b4-00c04fd430c8
+        displayName: Engineering Team
+      properties:
+        roleIds:
+          description: 'List of [role IDs](../roles/list-roles) to assign to the group.
+
+            This replaces all existing role assignments.
+
+            '
+          example:
+          - 550e8400-e29b-41d4-a716-446655440000
+          - 6ba7b810-9dad-11d1-80b4-00c04fd430c8
+          items:
+            format: uuid
+            type: string
+          type: array
+        displayName:
+          description: 'Optional human-readable label for the group mapping. For display and management only;
+
+            it is not used when matching SAML groups during sign-on.
+
+            Omit (or send null) to leave the existing label unchanged; send an empty string to clear it.
+
+            '
+          example: Engineering Team
+          type:
+          - string
+          - 'null'
+          x-nullable: true
+      required:
+      - roleIds
+      type: object
+    Idp:
+      description: Identity provider.
+      example:
+        id: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+        providerName: okta-prod
+      properties:
+        id:
+          description: Eon-assigned identity provider ID.
+          example: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+          format: uuid
+          type: string
+        providerName:
+          description: Identity provider display name.
+          example: okta-prod
+          type: string
+      required:
+      - id
+      - providerName
+      type: object
+    AccountIdCondition:
+      example:
+        accountIds:
+        - accountIds
+        - accountIds
+        operator: IN
+      properties:
+        operator:
+          $ref: '#/components/schemas/ScalarOperators'
+        accountIds:
+          items:
+            type: string
+          type: array
+      required:
+      - accountIds
+      - operator
+      type:
+      - object
+      - 'null'
+    TagKeyValuesCondition:
+      example:
+        tagKeyValues:
+        - value: value
+          key: key
+        - value: value
+          key: key
+        operator: CONTAINS_ANY_OF
+      properties:
+        operator:
+          $ref: '#/components/schemas/ListOperators'
+        tagKeyValues:
+          items:
+            $ref: '#/components/schemas/TagKeyValue'
+          type: array
+      required:
+      - operator
+      - tagKeyValues
+      type:
+      - object
+      - 'null'
+    ResourceGroupNameCondition:
+      example:
+        resourceGroupNames:
+        - resourceGroupNames
+        - resourceGroupNames
+        operator: IN
+      properties:
+        operator:
+          $ref: '#/components/schemas/ScalarOperators'
+        resourceGroupNames:
+          items:
+            type: string
+          type: array
+      required:
+      - operator
+      - resourceGroupNames
+      type:
+      - object
+      - 'null'
+    ScalarOperators:
+      description: 'Evaluates whether the value is in the list.
+
+        `UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - IN
+      - NOT_IN
+      - UNSPECIFIED
+      example: IN
+      type: string
+      x-enum-varnames:
+      - IN_OPERATOR
+      - NOT_IN_OPERATOR
+      - SCALAR_OPERATOR_UNSPECIFIED
+    ListIdpGroupsResponse:
+      example:
+        nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+        groups:
+        - roleIds:
+          - 550e8400-e29b-41d4-a716-446655440000
+          - 72bc42a0-e169-533f-b95a-4a434574756b
+          providerGroupId: engineering-team
+          idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+          displayName: Engineering Team
+          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
+        - roleIds:
+          - 550e8400-e29b-41d4-a716-446655440000
+          - 72bc42a0-e169-533f-b95a-4a434574756b
+          providerGroupId: engineering-team
+          idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+          displayName: Engineering Team
+          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
+        totalCount: 0
+      properties:
+        groups:
+          description: List of IdP group role assignments.
+          items:
+            $ref: '#/components/schemas/IdpGroup'
+          type: array
+        totalCount:
+          description: Total number of IdP group role assignments.
+          type: integer
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          example: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
+          type: string
+      required:
+      - groups
+      type: object
     AccessConditionEffect:
       description: 'Whether the data access condition is an allowlist or blocklist.
 
@@ -976,84 +1061,90 @@ components:
           description: 'The permission is granted to all resources except those that match the conditions.
 
             '
-    CreateIdpGroupRequest:
-      example:
-        roleIds:
-        - 550e8400-e29b-41d4-a716-446655440000
-        - 72bc42a0-e169-533f-b95a-4a434574756b
-        providerGroupId: engineering-team
-        idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-        displayName: Engineering Team
-      properties:
-        idpId:
-          description: '[ID of the identity provider](./list-idps) the group belongs to.'
-          example: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-          format: uuid
-          type: string
-        providerGroupId:
-          description: 'Identity-provider-assigned group ID.
+    RestoreDestinationLimits:
+      description: 'Limits the restore accounts that can be used as restore destinations for operations granted by the role.
 
-            Must match the exact group ID passed by the identity provider to Eon during SAML sign-on.
+        '
+      example:
+        effect: INCLUSIVE
+        restoreAccountProviderIds:
+        - restoreAccountProviderIds
+        - restoreAccountProviderIds
+      properties:
+        effect:
+          $ref: '#/components/schemas/AccessConditionEffect'
+        restoreAccountProviderIds:
+          description: 'List of cloud-provider-assigned restore account IDs to match against.
 
             '
-          example: engineering-team
-          type: string
-        roleIds:
-          description: List of [role IDs](../roles/list-roles) to assign to the group.
-          example:
-          - 550e8400-e29b-41d4-a716-446655440000
-          - 72bc42a0-e169-533f-b95a-4a434574756b
           items:
-            format: uuid
+            type: string
+          minItems: 1
+          type: array
+      required:
+      - effect
+      - restoreAccountProviderIds
+      type:
+      - object
+      - 'null'
+      x-internal: false
+    EnvironmentCondition:
+      example:
+        environments:
+        - PROD
+        - PROD
+        operator: IN
+      properties:
+        operator:
+          $ref: '#/components/schemas/ScalarOperators'
+        environments:
+          items:
+            $ref: '#/components/schemas/Environment'
+          type: array
+      required:
+      - environments
+      - operator
+      type:
+      - object
+      - 'null'
+    TagKeysCondition:
+      example:
+        tagKeys:
+        - tagKeys
+        - tagKeys
+        operator: CONTAINS_ANY_OF
+      properties:
+        operator:
+          $ref: '#/components/schemas/ListOperators'
+        tagKeys:
+          items:
             type: string
           type: array
-        displayName:
-          description: 'Optional human-readable label for the group mapping. For display and management only;
-
-            it is not used when matching SAML groups during sign-on.
-
-            '
-          example: Engineering Team
-          type:
-          - string
-          - 'null'
-          x-nullable: true
       required:
-      - idpId
-      - providerGroupId
-      - roleIds
-      type: object
-    ListIdpsResponse:
+      - operator
+      - tagKeys
+      type:
+      - object
+      - 'null'
+    RegionCondition:
       example:
-        nextToken: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
-        totalCount: 5
-        idps:
-        - id: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-          providerName: okta-prod
-        - id: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-          providerName: okta-prod
+        regions:
+        - regions
+        - regions
+        operator: IN
       properties:
-        idps:
-          description: List of identity providers.
+        operator:
+          $ref: '#/components/schemas/ScalarOperators'
+        regions:
           items:
-            $ref: '#/components/schemas/Idp'
+            type: string
           type: array
-        totalCount:
-          description: Total number of identity providers.
-          example: 5
-          type: integer
-        nextToken:
-          description: 'Cursor that points to the first record of the next page of results.
-
-            Pass this value in the next request.
-
-            '
-          example: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
-          type: string
       required:
-      - idps
-      - totalCount
-      type: object
+      - operator
+      - regions
+      type:
+      - object
+      - 'null'
     ResourceType:
       description: 'Resource type identifier combining cloud provider and service type.
 
@@ -1119,6 +1210,448 @@ components:
       - GCP_SAP_HANA_VM
       - GOOGLE_WORKSPACE_RESOURCE
       - MICROSOFT_365_RESOURCE
+    AppsCondition:
+      example:
+        operator: CONTAINS_ANY_OF
+        apps:
+        - apps
+        - apps
+      properties:
+        operator:
+          $ref: '#/components/schemas/ListOperators'
+        apps:
+          items:
+            type: string
+          type: array
+      required:
+      - apps
+      - operator
+      type:
+      - object
+      - 'null'
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    AccessCondition:
+      example:
+        expression:
+          resourceId:
+            operator: IN
+            resourceIds:
+            - resourceIds
+            - resourceIds
+          resourceGroupName:
+            resourceGroupNames:
+            - resourceGroupNames
+            - resourceGroupNames
+            operator: IN
+          tagKeys:
+            tagKeys:
+            - tagKeys
+            - tagKeys
+            operator: CONTAINS_ANY_OF
+          vpc:
+            vpcs:
+            - vpcs
+            - vpcs
+            operator: IN
+          resourceName:
+            resourceNames:
+            - resourceNames
+            - resourceNames
+            operator: IN
+          dataClasses:
+            dataClasses:
+            - PII
+            - PII
+            operator: CONTAINS_ANY_OF
+          accountId:
+            accountIds:
+            - accountIds
+            - accountIds
+            operator: IN
+          environment:
+            environments:
+            - PROD
+            - PROD
+            operator: IN
+          tagKeyValues:
+            tagKeyValues:
+            - value: value
+              key: key
+            - value: value
+              key: key
+            operator: CONTAINS_ANY_OF
+          cloudProvider:
+            cloudProviders:
+            - AWS
+            - AWS
+            operator: IN
+          sourceRegion:
+            regions:
+            - regions
+            - regions
+            operator: IN
+          subnets:
+            subnets:
+            - subnets
+            - subnets
+            operator: CONTAINS_ANY_OF
+          group:
+            operands:
+            - resourceType:
+                operator: IN
+                resourceTypes:
+                - AWS_EC2
+                - AWS_RDS
+            - environment:
+                operator: IN
+                environments:
+                - PROD
+                - PROD_INTERNAL
+            operator: AND
+          resourceType:
+            resourceTypes:
+            - AWS_EC2
+            - AWS_EC2
+            operator: IN
+          apps:
+            operator: CONTAINS_ANY_OF
+            apps:
+            - apps
+            - apps
+        effect: INCLUSIVE
+        id: Non-PII only
+      properties:
+        id:
+          description: 'Display name for the data access rule, which also serves as its ID for use in `permissionGrants`.
+
+            Valid characters: `[a-zA-Z0-9-_.\s]`.
+
+            '
+          example: Non-PII only
+          type: string
+        effect:
+          $ref: '#/components/schemas/AccessConditionEffect'
+        expression:
+          $ref: '#/components/schemas/AccessConditionalExpression'
+      required:
+      - effect
+      - expression
+      - id
+      type: object
+    LogicalOperator:
+      description: 'Logical operator to apply to the list of `operands`.
+
+        `UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - AND
+      - OR
+      - UNSPECIFIED
+      example: AND
+      type: string
+      x-enum-varnames:
+      - AND_OPERATOR
+      - OR_OPERATOR
+      - LOGICAL_OPERATOR_UNSPECIFIED
+    Environment:
+      description: 'The resource''s environment: production, internal production, or staging.
+
+        `ENVIRONMENT_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - PROD
+      - PROD_INTERNAL
+      - STAGE
+      - ENVIRONMENT_UNSPECIFIED
+      example: PROD
+      type: string
+    SubnetsCondition:
+      example:
+        subnets:
+        - subnets
+        - subnets
+        operator: CONTAINS_ANY_OF
+      properties:
+        operator:
+          $ref: '#/components/schemas/ListOperators'
+        subnets:
+          items:
+            type: string
+          type: array
+      required:
+      - operator
+      - subnets
+      type:
+      - object
+      - 'null'
+    Provider:
+      description: 'Cloud provider.
+
+        `PROVIDER_UNSPECIFIED` is supported only in responses.
+
+        '
+      enum:
+      - AWS
+      - AZURE
+      - GCP
+      - MONGO_ATLAS
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
+      - PROVIDER_UNSPECIFIED
+      example: AWS
+      type: string
+      x-docs-internal-enum:
+      - GOOGLE_WORKSPACE
+      - MICROSOFT_365
+    DataClassesCondition:
+      example:
+        dataClasses:
+        - PII
+        - PII
+        operator: CONTAINS_ANY_OF
+      properties:
+        operator:
+          $ref: '#/components/schemas/ListOperators'
+        dataClasses:
+          items:
+            $ref: '#/components/schemas/DataClass'
+          type: array
+      required:
+      - dataClasses
+      - operator
+      type:
+      - object
+      - 'null'
+    PermissionGrant:
+      example:
+        accessConditionId: Non-PII only.
+        permission: inventory.view
+      properties:
+        permission:
+          $ref: '#/components/schemas/PermissionType'
+        accessConditionId:
+          description: 'If present, the ID of the set of access conditions that restrict the resources the permission is granted for.
+
+            The ID must be present in an entry in `accessConditions`, and the permission itself must support access conditions.
+
+            If omitted, the permission is granted for all resources.
+
+            '
+          example: Non-PII only.
+          type: string
+      required:
+      - permission
+      type: object
+    UpdateRoleResponse:
+      example:
+        role:
+          restoreDestinationLimits:
+            effect: INCLUSIVE
+            restoreAccountProviderIds:
+            - restoreAccountProviderIds
+            - restoreAccountProviderIds
+          permissionGrants:
+          - accessConditionId: Non-PII only.
+            permission: inventory.view
+          - accessConditionId: Non-PII only.
+            permission: inventory.view
+          sameSourceAccountRestoreLimits:
+            dataAccessRuleId: dataAccessRuleId
+            enabled: true
+          isBuiltInRole: false
+          name: My custom role
+          accessConditions:
+          - expression:
+              resourceId:
+                operator: IN
+                resourceIds:
+                - resourceIds
+                - resourceIds
+              resourceGroupName:
+                resourceGroupNames:
+                - resourceGroupNames
+                - resourceGroupNames
+                operator: IN
+              tagKeys:
+                tagKeys:
+                - tagKeys
+                - tagKeys
+                operator: CONTAINS_ANY_OF
+              vpc:
+                vpcs:
+                - vpcs
+                - vpcs
+                operator: IN
+              resourceName:
+                resourceNames:
+                - resourceNames
+                - resourceNames
+                operator: IN
+              dataClasses:
+                dataClasses:
+                - PII
+                - PII
+                operator: CONTAINS_ANY_OF
+              accountId:
+                accountIds:
+                - accountIds
+                - accountIds
+                operator: IN
+              environment:
+                environments:
+                - PROD
+                - PROD
+                operator: IN
+              tagKeyValues:
+                tagKeyValues:
+                - value: value
+                  key: key
+                - value: value
+                  key: key
+                operator: CONTAINS_ANY_OF
+              cloudProvider:
+                cloudProviders:
+                - AWS
+                - AWS
+                operator: IN
+              sourceRegion:
+                regions:
+                - regions
+                - regions
+                operator: IN
+              subnets:
+                subnets:
+                - subnets
+                - subnets
+                operator: CONTAINS_ANY_OF
+              group:
+                operands:
+                - resourceType:
+                    operator: IN
+                    resourceTypes:
+                    - AWS_EC2
+                    - AWS_RDS
+                - environment:
+                    operator: IN
+                    environments:
+                    - PROD
+                    - PROD_INTERNAL
+                operator: AND
+              resourceType:
+                resourceTypes:
+                - AWS_EC2
+                - AWS_EC2
+                operator: IN
+              apps:
+                operator: CONTAINS_ANY_OF
+                apps:
+                - apps
+                - apps
+            effect: INCLUSIVE
+            id: Non-PII only
+          - expression:
+              resourceId:
+                operator: IN
+                resourceIds:
+                - resourceIds
+                - resourceIds
+              resourceGroupName:
+                resourceGroupNames:
+                - resourceGroupNames
+                - resourceGroupNames
+                operator: IN
+              tagKeys:
+                tagKeys:
+                - tagKeys
+                - tagKeys
+                operator: CONTAINS_ANY_OF
+              vpc:
+                vpcs:
+                - vpcs
+                - vpcs
+                operator: IN
+              resourceName:
+                resourceNames:
+                - resourceNames
+                - resourceNames
+                operator: IN
+              dataClasses:
+                dataClasses:
+                - PII
+                - PII
+                operator: CONTAINS_ANY_OF
+              accountId:
+                accountIds:
+                - accountIds
+                - accountIds
+                operator: IN
+              environment:
+                environments:
+                - PROD
+                - PROD
+                operator: IN
+              tagKeyValues:
+                tagKeyValues:
+                - value: value
+                  key: key
+                - value: value
+                  key: key
+                operator: CONTAINS_ANY_OF
+              cloudProvider:
+                cloudProviders:
+                - AWS
+                - AWS
+                operator: IN
+              sourceRegion:
+                regions:
+                - regions
+                - regions
+                operator: IN
+              subnets:
+                subnets:
+                - subnets
+                - subnets
+                operator: CONTAINS_ANY_OF
+              group:
+                operands:
+                - resourceType:
+                    operator: IN
+                    resourceTypes:
+                    - AWS_EC2
+                    - AWS_RDS
+                - environment:
+                    operator: IN
+                    environments:
+                    - PROD
+                    - PROD_INTERNAL
+                operator: AND
+              resourceType:
+                resourceTypes:
+                - AWS_EC2
+                - AWS_EC2
+                operator: IN
+              apps:
+                operator: CONTAINS_ANY_OF
+                apps:
+                - apps
+                - apps
+            effect: INCLUSIVE
+            id: Non-PII only
+          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
+      properties:
+        role:
+          $ref: '#/components/schemas/Role'
+      required:
+      - role
+      type: object
     UpdateRoleRequest:
       example:
         restoreDestinationLimits:
@@ -1334,6 +1867,129 @@ components:
       - name
       - permissionGrants
       type: object
+    RoleAccessGroupCondition:
+      description: 'Group of expressions to evaluate using the logical operator specified in `operator`.
+
+        Each item in the `operands` list can be either a single expression or a nested `group` expression.
+
+        '
+      example:
+        operands:
+        - resourceType:
+            operator: IN
+            resourceTypes:
+            - AWS_EC2
+            - AWS_RDS
+        - environment:
+            operator: IN
+            environments:
+            - PROD
+            - PROD_INTERNAL
+        operator: AND
+      properties:
+        operator:
+          $ref: '#/components/schemas/LogicalOperator'
+        operands:
+          description: 'List of expressions to evaluate using the logical operator specified in `operator`.
+
+            Each item in the list can be either a single expression or a nested `group` expression.
+
+
+            Must contain at least 2 items.
+
+            '
+          example:
+          - resourceType:
+              operator: IN
+              resourceTypes:
+              - AWS_EC2
+              - AWS_RDS
+          - environment:
+              operator: IN
+              environments:
+              - PROD
+              - PROD_INTERNAL
+          items:
+            $ref: '#/components/schemas/AccessConditionalExpression'
+          minItems: 2
+          type: array
+      required:
+      - operands
+      - operator
+      type:
+      - object
+      - 'null'
+    CreateIdpGroupRequest:
+      example:
+        roleIds:
+        - 550e8400-e29b-41d4-a716-446655440000
+        - 72bc42a0-e169-533f-b95a-4a434574756b
+        providerGroupId: engineering-team
+        idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+        displayName: Engineering Team
+      properties:
+        idpId:
+          description: '[ID of the identity provider](./list-idps) the group belongs to.'
+          example: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+          format: uuid
+          type: string
+        providerGroupId:
+          description: 'Identity-provider-assigned group ID.
+
+            Must match the exact group ID passed by the identity provider to Eon during SAML sign-on.
+
+            '
+          example: engineering-team
+          type: string
+        roleIds:
+          description: List of [role IDs](../roles/list-roles) to assign to the group.
+          example:
+          - 550e8400-e29b-41d4-a716-446655440000
+          - 72bc42a0-e169-533f-b95a-4a434574756b
+          items:
+            format: uuid
+            type: string
+          type: array
+        displayName:
+          description: 'Optional human-readable label for the group mapping. For display and management only;
+
+            it is not used when matching SAML groups during sign-on.
+
+            '
+          example: Engineering Team
+          type:
+          - string
+          - 'null'
+          x-nullable: true
+      required:
+      - idpId
+      - providerGroupId
+      - roleIds
+      type: object
+    ResourceTypeCondition:
+      example:
+        resourceTypes:
+        - AWS_EC2
+        - AWS_EC2
+        operator: IN
+      properties:
+        operator:
+          $ref: '#/components/schemas/ScalarOperators'
+        resourceTypes:
+          description: 'Resource types to evaluate.
+
+            `RESOURCE_TYPE_UNSPECIFIED` is supported only in responses.
+
+            '
+          items:
+            $ref: '#/components/schemas/ResourceType'
+          type: array
+      required:
+      - operator
+      - resourceTypes
+      type:
+      - object
+      - 'null'
     CreateRoleRequest:
       example:
         restoreDestinationLimits:
@@ -1559,7 +2215,7 @@ components:
       - name
       - permissionGrants
       type: object
-    GetIdpGroupResponse:
+    CreateIdpGroupResponse:
       example:
         group:
           roleIds:
@@ -1575,151 +2231,355 @@ components:
       required:
       - group
       type: object
-    ScalarOperators:
-      description: 'Evaluates whether the value is in the list.
+    AccessConditionalExpression:
+      description: 'Conditional expression to evaluate to determine which resources are accessible.
 
-        `UNSPECIFIED` is supported only in responses.
 
-        '
-      enum:
-      - IN
-      - NOT_IN
-      - UNSPECIFIED
-      example: IN
-      type: string
-      x-enum-varnames:
-      - IN_OPERATOR
-      - NOT_IN_OPERATOR
-      - SCALAR_OPERATOR_UNSPECIFIED
-    LogicalOperator:
-      description: 'Logical operator to apply to the list of `operands`.
+        Only one of the expressions below can be used.
 
-        `UNSPECIFIED` is supported only in responses.
+        For multiple conditions using `AND` or `OR` logic, group expressions with `group`.
+
+        You can nest multiple groups to create more complex expressions.
 
         '
-      enum:
-      - AND
-      - OR
-      - UNSPECIFIED
-      example: AND
-      type: string
-      x-enum-varnames:
-      - AND_OPERATOR
-      - OR_OPERATOR
-      - LOGICAL_OPERATOR_UNSPECIFIED
-    ResourceNameCondition:
       example:
-        resourceNames:
-        - resourceNames
-        - resourceNames
-        operator: IN
+        resourceId:
+          operator: IN
+          resourceIds:
+          - resourceIds
+          - resourceIds
+        resourceGroupName:
+          resourceGroupNames:
+          - resourceGroupNames
+          - resourceGroupNames
+          operator: IN
+        tagKeys:
+          tagKeys:
+          - tagKeys
+          - tagKeys
+          operator: CONTAINS_ANY_OF
+        vpc:
+          vpcs:
+          - vpcs
+          - vpcs
+          operator: IN
+        resourceName:
+          resourceNames:
+          - resourceNames
+          - resourceNames
+          operator: IN
+        dataClasses:
+          dataClasses:
+          - PII
+          - PII
+          operator: CONTAINS_ANY_OF
+        accountId:
+          accountIds:
+          - accountIds
+          - accountIds
+          operator: IN
+        environment:
+          environments:
+          - PROD
+          - PROD
+          operator: IN
+        tagKeyValues:
+          tagKeyValues:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          operator: CONTAINS_ANY_OF
+        cloudProvider:
+          cloudProviders:
+          - AWS
+          - AWS
+          operator: IN
+        sourceRegion:
+          regions:
+          - regions
+          - regions
+          operator: IN
+        subnets:
+          subnets:
+          - subnets
+          - subnets
+          operator: CONTAINS_ANY_OF
+        group:
+          operands:
+          - resourceType:
+              operator: IN
+              resourceTypes:
+              - AWS_EC2
+              - AWS_RDS
+          - environment:
+              operator: IN
+              environments:
+              - PROD
+              - PROD_INTERNAL
+          operator: AND
+        resourceType:
+          resourceTypes:
+          - AWS_EC2
+          - AWS_EC2
+          operator: IN
+        apps:
+          operator: CONTAINS_ANY_OF
+          apps:
+          - apps
+          - apps
       properties:
-        operator:
-          $ref: '#/components/schemas/ScalarOperators'
-        resourceNames:
-          items:
-            type: string
-          type: array
-      required:
-      - operator
-      - resourceNames
+        group:
+          $ref: '#/components/schemas/RoleAccessGroupCondition'
+        resourceType:
+          $ref: '#/components/schemas/ResourceTypeCondition'
+        dataClasses:
+          $ref: '#/components/schemas/DataClassesCondition'
+        environment:
+          $ref: '#/components/schemas/EnvironmentCondition'
+        apps:
+          $ref: '#/components/schemas/AppsCondition'
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProviderCondition'
+        accountId:
+          $ref: '#/components/schemas/AccountIdCondition'
+        sourceRegion:
+          $ref: '#/components/schemas/RegionCondition'
+        vpc:
+          $ref: '#/components/schemas/VpcCondition'
+        subnets:
+          $ref: '#/components/schemas/SubnetsCondition'
+        resourceGroupName:
+          $ref: '#/components/schemas/ResourceGroupNameCondition'
+        resourceName:
+          $ref: '#/components/schemas/ResourceNameCondition'
+        resourceId:
+          $ref: '#/components/schemas/ResourceIdCondition'
+        tagKeys:
+          $ref: '#/components/schemas/TagKeysCondition'
+        tagKeyValues:
+          $ref: '#/components/schemas/TagKeyValuesCondition'
       type:
       - object
       - 'null'
-    Provider:
-      description: 'Cloud provider.
-
-        `PROVIDER_UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - AWS
-      - AZURE
-      - GCP
-      - MONGO_ATLAS
-      - GOOGLE_WORKSPACE
-      - MICROSOFT_365
-      - PROVIDER_UNSPECIFIED
-      example: AWS
-      type: string
-      x-docs-internal-enum:
-      - GOOGLE_WORKSPACE
-      - MICROSOFT_365
-    TagKeysCondition:
+    CreateRoleResponse:
       example:
-        tagKeys:
-        - tagKeys
-        - tagKeys
-        operator: CONTAINS_ANY_OF
+        role:
+          restoreDestinationLimits:
+            effect: INCLUSIVE
+            restoreAccountProviderIds:
+            - restoreAccountProviderIds
+            - restoreAccountProviderIds
+          permissionGrants:
+          - accessConditionId: Non-PII only.
+            permission: inventory.view
+          - accessConditionId: Non-PII only.
+            permission: inventory.view
+          sameSourceAccountRestoreLimits:
+            dataAccessRuleId: dataAccessRuleId
+            enabled: true
+          isBuiltInRole: false
+          name: My custom role
+          accessConditions:
+          - expression:
+              resourceId:
+                operator: IN
+                resourceIds:
+                - resourceIds
+                - resourceIds
+              resourceGroupName:
+                resourceGroupNames:
+                - resourceGroupNames
+                - resourceGroupNames
+                operator: IN
+              tagKeys:
+                tagKeys:
+                - tagKeys
+                - tagKeys
+                operator: CONTAINS_ANY_OF
+              vpc:
+                vpcs:
+                - vpcs
+                - vpcs
+                operator: IN
+              resourceName:
+                resourceNames:
+                - resourceNames
+                - resourceNames
+                operator: IN
+              dataClasses:
+                dataClasses:
+                - PII
+                - PII
+                operator: CONTAINS_ANY_OF
+              accountId:
+                accountIds:
+                - accountIds
+                - accountIds
+                operator: IN
+              environment:
+                environments:
+                - PROD
+                - PROD
+                operator: IN
+              tagKeyValues:
+                tagKeyValues:
+                - value: value
+                  key: key
+                - value: value
+                  key: key
+                operator: CONTAINS_ANY_OF
+              cloudProvider:
+                cloudProviders:
+                - AWS
+                - AWS
+                operator: IN
+              sourceRegion:
+                regions:
+                - regions
+                - regions
+                operator: IN
+              subnets:
+                subnets:
+                - subnets
+                - subnets
+                operator: CONTAINS_ANY_OF
+              group:
+                operands:
+                - resourceType:
+                    operator: IN
+                    resourceTypes:
+                    - AWS_EC2
+                    - AWS_RDS
+                - environment:
+                    operator: IN
+                    environments:
+                    - PROD
+                    - PROD_INTERNAL
+                operator: AND
+              resourceType:
+                resourceTypes:
+                - AWS_EC2
+                - AWS_EC2
+                operator: IN
+              apps:
+                operator: CONTAINS_ANY_OF
+                apps:
+                - apps
+                - apps
+            effect: INCLUSIVE
+            id: Non-PII only
+          - expression:
+              resourceId:
+                operator: IN
+                resourceIds:
+                - resourceIds
+                - resourceIds
+              resourceGroupName:
+                resourceGroupNames:
+                - resourceGroupNames
+                - resourceGroupNames
+                operator: IN
+              tagKeys:
+                tagKeys:
+                - tagKeys
+                - tagKeys
+                operator: CONTAINS_ANY_OF
+              vpc:
+                vpcs:
+                - vpcs
+                - vpcs
+                operator: IN
+              resourceName:
+                resourceNames:
+                - resourceNames
+                - resourceNames
+                operator: IN
+              dataClasses:
+                dataClasses:
+                - PII
+                - PII
+                operator: CONTAINS_ANY_OF
+              accountId:
+                accountIds:
+                - accountIds
+                - accountIds
+                operator: IN
+              environment:
+                environments:
+                - PROD
+                - PROD
+                operator: IN
+              tagKeyValues:
+                tagKeyValues:
+                - value: value
+                  key: key
+                - value: value
+                  key: key
+                operator: CONTAINS_ANY_OF
+              cloudProvider:
+                cloudProviders:
+                - AWS
+                - AWS
+                operator: IN
+              sourceRegion:
+                regions:
+                - regions
+                - regions
+                operator: IN
+              subnets:
+                subnets:
+                - subnets
+                - subnets
+                operator: CONTAINS_ANY_OF
+              group:
+                operands:
+                - resourceType:
+                    operator: IN
+                    resourceTypes:
+                    - AWS_EC2
+                    - AWS_RDS
+                - environment:
+                    operator: IN
+                    environments:
+                    - PROD
+                    - PROD_INTERNAL
+                operator: AND
+              resourceType:
+                resourceTypes:
+                - AWS_EC2
+                - AWS_EC2
+                operator: IN
+              apps:
+                operator: CONTAINS_ANY_OF
+                apps:
+                - apps
+                - apps
+            effect: INCLUSIVE
+            id: Non-PII only
+          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
       properties:
-        operator:
-          $ref: '#/components/schemas/ListOperators'
-        tagKeys:
-          items:
-            type: string
-          type: array
+        role:
+          $ref: '#/components/schemas/Role'
       required:
-      - operator
-      - tagKeys
-      type:
-      - object
-      - 'null'
-    PermissionGrant:
-      example:
-        accessConditionId: Non-PII only.
-        permission: inventory.view
-      properties:
-        permission:
-          $ref: '#/components/schemas/PermissionType'
-        accessConditionId:
-          description: 'If present, the ID of the set of access conditions that restrict the resources the permission is granted for.
-
-            The ID must be present in an entry in `accessConditions`, and the permission itself must support access conditions.
-
-            If omitted, the permission is granted for all resources.
-
-            '
-          example: Non-PII only.
-          type: string
-      required:
-      - permission
+      - role
       type: object
-    DataClass:
-      description: 'Data classes.
-
-
-        Allowed values: `FI`, `PHI`, `PII`
-
-        '
-      example: PII
-      type: string
-    RestoreDestinationLimits:
-      description: 'Limits the restore accounts that can be used as restore destinations for operations granted by the role.
-
-        '
+    UpdateIdpGroupResponse:
       example:
-        effect: INCLUSIVE
-        restoreAccountProviderIds:
-        - restoreAccountProviderIds
-        - restoreAccountProviderIds
+        group:
+          roleIds:
+          - 550e8400-e29b-41d4-a716-446655440000
+          - 72bc42a0-e169-533f-b95a-4a434574756b
+          providerGroupId: engineering-team
+          idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+          displayName: Engineering Team
+          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
       properties:
-        effect:
-          $ref: '#/components/schemas/AccessConditionEffect'
-        restoreAccountProviderIds:
-          description: 'List of cloud-provider-assigned restore account IDs to match against.
-
-            '
-          items:
-            type: string
-          minItems: 1
-          type: array
+        group:
+          $ref: '#/components/schemas/IdpGroup'
       required:
-      - effect
-      - restoreAccountProviderIds
-      type:
-      - object
-      - 'null'
-      x-internal: false
+      - group
+      type: object
     ListRolesResponse:
       example:
         nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
@@ -2130,77 +2990,84 @@ components:
       required:
       - roles
       type: object
-    VpcCondition:
+    ListIdpsResponse:
       example:
-        vpcs:
-        - vpcs
-        - vpcs
+        nextToken: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
+        totalCount: 5
+        idps:
+        - id: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+          providerName: okta-prod
+        - id: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+          providerName: okta-prod
+      properties:
+        idps:
+          description: List of identity providers.
+          items:
+            $ref: '#/components/schemas/Idp'
+          type: array
+        totalCount:
+          description: Total number of identity providers.
+          example: 5
+          type: integer
+        nextToken:
+          description: 'Cursor that points to the first record of the next page of results.
+
+            Pass this value in the next request.
+
+            '
+          example: Yjk3ODZjNjktZTIwZC00NjAxLWE1MzktZjg2NGExM2IxYTZlfDE=
+          type: string
+      required:
+      - idps
+      - totalCount
+      type: object
+    ResourceIdCondition:
+      example:
         operator: IN
+        resourceIds:
+        - resourceIds
+        - resourceIds
       properties:
         operator:
           $ref: '#/components/schemas/ScalarOperators'
-        vpcs:
+        resourceIds:
           items:
             type: string
           type: array
       required:
       - operator
-      - vpcs
+      - resourceIds
       type:
       - object
       - 'null'
-    RoleAccessGroupCondition:
-      description: 'Group of expressions to evaluate using the logical operator specified in `operator`.
-
-        Each item in the `operands` list can be either a single expression or a nested `group` expression.
-
-        '
+    TagKeyValue:
       example:
-        operands:
-        - resourceType:
-            operator: IN
-            resourceTypes:
-            - AWS_EC2
-            - AWS_RDS
-        - environment:
-            operator: IN
-            environments:
-            - PROD
-            - PROD_INTERNAL
-        operator: AND
+        value: value
+        key: key
       properties:
-        operator:
-          $ref: '#/components/schemas/LogicalOperator'
-        operands:
-          description: 'List of expressions to evaluate using the logical operator specified in `operator`.
-
-            Each item in the list can be either a single expression or a nested `group` expression.
-
-
-            Must contain at least 2 items.
-
-            '
-          example:
-          - resourceType:
-              operator: IN
-              resourceTypes:
-              - AWS_EC2
-              - AWS_RDS
-          - environment:
-              operator: IN
-              environments:
-              - PROD
-              - PROD_INTERNAL
-          items:
-            $ref: '#/components/schemas/AccessConditionalExpression'
-          minItems: 2
-          type: array
+        key:
+          type: string
+        value:
+          type: string
       required:
-      - operands
-      - operator
-      type:
-      - object
-      - 'null'
+      - key
+      type: object
+    GetIdpGroupResponse:
+      example:
+        group:
+          roleIds:
+          - 550e8400-e29b-41d4-a716-446655440000
+          - 72bc42a0-e169-533f-b95a-4a434574756b
+          providerGroupId: engineering-team
+          idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
+          displayName: Engineering Team
+          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
+      properties:
+        group:
+          $ref: '#/components/schemas/IdpGroup'
+      required:
+      - group
+      type: object
     Permission:
       example:
         permissionType: inventory.view
@@ -2228,793 +3095,22 @@ components:
       - name
       - permissionType
       type: object
-    Idp:
-      description: Identity provider.
+    VpcCondition:
       example:
-        id: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-        providerName: okta-prod
-      properties:
-        id:
-          description: Eon-assigned identity provider ID.
-          example: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-          format: uuid
-          type: string
-        providerName:
-          description: Identity provider display name.
-          example: okta-prod
-          type: string
-      required:
-      - id
-      - providerName
-      type: object
-    Error:
-      example:
-        error: error
-      properties:
-        error:
-          type: string
-      type: object
-    PermissionType:
-      description: User permission.
-      enum:
-      - permission_id_unspecified
-      - global_settings.view
-      - vault_accounts.manage
-      - cost_explorer.view
-      - user_access.manage
-      - saml_group_access.manage
-      - api_credentials.manage
-      - api_credentials.rotate_secret
-      - custom_roles.manage
-      - dashboard.view
-      - inventory.view
-      - jobs.view
-      - audit_logs.view
-      - backup_settings.view
-      - storage_gateway.view
-      - database_explorer.search
-      - file_explorer.search
-      - snapshots.take_or_convert
-      - resources.restore
-      - configuration.validate
-      - files.restore
-      - databases.query
-      - data_classes.override
-      - environments.override
-      - detected_apps.override
-      - network_classification.override
-      - control_violations.mute
-      - backup_exclusion.manage
-      - vaults.manage
-      - source_accounts.manage
-      - restore_accounts.manage
-      - backup_policies.manage
-      - discovery_configuration.manage
-      - backup_configuration.manage
-      - controls.manage
-      - ransomware_detection.manage
-      - notification_policies.manage
-      - storage_gateway.manage
-      - oauth_apps.manage
-      - zero_etl_policies.manage
-      - action_approval_rules.manage
-      - action_approval_rules.view
-      - action_approval_requests.manage
-      - mpa_policies.manage
-      - mpa_policies.view
-      - mpa_requests.manage
-      - restore_templates.manage
-      - datalake.view
-      - datalake.operate
-      - compliance.view
-      - classification_policies.manage
-      example: inventory.view
-      type: string
-      x-docs-internal-enum:
-      - zero_etl_policies.manage
-      - action_approval_rules.manage
-      - action_approval_rules.view
-      - action_approval_requests.manage
-      - mpa_policies.manage
-      - mpa_policies.view
-      - mpa_requests.manage
-      - restore_templates.manage
-      - datalake.view
-      - datalake.operate
-      - compliance.view
-      - classification_policies.manage
-    UpdateRoleResponse:
-      example:
-        role:
-          restoreDestinationLimits:
-            effect: INCLUSIVE
-            restoreAccountProviderIds:
-            - restoreAccountProviderIds
-            - restoreAccountProviderIds
-          permissionGrants:
-          - accessConditionId: Non-PII only.
-            permission: inventory.view
-          - accessConditionId: Non-PII only.
-            permission: inventory.view
-          sameSourceAccountRestoreLimits:
-            dataAccessRuleId: dataAccessRuleId
-            enabled: true
-          isBuiltInRole: false
-          name: My custom role
-          accessConditions:
-          - expression:
-              resourceId:
-                operator: IN
-                resourceIds:
-                - resourceIds
-                - resourceIds
-              resourceGroupName:
-                resourceGroupNames:
-                - resourceGroupNames
-                - resourceGroupNames
-                operator: IN
-              tagKeys:
-                tagKeys:
-                - tagKeys
-                - tagKeys
-                operator: CONTAINS_ANY_OF
-              vpc:
-                vpcs:
-                - vpcs
-                - vpcs
-                operator: IN
-              resourceName:
-                resourceNames:
-                - resourceNames
-                - resourceNames
-                operator: IN
-              dataClasses:
-                dataClasses:
-                - PII
-                - PII
-                operator: CONTAINS_ANY_OF
-              accountId:
-                accountIds:
-                - accountIds
-                - accountIds
-                operator: IN
-              environment:
-                environments:
-                - PROD
-                - PROD
-                operator: IN
-              tagKeyValues:
-                tagKeyValues:
-                - value: value
-                  key: key
-                - value: value
-                  key: key
-                operator: CONTAINS_ANY_OF
-              cloudProvider:
-                cloudProviders:
-                - AWS
-                - AWS
-                operator: IN
-              sourceRegion:
-                regions:
-                - regions
-                - regions
-                operator: IN
-              subnets:
-                subnets:
-                - subnets
-                - subnets
-                operator: CONTAINS_ANY_OF
-              group:
-                operands:
-                - resourceType:
-                    operator: IN
-                    resourceTypes:
-                    - AWS_EC2
-                    - AWS_RDS
-                - environment:
-                    operator: IN
-                    environments:
-                    - PROD
-                    - PROD_INTERNAL
-                operator: AND
-              resourceType:
-                resourceTypes:
-                - AWS_EC2
-                - AWS_EC2
-                operator: IN
-              apps:
-                operator: CONTAINS_ANY_OF
-                apps:
-                - apps
-                - apps
-            effect: INCLUSIVE
-            id: Non-PII only
-          - expression:
-              resourceId:
-                operator: IN
-                resourceIds:
-                - resourceIds
-                - resourceIds
-              resourceGroupName:
-                resourceGroupNames:
-                - resourceGroupNames
-                - resourceGroupNames
-                operator: IN
-              tagKeys:
-                tagKeys:
-                - tagKeys
-                - tagKeys
-                operator: CONTAINS_ANY_OF
-              vpc:
-                vpcs:
-                - vpcs
-                - vpcs
-                operator: IN
-              resourceName:
-                resourceNames:
-                - resourceNames
-                - resourceNames
-                operator: IN
-              dataClasses:
-                dataClasses:
-                - PII
-                - PII
-                operator: CONTAINS_ANY_OF
-              accountId:
-                accountIds:
-                - accountIds
-                - accountIds
-                operator: IN
-              environment:
-                environments:
-                - PROD
-                - PROD
-                operator: IN
-              tagKeyValues:
-                tagKeyValues:
-                - value: value
-                  key: key
-                - value: value
-                  key: key
-                operator: CONTAINS_ANY_OF
-              cloudProvider:
-                cloudProviders:
-                - AWS
-                - AWS
-                operator: IN
-              sourceRegion:
-                regions:
-                - regions
-                - regions
-                operator: IN
-              subnets:
-                subnets:
-                - subnets
-                - subnets
-                operator: CONTAINS_ANY_OF
-              group:
-                operands:
-                - resourceType:
-                    operator: IN
-                    resourceTypes:
-                    - AWS_EC2
-                    - AWS_RDS
-                - environment:
-                    operator: IN
-                    environments:
-                    - PROD
-                    - PROD_INTERNAL
-                operator: AND
-              resourceType:
-                resourceTypes:
-                - AWS_EC2
-                - AWS_EC2
-                operator: IN
-              apps:
-                operator: CONTAINS_ANY_OF
-                apps:
-                - apps
-                - apps
-            effect: INCLUSIVE
-            id: Non-PII only
-          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
-      properties:
-        role:
-          $ref: '#/components/schemas/Role'
-      required:
-      - role
-      type: object
-    PermissionGrantInput:
-      example:
-        accessConditionId: Non-PII only.
-        permission: inventory.view
-      properties:
-        permission:
-          $ref: '#/components/schemas/PermissionType'
-        accessConditionId:
-          description: 'If present, the ID of the set of access conditions that restrict the resources the permission is granted for.
-
-            The ID must be present in an entry in `accessConditions`, and the permission itself must support access conditions.
-
-            If omitted, the permission is granted for all resources.
-
-            '
-          example: Non-PII only.
-          type: string
-      required:
-      - permission
-      type: object
-    AccountIdCondition:
-      example:
-        accountIds:
-        - accountIds
-        - accountIds
+        vpcs:
+        - vpcs
+        - vpcs
         operator: IN
       properties:
         operator:
           $ref: '#/components/schemas/ScalarOperators'
-        accountIds:
-          items:
-            type: string
-          type: array
-      required:
-      - accountIds
-      - operator
-      type:
-      - object
-      - 'null'
-    TagKeyValuesCondition:
-      example:
-        tagKeyValues:
-        - value: value
-          key: key
-        - value: value
-          key: key
-        operator: CONTAINS_ANY_OF
-      properties:
-        operator:
-          $ref: '#/components/schemas/ListOperators'
-        tagKeyValues:
-          items:
-            $ref: '#/components/schemas/TagKeyValue'
-          type: array
-      required:
-      - operator
-      - tagKeyValues
-      type:
-      - object
-      - 'null'
-    CreateRoleResponse:
-      example:
-        role:
-          restoreDestinationLimits:
-            effect: INCLUSIVE
-            restoreAccountProviderIds:
-            - restoreAccountProviderIds
-            - restoreAccountProviderIds
-          permissionGrants:
-          - accessConditionId: Non-PII only.
-            permission: inventory.view
-          - accessConditionId: Non-PII only.
-            permission: inventory.view
-          sameSourceAccountRestoreLimits:
-            dataAccessRuleId: dataAccessRuleId
-            enabled: true
-          isBuiltInRole: false
-          name: My custom role
-          accessConditions:
-          - expression:
-              resourceId:
-                operator: IN
-                resourceIds:
-                - resourceIds
-                - resourceIds
-              resourceGroupName:
-                resourceGroupNames:
-                - resourceGroupNames
-                - resourceGroupNames
-                operator: IN
-              tagKeys:
-                tagKeys:
-                - tagKeys
-                - tagKeys
-                operator: CONTAINS_ANY_OF
-              vpc:
-                vpcs:
-                - vpcs
-                - vpcs
-                operator: IN
-              resourceName:
-                resourceNames:
-                - resourceNames
-                - resourceNames
-                operator: IN
-              dataClasses:
-                dataClasses:
-                - PII
-                - PII
-                operator: CONTAINS_ANY_OF
-              accountId:
-                accountIds:
-                - accountIds
-                - accountIds
-                operator: IN
-              environment:
-                environments:
-                - PROD
-                - PROD
-                operator: IN
-              tagKeyValues:
-                tagKeyValues:
-                - value: value
-                  key: key
-                - value: value
-                  key: key
-                operator: CONTAINS_ANY_OF
-              cloudProvider:
-                cloudProviders:
-                - AWS
-                - AWS
-                operator: IN
-              sourceRegion:
-                regions:
-                - regions
-                - regions
-                operator: IN
-              subnets:
-                subnets:
-                - subnets
-                - subnets
-                operator: CONTAINS_ANY_OF
-              group:
-                operands:
-                - resourceType:
-                    operator: IN
-                    resourceTypes:
-                    - AWS_EC2
-                    - AWS_RDS
-                - environment:
-                    operator: IN
-                    environments:
-                    - PROD
-                    - PROD_INTERNAL
-                operator: AND
-              resourceType:
-                resourceTypes:
-                - AWS_EC2
-                - AWS_EC2
-                operator: IN
-              apps:
-                operator: CONTAINS_ANY_OF
-                apps:
-                - apps
-                - apps
-            effect: INCLUSIVE
-            id: Non-PII only
-          - expression:
-              resourceId:
-                operator: IN
-                resourceIds:
-                - resourceIds
-                - resourceIds
-              resourceGroupName:
-                resourceGroupNames:
-                - resourceGroupNames
-                - resourceGroupNames
-                operator: IN
-              tagKeys:
-                tagKeys:
-                - tagKeys
-                - tagKeys
-                operator: CONTAINS_ANY_OF
-              vpc:
-                vpcs:
-                - vpcs
-                - vpcs
-                operator: IN
-              resourceName:
-                resourceNames:
-                - resourceNames
-                - resourceNames
-                operator: IN
-              dataClasses:
-                dataClasses:
-                - PII
-                - PII
-                operator: CONTAINS_ANY_OF
-              accountId:
-                accountIds:
-                - accountIds
-                - accountIds
-                operator: IN
-              environment:
-                environments:
-                - PROD
-                - PROD
-                operator: IN
-              tagKeyValues:
-                tagKeyValues:
-                - value: value
-                  key: key
-                - value: value
-                  key: key
-                operator: CONTAINS_ANY_OF
-              cloudProvider:
-                cloudProviders:
-                - AWS
-                - AWS
-                operator: IN
-              sourceRegion:
-                regions:
-                - regions
-                - regions
-                operator: IN
-              subnets:
-                subnets:
-                - subnets
-                - subnets
-                operator: CONTAINS_ANY_OF
-              group:
-                operands:
-                - resourceType:
-                    operator: IN
-                    resourceTypes:
-                    - AWS_EC2
-                    - AWS_RDS
-                - environment:
-                    operator: IN
-                    environments:
-                    - PROD
-                    - PROD_INTERNAL
-                operator: AND
-              resourceType:
-                resourceTypes:
-                - AWS_EC2
-                - AWS_EC2
-                operator: IN
-              apps:
-                operator: CONTAINS_ANY_OF
-                apps:
-                - apps
-                - apps
-            effect: INCLUSIVE
-            id: Non-PII only
-          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
-      properties:
-        role:
-          $ref: '#/components/schemas/Role'
-      required:
-      - role
-      type: object
-    UpdateIdpGroupRequest:
-      example:
-        roleIds:
-        - 550e8400-e29b-41d4-a716-446655440000
-        - 6ba7b810-9dad-11d1-80b4-00c04fd430c8
-        displayName: Engineering Team
-      properties:
-        roleIds:
-          description: 'List of [role IDs](../roles/list-roles) to assign to the group.
-
-            This replaces all existing role assignments.
-
-            '
-          example:
-          - 550e8400-e29b-41d4-a716-446655440000
-          - 6ba7b810-9dad-11d1-80b4-00c04fd430c8
-          items:
-            format: uuid
-            type: string
-          type: array
-        displayName:
-          description: 'Optional human-readable label for the group mapping. For display and management only;
-
-            it is not used when matching SAML groups during sign-on.
-
-            Omit (or send null) to leave the existing label unchanged; send an empty string to clear it.
-
-            '
-          example: Engineering Team
-          type:
-          - string
-          - 'null'
-          x-nullable: true
-      required:
-      - roleIds
-      type: object
-    RegionCondition:
-      example:
-        regions:
-        - regions
-        - regions
-        operator: IN
-      properties:
-        operator:
-          $ref: '#/components/schemas/ScalarOperators'
-        regions:
+        vpcs:
           items:
             type: string
           type: array
       required:
       - operator
-      - regions
-      type:
-      - object
-      - 'null'
-    ResourceGroupNameCondition:
-      example:
-        resourceGroupNames:
-        - resourceGroupNames
-        - resourceGroupNames
-        operator: IN
-      properties:
-        operator:
-          $ref: '#/components/schemas/ScalarOperators'
-        resourceGroupNames:
-          items:
-            type: string
-          type: array
-      required:
-      - operator
-      - resourceGroupNames
-      type:
-      - object
-      - 'null'
-    AccessCondition:
-      example:
-        expression:
-          resourceId:
-            operator: IN
-            resourceIds:
-            - resourceIds
-            - resourceIds
-          resourceGroupName:
-            resourceGroupNames:
-            - resourceGroupNames
-            - resourceGroupNames
-            operator: IN
-          tagKeys:
-            tagKeys:
-            - tagKeys
-            - tagKeys
-            operator: CONTAINS_ANY_OF
-          vpc:
-            vpcs:
-            - vpcs
-            - vpcs
-            operator: IN
-          resourceName:
-            resourceNames:
-            - resourceNames
-            - resourceNames
-            operator: IN
-          dataClasses:
-            dataClasses:
-            - PII
-            - PII
-            operator: CONTAINS_ANY_OF
-          accountId:
-            accountIds:
-            - accountIds
-            - accountIds
-            operator: IN
-          environment:
-            environments:
-            - PROD
-            - PROD
-            operator: IN
-          tagKeyValues:
-            tagKeyValues:
-            - value: value
-              key: key
-            - value: value
-              key: key
-            operator: CONTAINS_ANY_OF
-          cloudProvider:
-            cloudProviders:
-            - AWS
-            - AWS
-            operator: IN
-          sourceRegion:
-            regions:
-            - regions
-            - regions
-            operator: IN
-          subnets:
-            subnets:
-            - subnets
-            - subnets
-            operator: CONTAINS_ANY_OF
-          group:
-            operands:
-            - resourceType:
-                operator: IN
-                resourceTypes:
-                - AWS_EC2
-                - AWS_RDS
-            - environment:
-                operator: IN
-                environments:
-                - PROD
-                - PROD_INTERNAL
-            operator: AND
-          resourceType:
-            resourceTypes:
-            - AWS_EC2
-            - AWS_EC2
-            operator: IN
-          apps:
-            operator: CONTAINS_ANY_OF
-            apps:
-            - apps
-            - apps
-        effect: INCLUSIVE
-        id: Non-PII only
-      properties:
-        id:
-          description: 'Display name for the data access rule, which also serves as its ID for use in `permissionGrants`.
-
-            Valid characters: `[a-zA-Z0-9-_.\s]`.
-
-            '
-          example: Non-PII only
-          type: string
-        effect:
-          $ref: '#/components/schemas/AccessConditionEffect'
-        expression:
-          $ref: '#/components/schemas/AccessConditionalExpression'
-      required:
-      - effect
-      - expression
-      - id
-      type: object
-    TagKeyValue:
-      example:
-        value: value
-        key: key
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-      required:
-      - key
-      type: object
-    ListOperators:
-      description: 'Evaluates whether the original list constains any, all, or none of the values in this list.
-
-        `UNSPECIFIED` is supported only in responses.
-
-        '
-      enum:
-      - CONTAINS_ANY_OF
-      - CONTAINS_NONE_OF
-      - CONTAINS_ALL_OF
-      - UNSPECIFIED
-      example: CONTAINS_ANY_OF
-      type: string
-      x-enum-varnames:
-      - CONTAINS_ANY_OF_OPERATOR
-      - CONTAINS_NONE_OF_OPERATOR
-      - CONTAINS_ALL_OF_OPERATOR
-      - LIST_OPERATOR_UNSPECIFIED
-    SubnetsCondition:
-      example:
-        subnets:
-        - subnets
-        - subnets
-        operator: CONTAINS_ANY_OF
-      properties:
-        operator:
-          $ref: '#/components/schemas/ListOperators'
-        subnets:
-          items:
-            type: string
-          type: array
-      required:
-      - operator
-      - subnets
+      - vpcs
       type:
       - object
       - 'null'
@@ -3220,81 +3316,52 @@ components:
       required:
       - role
       type: object
-    CreateIdpGroupResponse:
+    SameSourceAccountRestoreLimits:
+      description: 'Restricts restores so a resource may only be restored back to its original source cloud account,
+
+        matched on the cloud-provider account ID (not the Eon account ID). When `dataAccessRuleId` is set
+
+        the restriction applies only to resources matching that access condition; otherwise it applies to
+
+        all resources granted by the role.
+
+        '
       example:
-        group:
-          roleIds:
-          - 550e8400-e29b-41d4-a716-446655440000
-          - 72bc42a0-e169-533f-b95a-4a434574756b
-          providerGroupId: engineering-team
-          idpId: 8f14e45f-ceea-467f-a8dc-e5e47d61e5d7
-          displayName: Engineering Team
-          id: daa42222-6ad2-5d37-bb26-4f2a9cba73da
+        dataAccessRuleId: dataAccessRuleId
+        enabled: true
       properties:
-        group:
-          $ref: '#/components/schemas/IdpGroup'
+        enabled:
+          description: Whether the same-source-account restore restriction is active.
+          type: boolean
+        dataAccessRuleId:
+          description: 'Optional. The id of an access condition (an entry in `accessConditions`) that scopes which
+
+            resources the restriction applies to. Omit to apply the restriction to all resources.
+
+            '
+          type: string
       required:
-      - group
-      type: object
-    DataClassesCondition:
-      example:
-        dataClasses:
-        - PII
-        - PII
-        operator: CONTAINS_ANY_OF
-      properties:
-        operator:
-          $ref: '#/components/schemas/ListOperators'
-        dataClasses:
-          items:
-            $ref: '#/components/schemas/DataClass'
-          type: array
-      required:
-      - dataClasses
-      - operator
+      - enabled
       type:
       - object
       - 'null'
-    ResourceIdCondition:
+      x-internal: false
+    ResourceNameCondition:
       example:
+        resourceNames:
+        - resourceNames
+        - resourceNames
         operator: IN
-        resourceIds:
-        - resourceIds
-        - resourceIds
       properties:
         operator:
           $ref: '#/components/schemas/ScalarOperators'
-        resourceIds:
+        resourceNames:
           items:
             type: string
           type: array
       required:
       - operator
-      - resourceIds
-      type:
-      - object
-      - 'null'
-    ResourceTypeCondition:
-      example:
-        resourceTypes:
-        - AWS_EC2
-        - AWS_EC2
-        operator: IN
-      properties:
-        operator:
-          $ref: '#/components/schemas/ScalarOperators'
-        resourceTypes:
-          description: 'Resource types to evaluate.
-
-            `RESOURCE_TYPE_UNSPECIFIED` is supported only in responses.
-
-            '
-          items:
-            $ref: '#/components/schemas/ResourceType'
-          type: array
-      required:
-      - operator
-      - resourceTypes
+      - resourceNames
       type:
       - object
       - 'null'
@@ -3541,24 +3608,6 @@ components:
       - permissionGrants
       - scopes
       type: object
-    ListPermissionsResponse:
-      example:
-        permissions:
-        - permissionType: inventory.view
-          allowConditions: false
-          description: Can view resource details in the inventory.
-        - permissionType: inventory.view
-          allowConditions: false
-          description: Can view resource details in the inventory.
-      properties:
-        permissions:
-          description: List of available user permissions.
-          items:
-            $ref: '#/components/schemas/Permission'
-          type: array
-      required:
-      - permissions
-      type: object
     CloudProviderCondition:
       example:
         cloudProviders:
@@ -3578,55 +3627,6 @@ components:
       type:
       - object
       - 'null'
-    EnvironmentCondition:
-      example:
-        environments:
-        - PROD
-        - PROD
-        operator: IN
-      properties:
-        operator:
-          $ref: '#/components/schemas/ScalarOperators'
-        environments:
-          items:
-            $ref: '#/components/schemas/Environment'
-          type: array
-      required:
-      - environments
-      - operator
-      type:
-      - object
-      - 'null'
-    SameSourceAccountRestoreLimits:
-      description: 'Restricts restores so a resource may only be restored back to its original source cloud account,
-
-        matched on the cloud-provider account ID (not the Eon account ID). When `dataAccessRuleId` is set
-
-        the restriction applies only to resources matching that access condition; otherwise it applies to
-
-        all resources granted by the role.
-
-        '
-      example:
-        dataAccessRuleId: dataAccessRuleId
-        enabled: true
-      properties:
-        enabled:
-          description: Whether the same-source-account restore restriction is active.
-          type: boolean
-        dataAccessRuleId:
-          description: 'Optional. The id of an access condition (an entry in `accessConditions`) that scopes which
-
-            resources the restriction applies to. Omit to apply the restriction to all resources.
-
-            '
-          type: string
-      required:
-      - enabled
-      type:
-      - object
-      - 'null'
-      x-internal: false
   securitySchemes:
     ApiKeyAuth:
       bearerFormat: JWT
