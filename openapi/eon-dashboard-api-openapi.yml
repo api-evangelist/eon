@@ -89,6 +89,22 @@ components:
         error:
           type: string
       type: object
+    DailyStorageSummaries:
+      example:
+        data:
+        - summaryDay: 2024-11-01 00:00:00+00:00
+          dailyStorageBytes: 225000000000000
+        - summaryDay: 2024-11-01 00:00:00+00:00
+          dailyStorageBytes: 225000000000000
+      properties:
+        data:
+          description: List of daily storage summaries.
+          items:
+            $ref: '#/components/schemas/DailyStorageSummary'
+          type: array
+      required:
+      - data
+      type: object
     DailyStorageSummary:
       example:
         summaryDay: 2024-11-01 00:00:00+00:00
@@ -107,22 +123,6 @@ components:
       required:
       - dailyStorageBytes
       - summaryDay
-      type: object
-    DailyStorageSummaries:
-      example:
-        data:
-        - summaryDay: 2024-11-01 00:00:00+00:00
-          dailyStorageBytes: 225000000000000
-        - summaryDay: 2024-11-01 00:00:00+00:00
-          dailyStorageBytes: 225000000000000
-      properties:
-        data:
-          description: List of daily storage summaries.
-          items:
-            $ref: '#/components/schemas/DailyStorageSummary'
-          type: array
-      required:
-      - data
       type: object
   securitySchemes:
     ApiKeyAuth:

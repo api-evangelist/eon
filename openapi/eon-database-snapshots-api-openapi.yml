@@ -297,42 +297,48 @@ paths:
           key: projectId
 components:
   schemas:
-    QueryDBStatusResponse:
+    S3RestoreDestination:
+      description: S3 bucket.
       example:
-        runningTimeMs: 5000
-        outputLocations:
-        - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
-        errorMessage: errorMessage
-        status: IN_PROGRESS
+        bucketName: my-restore-bucket
+        prefix: restored_records/
       properties:
-        runningTimeMs:
-          description: Time the query took to run, in milliseconds.
-          example: 5000
-          type: integer
-        status:
-          $ref: '#/components/schemas/QueryDBStatus'
-        errorMessage:
-          description: 'Error message.
+        bucketName:
+          description: 'Name of an existing bucket to restore query results to.
 
-            Present only if the status is `FAILED`.
+            Must be in the same region as the snapshot''s vault.
 
             '
-          type:
-          - string
-          - 'null'
-        outputLocations:
-          description: 'Locations where the query results are saved to.
+          example: my-restore-bucket
+          type: string
+        prefix:
+          description: 'Prefix to prepend to the restore path.
 
-            This is set by `destination` in the [Run Query](./run-query) request body.
+            If omitted, query results are restored to the bucket root.
 
             '
-          example:
-          - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
-          items:
-            type: string
-          type: array
+          example: restored_records/
+          type: string
       required:
-      - status
+      - bucketName
+      title: S3BucketDestination
+      type:
+      - object
+      - 'null'
+    QueryDBResponse:
+      example:
+        queryId: 330e9e09-6cb8-52af-b532-a476f598cf94
+      properties:
+        queryId:
+          description: 'Query ID.
+
+            Can be used to call [Get Query Status](./get-query-status) and [Get Query Result](./get-query-result).
+
+            '
+          example: 330e9e09-6cb8-52af-b532-a476f598cf94
+          type: string
+      required:
+      - queryId
       type: object
     QueryDBRequest:
       example:
@@ -375,50 +381,6 @@ components:
       - query
       - restoreAccountId
       type: object
-    QueryDBRestoreDestination:
-      example:
-        s3Bucket:
-          bucketName: my-restore-bucket
-          prefix: restored_records/
-      properties:
-        s3Bucket:
-          $ref: '#/components/schemas/S3RestoreDestination'
-      type: object
-    S3RestoreDestination:
-      description: S3 bucket.
-      example:
-        bucketName: my-restore-bucket
-        prefix: restored_records/
-      properties:
-        bucketName:
-          description: 'Name of an existing bucket to restore query results to.
-
-            Must be in the same region as the snapshot''s vault.
-
-            '
-          example: my-restore-bucket
-          type: string
-        prefix:
-          description: 'Prefix to prepend to the restore path.
-
-            If omitted, query results are restored to the bucket root.
-
-            '
-          example: restored_records/
-          type: string
-      required:
-      - bucketName
-      title: S3BucketDestination
-      type:
-      - object
-      - 'null'
-    Error:
-      example:
-        error: error
-      properties:
-        error:
-          type: string
-      type: object
     QueryDBStatus:
       description: 'Query status.
 
@@ -441,6 +403,13 @@ components:
       - QUERY_COMPLETED
       - QUERY_CANCELED
       - QUERY_FAILED
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
     QueryDBResultResponse:
       example:
         records:
@@ -497,20 +466,51 @@ components:
       - nextToken
       - records
       type: object
-    QueryDBResponse:
+    QueryDBStatusResponse:
       example:
-        queryId: 330e9e09-6cb8-52af-b532-a476f598cf94
+        runningTimeMs: 5000
+        outputLocations:
+        - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
+        errorMessage: errorMessage
+        status: IN_PROGRESS
       properties:
-        queryId:
-          description: 'Query ID.
+        runningTimeMs:
+          description: Time the query took to run, in milliseconds.
+          example: 5000
+          type: integer
+        status:
+          $ref: '#/components/schemas/QueryDBStatus'
+        errorMessage:
+          description: 'Error message.
 
-            Can be used to call [Get Query Status](./get-query-status) and [Get Query Result](./get-query-result).
+            Present only if the status is `FAILED`.
 
             '
-          example: 330e9e09-6cb8-52af-b532-a476f598cf94
-          type: string
+          type:
+          - string
+          - 'null'
+        outputLocations:
+          description: 'Locations where the query results are saved to.
+
+            This is set by `destination` in the [Run Query](./run-query) request body.
+
+            '
+          example:
+          - s3://my-restore-bucket/restored_records/eon_queries/project=330e9...cf94/2025/01/23/22/resource=2c7b...73af/snapshot_time=2025-01-16T00:44:49Z/1c4cd...f666.csv
+          items:
+            type: string
+          type: array
       required:
-      - queryId
+      - status
+      type: object
+    QueryDBRestoreDestination:
+      example:
+        s3Bucket:
+          bucketName: my-restore-bucket
+          prefix: restored_records/
+      properties:
+        s3Bucket:
+          $ref: '#/components/schemas/S3RestoreDestination'
       type: object
   securitySchemes:
     ApiKeyAuth:

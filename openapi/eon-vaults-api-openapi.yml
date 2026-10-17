@@ -312,41 +312,6 @@ paths:
         excluded: true
 components:
   schemas:
-    CreateVaultRequest:
-      example:
-        name: EU central
-        vaultAttributes:
-          cloudProvider: AWS
-          aws:
-            encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
-        region: eu-central-1
-      properties:
-        name:
-          description: Vault display name.
-          example: EU central
-          type: string
-        region:
-          description: Region where the vault is hosted.
-          example: eu-central-1
-          type: string
-        vaultAttributes:
-          $ref: '#/components/schemas/VaultProviderAttributesInput'
-      required:
-      - name
-      - region
-      - vaultAttributes
-      type: object
-    UpdateVaultRequest:
-      example:
-        name: My new vault name
-      properties:
-        name:
-          description: Vault display name.
-          example: My new vault name
-          type: string
-      required:
-      - name
-      type: object
     Provider:
       description: 'Cloud provider.
 
@@ -366,13 +331,6 @@ components:
       x-docs-internal-enum:
       - GOOGLE_WORKSPACE
       - MICROSOFT_365
-    createVault_409_response:
-      example:
-        error: error
-      properties:
-        error:
-          type: string
-      type: object
     ListBackupVaultResponse:
       example:
         nextToken: Y2NiMGYyZmMtYjYyZi00OTc5LTgzNjQtYmQ2YjEyYzdjZTNifDE=
@@ -419,6 +377,82 @@ components:
       - totalCount
       - vaults
       type: object
+    AwsVaultConfigInput:
+      description: 'AWS-specific vault configuration.
+
+        '
+      example:
+        encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+      properties:
+        encryptionKey:
+          description: 'ARN of the KMS key used for encryption.
+
+            Omitted if the key is managed by Eon.
+
+            '
+          example: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+          type: string
+      type:
+      - object
+      - 'null'
+    VaultProviderAttributesInput:
+      description: 'Cloud-provider-specific vault attributes.
+
+        '
+      example:
+        cloudProvider: AWS
+        aws:
+          encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/Provider'
+        aws:
+          $ref: '#/components/schemas/AwsVaultConfigInput'
+      required:
+      - cloudProvider
+      type: object
+    AwsVaultConfig:
+      description: 'AWS-specific vault configuration.
+
+        '
+      example:
+        encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+      properties:
+        encryptionKey:
+          description: 'ARN of the KMS key used for encryption.
+
+            Omitted if the key is managed by Eon.
+
+            '
+          example: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+          type: string
+      type:
+      - object
+      - 'null'
+    CreateVaultRequest:
+      example:
+        name: EU central
+        vaultAttributes:
+          cloudProvider: AWS
+          aws:
+            encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+        region: eu-central-1
+      properties:
+        name:
+          description: Vault display name.
+          example: EU central
+          type: string
+        region:
+          description: Region where the vault is hosted.
+          example: eu-central-1
+          type: string
+        vaultAttributes:
+          $ref: '#/components/schemas/VaultProviderAttributesInput'
+      required:
+      - name
+      - region
+      - vaultAttributes
+      type: object
     GetVaultResponse:
       example:
         vault:
@@ -437,6 +471,85 @@ components:
           $ref: '#/components/schemas/BackupVault'
       required:
       - vault
+      type: object
+    Error:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    UpdateVaultResponse:
+      example:
+        vault:
+          providerAccountId: '123412341234'
+          name: AWS US East 1
+          vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          vaultAttributes:
+            cloudProvider: AWS
+            aws:
+              encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+          id: 37732835-d768-5990-ba93-a7c2d2e6d754
+          isManagedByEon: true
+          region: us-east-1
+      properties:
+        vault:
+          $ref: '#/components/schemas/BackupVault'
+      required:
+      - vault
+      type: object
+    UpdateVaultRequest:
+      example:
+        name: My new vault name
+      properties:
+        name:
+          description: Vault display name.
+          example: My new vault name
+          type: string
+      required:
+      - name
+      type: object
+    CreateVaultResponse:
+      example:
+        vault:
+          providerAccountId: '123412341234'
+          name: AWS US East 1
+          vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
+          vaultAttributes:
+            cloudProvider: AWS
+            aws:
+              encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+          id: 37732835-d768-5990-ba93-a7c2d2e6d754
+          isManagedByEon: true
+          region: us-east-1
+      properties:
+        vault:
+          $ref: '#/components/schemas/BackupVault'
+      required:
+      - vault
+      type: object
+    createVault_409_response:
+      example:
+        error: error
+      properties:
+        error:
+          type: string
+      type: object
+    VaultProviderAttributes:
+      description: 'Cloud-provider-specific vault attributes.
+
+        '
+      example:
+        cloudProvider: AWS
+        aws:
+          encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/Provider'
+        aws:
+          $ref: '#/components/schemas/AwsVaultConfig'
+      required:
+      - cloudProvider
       type: object
     BackupVault:
       example:
@@ -486,119 +599,6 @@ components:
       - vaultAccountId
       - vaultAttributes
       type: object
-    VaultProviderAttributesInput:
-      description: 'Cloud-provider-specific vault attributes.
-
-        '
-      example:
-        cloudProvider: AWS
-        aws:
-          encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
-      properties:
-        cloudProvider:
-          $ref: '#/components/schemas/Provider'
-        aws:
-          $ref: '#/components/schemas/AwsVaultConfigInput'
-      required:
-      - cloudProvider
-      type: object
-    VaultProviderAttributes:
-      description: 'Cloud-provider-specific vault attributes.
-
-        '
-      example:
-        cloudProvider: AWS
-        aws:
-          encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
-      properties:
-        cloudProvider:
-          $ref: '#/components/schemas/Provider'
-        aws:
-          $ref: '#/components/schemas/AwsVaultConfig'
-      required:
-      - cloudProvider
-      type: object
-    Error:
-      example:
-        error: error
-      properties:
-        error:
-          type: string
-      type: object
-    UpdateVaultResponse:
-      example:
-        vault:
-          providerAccountId: '123412341234'
-          name: AWS US East 1
-          vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          vaultAttributes:
-            cloudProvider: AWS
-            aws:
-              encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
-          id: 37732835-d768-5990-ba93-a7c2d2e6d754
-          isManagedByEon: true
-          region: us-east-1
-      properties:
-        vault:
-          $ref: '#/components/schemas/BackupVault'
-      required:
-      - vault
-      type: object
-    CreateVaultResponse:
-      example:
-        vault:
-          providerAccountId: '123412341234'
-          name: AWS US East 1
-          vaultAccountId: 1ee34dc5-0a7c-4e56-a820-917371e05c8d
-          vaultAttributes:
-            cloudProvider: AWS
-            aws:
-              encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
-          id: 37732835-d768-5990-ba93-a7c2d2e6d754
-          isManagedByEon: true
-          region: us-east-1
-      properties:
-        vault:
-          $ref: '#/components/schemas/BackupVault'
-      required:
-      - vault
-      type: object
-    AwsVaultConfig:
-      description: 'AWS-specific vault configuration.
-
-        '
-      example:
-        encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
-      properties:
-        encryptionKey:
-          description: 'ARN of the KMS key used for encryption.
-
-            Omitted if the key is managed by Eon.
-
-            '
-          example: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
-          type: string
-      type:
-      - object
-      - 'null'
-    AwsVaultConfigInput:
-      description: 'AWS-specific vault configuration.
-
-        '
-      example:
-        encryptionKey: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
-      properties:
-        encryptionKey:
-          description: 'ARN of the KMS key used for encryption.
-
-            Omitted if the key is managed by Eon.
-
-            '
-          example: arn:aws:kms:us-east-1:123456789012:key/4692190d-ae52-56fe-9937-6aa2c4e3df62
-          type: string
-      type:
-      - object
-      - 'null'
   securitySchemes:
     ApiKeyAuth:
       bearerFormat: JWT
