@@ -1,0 +1,12 @@
+{
+ "url": "https://docs.eon.io/openapi.json",
+ "requested_url": "https://docs.eon.io/openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 328594,
+ "sha256": "917cd2f2bf90c00ee22d3484f75af23fd3233d3211a216ce01b8b80a8606092f",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.933), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
